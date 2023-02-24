@@ -1,10 +1,21 @@
 .cardsContainer{
     display: flex;
     justify-content: center;
+    margin-top: 150px;
+    position: relative;
 }
 .chorusCard{
     display: flex;
-    width: 150px;
-    height: 250px;
-    background-color: aquamarine;
+    width: 280px;
+    height: 300px;
+    /* background-color: aquamarine; */
+    position: absolute;
+    transition: display 2s;
+}
+.gone{
+    display: none;
+}
+
+.cardDetails{
+    width: 100%;
 }
