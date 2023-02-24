@@ -12,7 +12,7 @@ export default defineConfig({
       devOptions: {
         enabled: true
       },
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ['logo.png','logo180.png','logo192.png','logo512.png'],
       manifest: {
         name: 'Coco',
         short_name: 'Coco',
