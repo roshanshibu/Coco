@@ -24,7 +24,8 @@ const ChorusCard = (props) => {
         if(document.getElementsByClassName('chorusCard')[0]){
             var observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutationRecord) {
-                    console.log(document.getElementsByClassName('chorusCard')[0].style.transform.replace(/translate3d|px|\(|\)/gi, '').split(','));
+                    if(document.getElementsByClassName('chorusCard')[0])
+                        console.log(document.getElementsByClassName('chorusCard')[0].style.transform.replace(/translate3d|px|\(|\)/gi, '').split(','));
                 });    
             });
             
@@ -38,7 +39,8 @@ const ChorusCard = (props) => {
             onSwipe={onSwipe}
             onCardLeftScreen={() => onCardLeftScreen(props.songName)} 
             preventSwipe={['down']}
-            swipeRequirementType={'velocity'}
+            swipeRequirementType={'position'}
+            swipeThreshold={150}
             >
             <div style={{backgroundColor: props.color}} className="cardDetails">
                 <p className='songName'>{props.songName}</p>
@@ -54,11 +56,11 @@ const Chorus = () => {
             <p>Chorus Page</p>
             <div className='cardsContainer'>
                 <ChorusCard songName="Hello" artist="Adele" color="red" />
-                {/* <ChorusCard songName="Running Out" artist="Astrid S" color="blue" />
+                <ChorusCard songName="Running Out" artist="Astrid S" color="blue" />
                 <ChorusCard songName="Song 3" artist="Artist A" color="green" />
                 <ChorusCard songName="Song 4" artist="Artist B" color="yellow" />
                 <ChorusCard songName="Song 5" artist="Artist C" color="orange" />
-                <ChorusCard songName="Song 6" artist="Artist D" color="pink" /> */}
+                <ChorusCard songName="Song 6" artist="Artist D" color="pink" />
             </div>
         </>
     )
