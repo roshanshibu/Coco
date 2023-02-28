@@ -22,13 +22,36 @@ const ChorusCard = (props) => {
     }
 
     useEffect(() => {
-        console.log(document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1].firstChild.firstChild.textContent);
-        if(document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1]){
-            console.log(document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1])
+        // get songname from card
+        // console.log(document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1].firstChild.firstChild.textContent);
+    
+        let el = document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1]
+        if(el){
+            console.log(el)
             var observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutationRecord) {
-                    if(document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1])
-                        console.log(document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1].style.transform.replace(/translate3d|px|\(|\)/gi, '').split(','));          
+                    // console.log(el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(','));
+                    let y =  el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(',')[1].trim();
+                    // console.log(y)
+                    let startShrinkPos = 120
+                    let startWidth = 80
+                    let startHeight = 50
+                    if(y < -120){
+                        let endWidth = startWidth/3
+                        let endHeight = startHeight/3
+                        if(y > -(startShrinkPos + startWidth - endWidth))
+                            endWidth = startWidth + parseInt(y) + startShrinkPos;
+                        
+                        if(y > -(startShrinkPos + startHeight - endHeight))
+                            endHeight = startHeight + parseInt(y) + startShrinkPos;
+                        // console.log(width)
+                        el.style.width = (endWidth + "%")
+                        el.style.height = (endHeight + "%") ;
+                    }
+                    else{
+                        el.style.width = "80%"
+                        el.style.height = "50%"
+                    }
                 });    
             });
             
@@ -43,7 +66,7 @@ const ChorusCard = (props) => {
                 onCardLeftScreen={() => onCardLeftScreen(props.songName)} 
                 preventSwipe={['down']}
                 swipeRequirementType={'position'}
-                swipeThreshold={150}
+                swipeThreshold={100}
                 >
                 <div style={{backgroundColor: props.color}} className="cardDetails">
                     <p className='songName'>{props.songName}</p>
@@ -94,7 +117,6 @@ const ChorusCardStack = () => {
 const Chorus = () => {
     return(
         <>
-            <p>Chorus Page</p>
             <div className='cardsContainer'>
                 <ChorusCardStack />
             </div>
