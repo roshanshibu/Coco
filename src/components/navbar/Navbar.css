@@ -1,4 +1,5 @@
 .navContainer{
+    background-color: #222222;
     display: flex;
     position: fixed;
     bottom: 0;
@@ -6,7 +7,8 @@
     right: 0;
     z-index: 1;
     justify-content: space-between;
-    padding: 10px;
+    padding: 5px;
+    -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -16,12 +18,13 @@
 }
 
 .navIcon{
-    width: 60px;
+    width: 30px;
+    padding: 20px;
 }
 
 .navSelected{
     opacity: 100%;
 }
 .navUnselected{
-    opacity: 30%;
+    opacity: 20%;
 }

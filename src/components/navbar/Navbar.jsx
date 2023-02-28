@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import PlaceholderIcon from "../../assets/placeholder_icon.svg"
+import HomeIcon from "../../assets/home_icon.svg"
+import SearchIcon from "../../assets/search_icon.svg"
+import ChorusIcon from "../../assets/chorus_recom_icon.svg"
+import LibraryIcon from "../../assets/library_icon.svg"
 import "./Navbar.css";
 import { NavLink } from 'react-router-dom';
 
@@ -19,16 +22,16 @@ const Navbar = (props) => {
     return (
         <div className='navContainer'>
             <NavLink to="/" className={({ isActive }) => { return isActive ? "navSelected" : "navUnselected" }}>
-                <Navicon icon={PlaceholderIcon} />
+                <Navicon icon={HomeIcon} />
             </NavLink>
             <NavLink to="/search" className={({ isActive }) => { return isActive ? "navSelected" : "navUnselected" }}>
-                <Navicon icon={PlaceholderIcon} />
+                <Navicon icon={SearchIcon} />
             </NavLink>
             <NavLink to="/chorus" className={({ isActive }) => { return isActive ? "navSelected" : "navUnselected" }}>
-                <Navicon icon={PlaceholderIcon} />
+                <Navicon icon={ChorusIcon} />
             </NavLink>
             <NavLink to="/library" className={({ isActive }) => { return isActive ? "navSelected" : "navUnselected" }}>
-                <Navicon icon={PlaceholderIcon} />
+                <Navicon icon={LibraryIcon} />
             </NavLink>
         </div>
     )
