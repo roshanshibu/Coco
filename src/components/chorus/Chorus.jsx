@@ -31,26 +31,57 @@ const ChorusCard = (props) => {
             var observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutationRecord) {
                     // console.log(el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(','));
+                    let cPos = el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(',');
+                    let x =  el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(',')[0].trim();
                     let y =  el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(',')[1].trim();
-                    // console.log(y)
-                    let startShrinkPos = 120
-                    let startWidth = 80
-                    let startHeight = 50
-                    if(y < -120){
-                        let endWidth = startWidth/3
-                        let endHeight = startHeight/3
+                    // console.log(x)
+                    let startShrinkPos = 90
+
+                    //measurements in percentages
+                    let startWidth = 65
+                    let startHeight = 40
+                    let endWidth = startWidth/3
+                    let endHeight = startHeight/3
+
+                    let cWidth = endWidth
+                    let cHeight = endHeight
+                    
+                    let forceUpPos = -90
+                    let stopUpPos = -330
+                    let upTraiangleBase = 90
+                    if(y < forceUpPos){
+                        let compX = x
+                        let compY
+                        //check if x coordinate is outside allowed limit
+                        let cBase = (((Math.abs(stopUpPos) - Math.abs(y))) / (Math.abs(stopUpPos) - Math.abs(forceUpPos))) * upTraiangleBase/2
+                        if (Math.abs(x) > cBase){
+                            if(x > 0)
+                                compX = cBase
+                            else
+                                compX = -cBase
+                        }
+                        let newPos = 'translate3d('+ compX + 'px, '+ cPos[1] + 'px, 0px)'
+                        //dont go further up beyond stopUpPos
+                        if (y < stopUpPos)
+                            newPos = 'translate3d('+ compX + 'px, '+ stopUpPos + 'px, 0px)'
+                        
+                            // console.log(newPos)
+                        el.style.transform = newPos;
+                    }
+
+                    if(y < -startShrinkPos){
                         if(y > -(startShrinkPos + startWidth - endWidth))
-                            endWidth = startWidth + parseInt(y) + startShrinkPos;
+                            cWidth = startWidth + parseInt(y) + startShrinkPos;
                         
                         if(y > -(startShrinkPos + startHeight - endHeight))
-                            endHeight = startHeight + parseInt(y) + startShrinkPos;
+                            cHeight = startHeight + parseInt(y) + startShrinkPos;
                         // console.log(width)
-                        el.style.width = (endWidth + "%")
-                        el.style.height = (endHeight + "%") ;
+                        el.style.width = (cWidth + "%")
+                        el.style.height = (cHeight + "%")
                     }
                     else{
-                        el.style.width = "80%"
-                        el.style.height = "50%"
+                        el.style.width = startWidth+"%"
+                        el.style.height = startHeight+"%"
                     }
                 });    
             });
@@ -66,7 +97,7 @@ const ChorusCard = (props) => {
                 onCardLeftScreen={() => onCardLeftScreen(props.songName)} 
                 preventSwipe={['down']}
                 swipeRequirementType={'position'}
-                swipeThreshold={100}
+                swipeThreshold={150}
                 >
                 <div style={{backgroundColor: props.color}} className="cardDetails">
                     <p className='songName'>{props.songName}</p>
