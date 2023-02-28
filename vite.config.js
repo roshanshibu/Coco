@@ -12,22 +12,60 @@ export default defineConfig({
       devOptions: {
         enabled: true
       },
-      includeAssets: ['logo.png','logo180.png','logo192.png','logo512.png'],
+      includeAssets: ['icon-96x96.png','icon-192x192.png','icon-512x512.png'],
       manifest: {
         name: 'Coco',
         short_name: 'Coco',
         description: 'Music streaming',
-        theme_color: '#ffffff',
+        theme_color: '#252525',
         icons: [
           {
-            src: 'logo192.png',
-            sizes: '192x192',
-            type: 'image/png'
+            "src": "icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "maskable any"
           },
           {
-            src: 'logo512.png',
-            sizes: '512x512',
-            type: 'image/png'
+            "src": "icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "maskable any"
+          },
+          {
+            "src": "icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "maskable any"
+          },
+          {
+            "src": "icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "maskable any"
+          },
+          {
+            "src": "icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "maskable any"
+          },
+          {
+            "src": "icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+          },
+          {
+            "src": "icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "maskable any"
+          },
+          {
+            "src": "icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
           }
         ]
       }
