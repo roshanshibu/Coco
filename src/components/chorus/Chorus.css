@@ -27,6 +27,8 @@
     width: 100%;
     border-radius: 25px;
     border: solid 3px white;
+    background-size: cover;
+    background-position-x: center;
 }
 .hiddenDetail{
     display: none;

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import TinderCard from 'react-tinder-card'
 import "./Chorus.css";
+import { getChorusPage } from "../../api/chorus"
 
 
 const ChorusCard = (props) => {
@@ -113,7 +114,9 @@ const ChorusCard = (props) => {
                 swipeRequirementType={'position'}
                 swipeThreshold={150}
                 >
-                <div style={{backgroundColor: props.color}} className="cardDetails">
+                <div style={{backgroundImage: "url(" + props.albumArt + ")",
+                            border: "solid 3px "+props.color }} 
+                    className="cardDetails">
                     <p className='songName'>{props.songName}</p>
                     <p className='artistName'>{props.artist}</p>
                     <p className='songUrl hiddenDetail'>{props.songUrl}</p>
@@ -126,51 +129,56 @@ const ChorusCard = (props) => {
 
 const ChorusCardStack = (props) => {
 
-    const getNext5Cards = async() => {
-        let songname = "Song " + Math.random()
-        let artist = "Artist - " + Math.random()
-        let color = (Math.floor(Date.now() / 1000) % 2 == 0 ? "pink" : "yellow")
-        return ([<ChorusCard songName={"LOADING"} artist={"LOADING"} color={color}  songUrl="urlx"
-                reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
-                setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />,
-        <ChorusCard songName={("song "+Math.random()*1000)} artist={artist} color={color}  songUrl="https://edef1.pcloud.com/cBZPvwNeHZoRHj8YZ9pkRZZ4jtHo7Z2ZZ3pRZkZckcLZs7ZFXZUZmkZAXZEXZx7Z3kZ7XZbVZ5VZfXZhXZ0XZawLhZ3GPuDrRF06SPqh2stekEeVvWBbi7/Ed%20Sheeran%20-%20Beautiful%20People%20%28feat%20Khalid%29%20%5BOfficial%20Lyric%20Video%5D.mp3"
-                startTime={140} endTime={148}
-                reportSwipe={reportSwipe} key={Math.random()*1000} markerCard={true} 
-                setChorusSongUrl={props.setChorusSongUrl} 
-                setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime}/>,
-        <ChorusCard songName={("song "+Math.random()*1000)} artist={artist} color={color}  songUrl="https://evc117.pcloud.com/dHZELvCeHZcthc4YZ9pkRZZB6lHo7Z2ZZ3pRZkZLERhZvEYi58dcCDFzSVvpnWPfgLXk4HTV/Gryffin%20Illenium%20-%20Feel%20Good%20ft%20Daya.mp3"
-                startTime={216} endTime={228}
-                reportSwipe={reportSwipe} key={Math.random()*1000} 
-                setChorusSongUrl={props.setChorusSongUrl} 
-                setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime}/>,
-        ])
+    const parseSongs = (songJson) => {
+        let cardsStack = []
+        let songBaseUrl = ""
+        let albumArtBaseUrl = ""
+        songJson.map((song, index) => {
+            if(index == 0){
+                songBaseUrl = song.song_base_url
+                albumArtBaseUrl = song.album_art_base_url 
+            }
+            let retCard = <ChorusCard songName={song.songName} artist={song.artist} color={song.color}  
+                            albumArt={albumArtBaseUrl + song.albumArt} songUrl={songBaseUrl + song.url}
+                            startTime={song.startTime} endTime={song.endTime}
+                            reportSwipe={reportSwipe} key={Math.random()*1000} markerCard={index == 1 ? true : false} 
+                            setChorusSongUrl={props.setChorusSongUrl} 
+                            setChorusStartTime={props.setChorusStartTime} 
+                            setChorusEndTime={props.setChorusEndTime}/>
+            cardsStack.push(retCard)
+        })
+        return cardsStack
     }
-        
+    
     const reportSwipe = (direction, marker) => {
         console.log("card swiped to the "+direction)
         console.log()
         if(marker){
-            let newCards = getNext5Cards()
-            console.log("does not match")
-            newCards.then((nextCard) => {
-                setDynamicStack([nextCard, ...dynamicStack])
-            })
+            let next5Cards = [<ChorusCard songName={"LOADING"} artist={"LOADING"} color={"gray"}  songUrl="urlx"
+                            reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
+                            setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />]
+            getChorusPage(1)
+                .then((res) => {
+                    next5Cards = [...next5Cards, ...parseSongs(res.data)]
+                    console.log(next5Cards)
+                    setDynamicStack([next5Cards, ...dynamicStack])
+                })
+                .catch((err) => console.error(err));;
         }
     }
 
     useEffect(()=>{
-        console.log(dynamicStack)
-    })
-    
-    let topCard = (<ChorusCard songName="Song1" artist="Artist1" color="red" songUrl="url1"
-                    reportSwipe={reportSwipe} key={0} markerCard={true}  
-                    setChorusSongUrl={props.setChorusSongUrl}
-                    setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />)
-    let nextCard = (<ChorusCard songName="Song2" artist="Artist2" color="green" songUrl="url2"
-                    reportSwipe={reportSwipe} key={1}  
-                    setChorusSongUrl={props.setChorusSongUrl}
-                    setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />)
-    const [dynamicStack, setDynamicStack] = useState([nextCard, topCard]);
+        let top2Cards = []
+        getChorusPage(1)
+            .then((res) => {
+                top2Cards = parseSongs(res.data)
+                setDynamicStack([top2Cards])
+            })
+            .catch((err) => console.error(err));;
+    }, [])
+
+
+    const [dynamicStack, setDynamicStack] = useState([]);
     return(
         <>
             {dynamicStack}
