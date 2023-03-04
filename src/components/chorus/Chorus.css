@@ -11,8 +11,8 @@
 }
 .chorusCard{
     display: flex;
-    width: 65%;
-    height: 40%;
+    width: 85%;
+    height: 55%;
     /* background-color: aquamarine; */
     position: absolute;
     transition: display 2s;
@@ -29,6 +29,26 @@
     border: solid 3px white;
     background-size: cover;
     background-position-x: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+.cardDetailsSubContainer{
+    border-radius: 0px 0px 23px 23px;
+    padding: 20px 15px;
+    background-size: contain;
+}
+.songName{
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 0;
+    padding-top: 10px;
+}
+.artistName{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 0.5;
 }
 .hiddenDetail{
     display: none;

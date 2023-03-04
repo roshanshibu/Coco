@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import TinderCard from 'react-tinder-card'
 import "./Chorus.css";
 import { getChorusPage } from "../../api/chorus"
+import GradientBg from "../../assets/chorus_bg_gradient.svg"
 
 
 const ChorusCard = (props) => {
@@ -28,12 +29,13 @@ const ChorusCard = (props) => {
         // get the card on the top
         let el = document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1]
         if(el){
-            console.log(el)
+            // console.log(el)
             // get song details from card
             let songName = el.firstChild.getElementsByClassName("songName")[0].textContent;
             let songURL = el.firstChild.getElementsByClassName("songUrl")[0].textContent;
             let startTime = el.firstChild.getElementsByClassName("startTime")[0].textContent;
             let endTime = el.firstChild.getElementsByClassName("endTime")[0].textContent;
+            let detailContainer = el.firstChild.getElementsByClassName("cardDetailsSubContainer")[0];
             
             if(!startTime)
                 startTime = 10
@@ -53,8 +55,8 @@ const ChorusCard = (props) => {
                     let startShrinkPos = 100
 
                     //measurements in percentages
-                    let startWidth = 65
-                    let startHeight = 40
+                    let startWidth = 85
+                    let startHeight = 55
                     let endWidth = startWidth/3
                     let endHeight = startHeight/3
 
@@ -64,6 +66,9 @@ const ChorusCard = (props) => {
                     let forceUpPos = -90
                     let stopUpPos = -330
                     let upTraiangleBase = 130
+                    
+                    let detailOpactityEndY = -115
+                    let detailOpactity = 1
                     if(y < forceUpPos){
                         let compX = x
                         let compY
@@ -88,8 +93,11 @@ const ChorusCard = (props) => {
                         if(y > -(startShrinkPos + startWidth - endWidth))
                             cWidth = startWidth + parseInt(y) + startShrinkPos;
                         
-                        if(y > -(startShrinkPos + startHeight - endHeight))
+                        if(y > -(startShrinkPos + startHeight - endHeight)){
                             cHeight = startHeight + parseInt(y) + startShrinkPos;
+                            detailContainer.style.opacity = 0                            
+                        }
+
                         // console.log(width)
                         el.style.width = (cWidth + "%")
                         el.style.height = (cHeight + "%")
@@ -97,6 +105,7 @@ const ChorusCard = (props) => {
                     else{
                         el.style.width = startWidth+"%"
                         el.style.height = startHeight+"%"
+                        detailContainer.style.opacity = 1
                     }
                 });    
             });
@@ -117,8 +126,10 @@ const ChorusCard = (props) => {
                 <div style={{backgroundImage: "url(" + props.albumArt + ")",
                             border: "solid 3px "+props.color }} 
                     className="cardDetails">
-                    <p className='songName'>{props.songName}</p>
-                    <p className='artistName'>{props.artist}</p>
+                    <div style={{backgroundImage: `url(${GradientBg})`}} className="cardDetailsSubContainer">
+                        <p className='songName'>{props.songName}</p>
+                        <p className='artistName' style={{color: props.color}}>{props.artist}</p>    
+                    </div>
                     <p className='songUrl hiddenDetail'>{props.songUrl}</p>
                     <p className='startTime hiddenDetail'>{props.startTime}</p>
                     <p className='endTime hiddenDetail'>{props.endTime}</p>
@@ -130,7 +141,9 @@ const ChorusCard = (props) => {
 const ChorusCardStack = (props) => {
 
     const parseSongs = (songJson) => {
-        let cardsStack = []
+        let cardsStack = [<ChorusCard songName={"LOADING"} artist={"LOADING"} color={"gray"}  songUrl="urlx"
+                        reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
+                        setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />]
         let songBaseUrl = ""
         let albumArtBaseUrl = ""
         songJson.map((song, index) => {
@@ -152,15 +165,12 @@ const ChorusCardStack = (props) => {
     
     const reportSwipe = (direction, marker) => {
         console.log("card swiped to the "+direction)
-        console.log()
         if(marker){
-            let next5Cards = [<ChorusCard songName={"LOADING"} artist={"LOADING"} color={"gray"}  songUrl="urlx"
-                            reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
-                            setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />]
+            let next5Cards = []
             getChorusPage(1)
                 .then((res) => {
                     next5Cards = [...next5Cards, ...parseSongs(res.data)]
-                    console.log(next5Cards)
+                    // console.log(next5Cards)
                     setDynamicStack([next5Cards, ...dynamicStack])
                 })
                 .catch((err) => console.error(err));;
@@ -189,7 +199,6 @@ const ChorusCardStack = (props) => {
 const ChorusPlayer = (props) => {
     useEffect(() => {
         let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
-        console.log("---",document.getElementsByClassName('hiddenChorusPlayer'))
         player.ontimeupdate = () => {
             let softFadeDelay = 1
             if (player.currentTime <= (props.startTime - softFadeDelay)|| player.currentTime >= (props.endTime + softFadeDelay)) 
@@ -224,6 +233,7 @@ const ChorusPlayer = (props) => {
     return(
         <audio className='hiddenChorusPlayer'
             controls autoPlay loop
+            // controls loop
             src={props.chorusUrl}>
         </audio>
     )
