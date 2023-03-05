@@ -235,8 +235,8 @@ const ChorusPlayer = (props) => {
 
     return(
         <audio className='hiddenChorusPlayer'
-            // controls autoPlay loop
-            controls loop
+            controls autoPlay loop
+            // controls loop
             src={props.chorusUrl}>
         </audio>
     )
