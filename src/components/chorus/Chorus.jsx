@@ -3,6 +3,9 @@ import TinderCard from 'react-tinder-card'
 import "./Chorus.css";
 import { getChorusPage } from "../../api/chorus"
 import GradientBg from "../../assets/chorus_bg_gradient.svg"
+import SuperlikeHint from "../../assets/superlike_hint.svg"
+import DislikeHint from "../../assets/dislike_hint.svg"
+import LikeHint from "../../assets/like_hint.svg"
 
 
 const ChorusCard = (props) => {
@@ -55,16 +58,16 @@ const ChorusCard = (props) => {
                     let startShrinkPos = 100
 
                     //measurements in percentages
-                    let startWidth = 85
-                    let startHeight = 55
-                    let endWidth = startWidth/3
-                    let endHeight = startHeight/3
+                    let startWidth = 75
+                    let startHeight = 50
+                    let endWidth = startWidth/4
+                    let endHeight = startHeight/4
 
                     let cWidth = endWidth
                     let cHeight = endHeight
                     
                     let forceUpPos = -90
-                    let stopUpPos = -330
+                    let stopUpPos = -180
                     let upTraiangleBase = 130
                     
                     let detailOpactityEndY = -115
@@ -232,10 +235,19 @@ const ChorusPlayer = (props) => {
 
     return(
         <audio className='hiddenChorusPlayer'
-            controls autoPlay loop
-            // controls loop
+            // controls autoPlay loop
+            controls loop
             src={props.chorusUrl}>
         </audio>
+    )
+}
+
+const Hint = (props) => {
+    return (
+        <div className={"hint " + props.hintClass}>
+        <img src={props.icon}
+            className={"hintIcon"} />
+        </div>
     )
 }
 const Chorus = () => {
@@ -245,12 +257,17 @@ const Chorus = () => {
     const [chorusEndTime, setChorusEndTime] = useState(20)    
     
     return(
-        <>
+        <div className='chorusPageContainer'>
+            <div className='hintsContainer'>
+                <Hint icon={DislikeHint} hintClass="dislikeHint" />
+                <Hint icon={SuperlikeHint} hintClass="superlikeHint" />
+                <Hint icon={LikeHint} hintClass="likeHint" />
+            </div>
             <ChorusPlayer chorusUrl={chorusSongUrl} startTime={chorusStartTime} endTime={chorusEndTime} />
             <div className='cardsContainer'>
                 <ChorusCardStack setChorusSongUrl={setChorusSongUrl} setChorusStartTime={setChorusStartTime} setChorusEndTime={setChorusEndTime} />
             </div>
-        </>
+        </div>
     )
 }
 

@@ -1,18 +1,40 @@
+.chorusPageContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.hintsContainer{
+    display: grid;
+    grid-template-areas:
+    "s s s"
+    "d d l";
+    padding: 60px 20px 10px 20px;
+}
+.dislikeHint{
+    grid-area: d;
+}
+.superlikeHint{
+    grid-area: s;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.likeHint{
+    grid-area: l;
+    justify-content: end;
+}
+.hint{
+    display: flex;
+}
+
 .cardsContainer{
     display: flex;
-    justify-content: center;
-    position: relative;
-    height: 80vh;
-    width: 80vw;
-    padding-left: 5vh;
-    padding-top: 5vh;
     flex-direction: column;
     align-items: center;
 }
 .chorusCard{
     display: flex;
-    width: 85%;
-    height: 55%;
+    width: 75%;
+    height: 50%;
     /* background-color: aquamarine; */
     position: absolute;
     transition: display 2s;
