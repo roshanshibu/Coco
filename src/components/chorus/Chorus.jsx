@@ -6,6 +6,8 @@ import GradientBg from "../../assets/chorus_bg_gradient.svg"
 import SuperlikeHint from "../../assets/superlike_hint.svg"
 import DislikeHint from "../../assets/dislike_hint.svg"
 import LikeHint from "../../assets/like_hint.svg"
+import LoadingCard from "../../assets/loading_album_art.svg"
+import SkeletonText from "../skeleton/Skeleton"
 
 
 const ChorusCard = (props) => {
@@ -34,7 +36,7 @@ const ChorusCard = (props) => {
         if(el){
             // console.log(el)
             // get song details from card
-            let songName = el.firstChild.getElementsByClassName("songName")[0].textContent;
+            //let songName = el.firstChild.getElementsByClassName("songName")[0].textContent;
             let songURL = el.firstChild.getElementsByClassName("songUrl")[0].textContent;
             let startTime = el.firstChild.getElementsByClassName("startTime")[0].textContent;
             let endTime = el.firstChild.getElementsByClassName("endTime")[0].textContent;
@@ -120,18 +122,30 @@ const ChorusCard = (props) => {
 
     return(
             <TinderCard className={swipedOut? 'gone':'chorusCard'} 
+                flickOnSwipe={props.loading}
                 onSwipe={onSwipe}
                 onCardLeftScreen={() => onCardLeftScreen(props.songName)} 
                 preventSwipe={['down']}
                 swipeRequirementType={'position'}
                 swipeThreshold={150}
                 >
-                <div style={{backgroundImage: "url(" + props.albumArt + ")",
-                            border: "solid 3px "+props.color }} 
+                <div style={{backgroundImage: "url(" + (props.loading? LoadingCard : props.albumArt) + ")",
+                            border: "solid 3px " + props.color}} 
                     className="cardDetails">
-                    <div style={{backgroundImage: `url(${GradientBg})`}} className="cardDetailsSubContainer">
-                        <p className='songName'>{props.songName}</p>
-                        <p className='artistName' style={{color: props.color}}>{props.artist}</p>    
+                    <div className="cardDetailsSubContainer"
+                        style={{backgroundImage: `url(${GradientBg})`}} 
+                        >
+                        {props.loading ?
+                            <div className='skeletonContainer'>
+                                <SkeletonText length={17} size={15} /><br/>
+                                <SkeletonText length={13} size={12} color="grey" />
+                            </div>
+                            :
+                            <>
+                                <p className='songName unselectableText'>{props.songName}</p>
+                                <p className='artistName unselectableText' style={{color: props.color}}>{props.artist}</p>
+                            </>
+                        }    
                     </div>
                     <p className='songUrl hiddenDetail'>{props.songUrl}</p>
                     <p className='startTime hiddenDetail'>{props.startTime}</p>
@@ -144,24 +158,26 @@ const ChorusCard = (props) => {
 const ChorusCardStack = (props) => {
 
     const parseSongs = (songJson) => {
-        let cardsStack = [<ChorusCard songName={"LOADING"} artist={"LOADING"} color={"gray"}  songUrl="urlx"
-                        reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
-                        setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />]
+        let loadingCard = <ChorusCard loading={true} songUrl="urlx" color="grey"
+                            reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
+                            setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />
+        let cardsStack = [loadingCard]
         let songBaseUrl = ""
         let albumArtBaseUrl = ""
         songJson.map((song, index) => {
             if(index == 0){
                 songBaseUrl = song.song_base_url
                 albumArtBaseUrl = song.album_art_base_url 
+            }else if(song.albumArt){
+                let retCard = <ChorusCard songName={song.songName} artist={song.artist} color={song.color}  
+                                albumArt={albumArtBaseUrl + song.albumArt} songUrl={songBaseUrl + song.url}
+                                startTime={song.startTime} endTime={song.endTime}
+                                reportSwipe={reportSwipe} key={Math.random()*1000} markerCard={index == 1 ? true : false} 
+                                setChorusSongUrl={props.setChorusSongUrl} 
+                                setChorusStartTime={props.setChorusStartTime} 
+                                setChorusEndTime={props.setChorusEndTime}/>
+                cardsStack.push(retCard)
             }
-            let retCard = <ChorusCard songName={song.songName} artist={song.artist} color={song.color}  
-                            albumArt={albumArtBaseUrl + song.albumArt} songUrl={songBaseUrl + song.url}
-                            startTime={song.startTime} endTime={song.endTime}
-                            reportSwipe={reportSwipe} key={Math.random()*1000} markerCard={index == 1 ? true : false} 
-                            setChorusSongUrl={props.setChorusSongUrl} 
-                            setChorusStartTime={props.setChorusStartTime} 
-                            setChorusEndTime={props.setChorusEndTime}/>
-            cardsStack.push(retCard)
         })
         return cardsStack
     }
@@ -235,8 +251,8 @@ const ChorusPlayer = (props) => {
 
     return(
         <audio className='hiddenChorusPlayer'
-            controls autoPlay loop
-            // controls loop
+            // controls autoPlay loop
+            controls loop
             src={props.chorusUrl}>
         </audio>
     )
