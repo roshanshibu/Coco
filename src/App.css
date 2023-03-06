@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:600,400');
+
 body{
   margin: 0;
   background-color: #252525;
+  font-family: 'Poppins';
 }

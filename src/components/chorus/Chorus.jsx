@@ -1,6 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import TinderCard from 'react-tinder-card'
 import "./Chorus.css";
+import { getChorusPage } from "../../api/chorus"
+import GradientBg from "../../assets/chorus_bg_gradient.svg"
+import SuperlikeHint from "../../assets/superlike_hint.svg"
+import DislikeHint from "../../assets/dislike_hint.svg"
+import LikeHint from "../../assets/like_hint.svg"
+import LoadingCard from "../../assets/loading_album_art.svg"
+import SkeletonText from "../skeleton/Skeleton"
 
 
 const ChorusCard = (props) => {
@@ -22,12 +29,27 @@ const ChorusCard = (props) => {
     }
 
     useEffect(() => {
-        // get songname from card
-        // console.log(document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1].firstChild.firstChild.textContent);
-    
+        // card movements controls
+
+        // get the card on the top
         let el = document.getElementsByClassName('chorusCard')[document.getElementsByClassName('chorusCard').length - 1]
         if(el){
-            console.log(el)
+            // console.log(el)
+            // get song details from card
+            //let songName = el.firstChild.getElementsByClassName("songName")[0].textContent;
+            let songURL = el.firstChild.getElementsByClassName("songUrl")[0].textContent;
+            let startTime = el.firstChild.getElementsByClassName("startTime")[0].textContent;
+            let endTime = el.firstChild.getElementsByClassName("endTime")[0].textContent;
+            let detailContainer = el.firstChild.getElementsByClassName("cardDetailsSubContainer")[0];
+            
+            if(!startTime)
+                startTime = 10
+            if(!endTime)
+                endTime = 20
+            props.setChorusSongUrl(songURL)
+            props.setChorusStartTime(startTime)
+            props.setChorusEndTime(endTime)
+
             var observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutationRecord) {
                     // console.log(el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(','));
@@ -35,20 +57,23 @@ const ChorusCard = (props) => {
                     let x =  el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(',')[0].trim();
                     let y =  el.style.transform.replace(/translate3d|px|\(|\)/gi, '').split(',')[1].trim();
                     // console.log(x)
-                    let startShrinkPos = 90
+                    let startShrinkPos = 100
 
                     //measurements in percentages
-                    let startWidth = 65
-                    let startHeight = 40
-                    let endWidth = startWidth/3
-                    let endHeight = startHeight/3
+                    let startWidth = 75
+                    let startHeight = 50
+                    let endWidth = startWidth/4
+                    let endHeight = startHeight/4
 
                     let cWidth = endWidth
                     let cHeight = endHeight
                     
                     let forceUpPos = -90
-                    let stopUpPos = -330
-                    let upTraiangleBase = 90
+                    let stopUpPos = -180
+                    let upTraiangleBase = 130
+                    
+                    let detailOpactityEndY = -115
+                    let detailOpactity = 1
                     if(y < forceUpPos){
                         let compX = x
                         let compY
@@ -73,8 +98,11 @@ const ChorusCard = (props) => {
                         if(y > -(startShrinkPos + startWidth - endWidth))
                             cWidth = startWidth + parseInt(y) + startShrinkPos;
                         
-                        if(y > -(startShrinkPos + startHeight - endHeight))
+                        if(y > -(startShrinkPos + startHeight - endHeight)){
                             cHeight = startHeight + parseInt(y) + startShrinkPos;
+                            detailContainer.style.opacity = 0                            
+                        }
+
                         // console.log(width)
                         el.style.width = (cWidth + "%")
                         el.style.height = (cHeight + "%")
@@ -82,6 +110,7 @@ const ChorusCard = (props) => {
                     else{
                         el.style.width = startWidth+"%"
                         el.style.height = startHeight+"%"
+                        detailContainer.style.opacity = 1
                     }
                 });    
             });
@@ -93,65 +122,168 @@ const ChorusCard = (props) => {
 
     return(
             <TinderCard className={swipedOut? 'gone':'chorusCard'} 
+                flickOnSwipe={props.loading}
                 onSwipe={onSwipe}
                 onCardLeftScreen={() => onCardLeftScreen(props.songName)} 
                 preventSwipe={['down']}
                 swipeRequirementType={'position'}
                 swipeThreshold={150}
                 >
-                <div style={{backgroundColor: props.color}} className="cardDetails">
-                    <p className='songName'>{props.songName}</p>
-                    <p className='artistName'>{props.artist}</p>
+                <div style={{backgroundImage: "url(" + (props.loading? LoadingCard : props.albumArt) + ")",
+                            border: "solid 3px " + props.color}} 
+                    className="cardDetails">
+                    <div className="cardDetailsSubContainer"
+                        style={{backgroundImage: `url(${GradientBg})`}} 
+                        >
+                        {props.loading ?
+                            <div className='skeletonContainer'>
+                                <SkeletonText length={17} size={15} /><br/>
+                                <SkeletonText length={13} size={12} color="grey" />
+                            </div>
+                            :
+                            <>
+                                <p className='songName unselectableText'>{props.songName}</p>
+                                <p className='artistName unselectableText' style={{color: props.color}}>{props.artist}</p>
+                            </>
+                        }    
+                    </div>
+                    <p className='songUrl hiddenDetail'>{props.songUrl}</p>
+                    <p className='startTime hiddenDetail'>{props.startTime}</p>
+                    <p className='endTime hiddenDetail'>{props.endTime}</p>
                 </div>
             </TinderCard>
     )
 }
 
-const ChorusCardStack = () => {
+const ChorusCardStack = (props) => {
 
-    const getNext5Cards = async() => {
-        let songname = "Song " + Math.random()
-        let artist = "Artist - " + Math.random()
-        let color = (Math.floor(Date.now() / 1000) % 2 == 0 ? "pink" : "yellow")
-        return ([<ChorusCard songName={"LOADING"} artist={"LOADING"} color={color} reportSwipe={reportSwipe} key={Math.random()*1000} />,
-        <ChorusCard songName={("song "+Math.random()*1000)} artist={artist} color={color} reportSwipe={reportSwipe} key={Math.random()*1000} markerCard={true} />,
-        <ChorusCard songName={("song "+Math.random()*1000)} artist={artist} color={color} reportSwipe={reportSwipe} key={Math.random()*1000} />,
-        <ChorusCard songName={("song "+Math.random()*1000)} artist={artist} color={color} reportSwipe={reportSwipe} key={Math.random()*1000} />,
-        <ChorusCard songName={("song "+Math.random()*1000)} artist={artist} color={color} reportSwipe={reportSwipe} key={Math.random()*1000} />
-        ])
+    const parseSongs = (songJson) => {
+        let loadingCard = <ChorusCard loading={true} songUrl="urlx" color="grey"
+                            reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
+                            setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />
+        let cardsStack = [loadingCard]
+        let songBaseUrl = ""
+        let albumArtBaseUrl = ""
+        songJson.map((song, index) => {
+            if(index == 0){
+                songBaseUrl = song.song_base_url
+                albumArtBaseUrl = song.album_art_base_url 
+            }else if(song.albumArt){
+                let retCard = <ChorusCard songName={song.songName} artist={song.artist} color={song.color}  
+                                albumArt={albumArtBaseUrl + song.albumArt} songUrl={songBaseUrl + song.url}
+                                startTime={song.startTime} endTime={song.endTime}
+                                reportSwipe={reportSwipe} key={Math.random()*1000} markerCard={index == 1 ? true : false} 
+                                setChorusSongUrl={props.setChorusSongUrl} 
+                                setChorusStartTime={props.setChorusStartTime} 
+                                setChorusEndTime={props.setChorusEndTime}/>
+                cardsStack.push(retCard)
+            }
+        })
+        return cardsStack
     }
-        
+    
     const reportSwipe = (direction, marker) => {
         console.log("card swiped to the "+direction)
         if(marker){
-            let newCard = getNext5Cards()
-            console.log("does not match")
-            newCard.then((nextCard) => {
-                setDynamicStack([nextCard, ...dynamicStack])
-            })
+            let next5Cards = []
+            getChorusPage(1)
+                .then((res) => {
+                    next5Cards = [...next5Cards, ...parseSongs(res.data)]
+                    // console.log(next5Cards)
+                    setDynamicStack([next5Cards, ...dynamicStack])
+                })
+                .catch((err) => console.error(err));;
         }
     }
 
     useEffect(()=>{
-        console.log(dynamicStack)
-    })
-    
-    let topCard = (<ChorusCard songName="Song1" artist="Artist1" color="red" reportSwipe={reportSwipe} key={0} markerCard={true} />)
-    let nextCard = (<ChorusCard songName="Song2" artist="Artist2" color="green" reportSwipe={reportSwipe} key={1}  />)
-    const [dynamicStack, setDynamicStack] = useState([nextCard, topCard]);
+        let top2Cards = []
+        getChorusPage(1)
+            .then((res) => {
+                top2Cards = parseSongs(res.data)
+                setDynamicStack([top2Cards])
+            })
+            .catch((err) => console.error(err));;
+    }, [])
+
+
+    const [dynamicStack, setDynamicStack] = useState([]);
     return(
         <>
             {dynamicStack}
         </>
     )
 }
-const Chorus = () => {
+
+const ChorusPlayer = (props) => {
+    useEffect(() => {
+        let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
+        player.ontimeupdate = () => {
+            let softFadeDelay = 1
+            if (player.currentTime <= (props.startTime - softFadeDelay)|| player.currentTime >= (props.endTime + softFadeDelay)) 
+            {
+                    player.currentTime = props.startTime - softFadeDelay
+            }
+                
+            if (player.currentTime <= props.startTime)
+            {
+                    let computedVolume = (softFadeDelay - (props.startTime - player.currentTime))/softFadeDelay
+                    if (computedVolume < 0.1)
+                        player.volume = 0
+                    else
+                        player.volume = computedVolume
+            }
+            else if (player.currentTime >= props.endTime)
+            {
+                    let computedVolume = (softFadeDelay - (player.currentTime - props.endTime))/softFadeDelay
+                    if (computedVolume < 0.1)
+                        player.currentTime = props.startTime - softFadeDelay
+                    else
+                        player.volume = computedVolume
+            }
+            else
+            {
+                player.volume = 1
+            }
+        }
+        
+    })
+
     return(
-        <>
-            <div className='cardsContainer'>
-                <ChorusCardStack />
+        <audio className='hiddenChorusPlayer'
+            controls autoPlay loop
+            // controls loop
+            src={props.chorusUrl}>
+        </audio>
+    )
+}
+
+const Hint = (props) => {
+    return (
+        <div className={"hint " + props.hintClass}>
+        <img src={props.icon}
+            className={"hintIcon"} />
+        </div>
+    )
+}
+const Chorus = () => {
+    
+    const [chorusSongUrl, setChorusSongUrl] = useState("")
+    const [chorusStartTime, setChorusStartTime] = useState(10)
+    const [chorusEndTime, setChorusEndTime] = useState(20)    
+    
+    return(
+        <div className='chorusPageContainer'>
+            <div className='hintsContainer'>
+                <Hint icon={DislikeHint} hintClass="dislikeHint" />
+                <Hint icon={SuperlikeHint} hintClass="superlikeHint" />
+                <Hint icon={LikeHint} hintClass="likeHint" />
             </div>
-        </>
+            <ChorusPlayer chorusUrl={chorusSongUrl} startTime={chorusStartTime} endTime={chorusEndTime} />
+            <div className='cardsContainer'>
+                <ChorusCardStack setChorusSongUrl={setChorusSongUrl} setChorusStartTime={setChorusStartTime} setChorusEndTime={setChorusEndTime} />
+            </div>
+        </div>
     )
 }
 

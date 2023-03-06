@@ -1,16 +1,40 @@
+.chorusPageContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.hintsContainer{
+    display: grid;
+    grid-template-areas:
+    "s s s"
+    "d d l";
+    padding: 60px 20px 10px 20px;
+}
+.dislikeHint{
+    grid-area: d;
+}
+.superlikeHint{
+    grid-area: s;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.likeHint{
+    grid-area: l;
+    justify-content: end;
+}
+.hint{
+    display: flex;
+}
+
 .cardsContainer{
     display: flex;
-    justify-content: center;
-    position: relative;
-    height: 100vh;
-    width: 100vw;
     flex-direction: column;
     align-items: center;
 }
 .chorusCard{
     display: flex;
-    width: 65%;
-    height: 40%;
+    width: 75%;
+    height: 50%;
     /* background-color: aquamarine; */
     position: absolute;
     transition: display 2s;
@@ -18,9 +42,49 @@
 .gone{
     display: none;
 }
-
+.hiddenChorusPlayer{
+    display: none;
+}
 .cardDetails{
     width: 100%;
     border-radius: 25px;
     border: solid 3px white;
+    background-size: cover;
+    background-position-x: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+.cardDetailsSubContainer{
+    border-radius: 0px 0px 23px 23px;
+    padding: 20px 15px;
+    background-size: contain;
+}
+.songName{
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 0;
+    padding-top: 10px;
+}
+.artistName{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 0.5;
+}
+.hiddenDetail{
+    display: none;
+}
+
+.unselectableText {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.skeletonContainer{
+    padding-bottom: 10px;
 }
