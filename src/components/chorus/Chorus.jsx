@@ -17,12 +17,13 @@ const ChorusCard = (props) => {
     
     const onSwipe = async(direction) => {
         // console.log('card swiped to ' + direction)
-        setSwipedOut(true)
-        props.reportSwipe(direction, props.markerCard)
+        // setSwipedOut(true)
+        props.reportSwipe(direction, props.markerCard, setSwipedOut)
     }
 
     const onCardLeftScreen = (songName) => {
         console.log(songName + ' swiped out')
+        setSwipedOut(true)
     }
 
     useEffect(() => {
