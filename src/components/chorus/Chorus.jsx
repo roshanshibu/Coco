@@ -16,8 +16,13 @@ const ChorusCard = (props) => {
     const [swipedOut, setSwipedOut] = useState(false);
     
     const onSwipe = async(direction) => {
-        // console.log('card swiped to ' + direction)
-        // setSwipedOut(true)
+        let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
+
+        player.ontimeupdate = () => {
+            console.log("card left")
+            player.volume = player.volume - 0.2
+            
+        }
         props.reportSwipe(direction, props.markerCard, setSwipedOut)
     }
 
