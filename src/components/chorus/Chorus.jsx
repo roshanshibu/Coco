@@ -194,9 +194,9 @@ const ChorusCardStack = (props) => {
             let next5Cards = []
             getChorusPage(1)
                 .then((res) => {
-                    next5Cards = [...next5Cards, ...parseSongs(res.data)]
-                    // console.log(next5Cards)
-                    setDynamicStack([next5Cards, ...dynamicStack])
+                    // next5Cards = [...next5Cards, ...parseSongs(res.data)]
+                    // setDynamicStack([next5Cards, ...dynamicStack])
+                    setDynamicStack([...parseSongs(res.data)])
                 })
                 .catch((err) => console.error(err));;
         }
