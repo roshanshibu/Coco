@@ -1,0 +1,69 @@
+.header{
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+.logo{
+    height: 30px;
+}
+.productName{
+    font-size: 21px;
+    color: #FFFFFF;
+    padding-left: 10px;
+    line-height: 0;
+}
+
+.forYou{
+    margin: 20px;
+    color: #FFFFFF;
+    font-family: 'Poppins';
+}
+
+.forYouLabel{
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 0;
+}
+
+
+.songSuggestion{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.songIconContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.songIcon{
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    border-radius: 50%;
+    border: 1px solid #F0F0F0;
+}
+.artistBorder{
+    border-radius: 20%;
+}
+.playIcon{
+    padding: 10px 8px 10px 12px;
+    width: 15px;
+}
+.songDetails{
+    line-height: 0;
+    padding-left: 7px;
+    font-size: 14px;
+}
+.ssArtistName{
+    font-weight: 600;
+}
+.hidden{
+    opacity: 0;
+}
+
+.suggestions{
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 15px;
+}
