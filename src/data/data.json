@@ -1,0 +1,74 @@
+[
+    {
+        "songName": "You Are The Reason",
+        "artist": "Calum Scott",
+        "albumArt": "youare.jpg",
+        "color": "#9b9b9b",
+        "url": "Calum%20Scott%20-%20You%20Are%20The%20Reason%20(Official).mp3",
+        "startTime": 49,
+        "endTime": 65
+    },
+    {
+        "songName": "Slow Down Summer",
+        "artist": "Thomas Rhett",
+        "albumArt": "slow.jpg",
+        "color": "#88c9c5",
+        "url": "Thomas%20Rhett%20-%20Slow%20Down%20Summer%20Lyrics.mp3",
+        "startTime": 39,
+        "endTime": 65
+    },
+    {
+        "songName": "Heaven",
+        "artist": "Bryan Adams",
+        "albumArt": "heaven.gif",
+        "color": "grey",
+        "url": "Bryan%20Adams%20-%20Heaven%20(Classic%20Version).mp3",
+        "startTime": 46,
+        "endTime": 58
+    },
+    {
+        "songName": "Touch",
+        "artist": "3LAU",
+        "albumArt": "touch.jpg",
+        "color": "#ff5a5a",
+        "url": "3LAU%20feat%20Carly%20Paige%20-%20Touch%20(Official%20Video).mp3",
+        "startTime": 60,
+        "endTime": 72
+    },
+    {
+        "songName": "Slow (R3hab Remix)",
+        "artist": "Matoma",
+        "albumArt": "matoma.jpg",
+        "color": "#b55fec",
+        "url": "matoma%20slow%20r3hab%20remix.mp3",
+        "startTime": 55,
+        "endTime": 68
+    }, 
+    {
+        "songName": "Feel Good",
+        "artist": "Gryffin",
+        "albumArt": "feelgood.gif",
+        "color": "#FFB873",
+        "url": "Gryffin%20Illenium%20-%20Feel%20Good%20ft%20Daya.mp3",
+        "startTime": 216,
+        "endTime": 228
+    },
+    {
+        "songName": "Beautiful People",
+        "artist": "Ed Sheeran",
+        "albumArt": "beautifulpeople.jpg",
+        "color": "#FFFFFF",
+        "url": "Ed%20Sheeran%20-%20Beautiful%20People%20(feat%20Khalid)%20%5BOfficial%20Lyric%20Video%5D.mp3",
+        "startTime": 140,
+        "endTime": 148
+    },
+    {
+        "songName": "Lose You Too",
+        "artist": "SHY Martin",
+        "albumArt": "loose.jpg",
+        "color": "#597069",
+        "url": "Shy%20Martin%20-%20Lose%20You%20Too%20(Lyrics)%20Severo%20Remix.mp3",
+        "startTime": 55,
+        "endTime": 69
+    }
+]
