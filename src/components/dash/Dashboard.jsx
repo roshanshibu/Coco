@@ -47,12 +47,39 @@ const Foryou = () => {
     )      
 }
 
+const MoodScrollList = () => {
+    return(
+        <div className='moodScroll'>
+            <div className='lowEnergy'>
+                <p className='moodTags'>low</p>
+                <p className='moodTags'>low</p>
+                <p className='moodTags'>low</p>
+                <p className='moodTags'>low</p>
+                <p className='moodTags'>low</p>
+                <p className='moodTags'>low</p>
+            </div>
+            <div className='scrollCenter'>
+                <img className='scrollIcon' src={myHomeIcon}/>
+            </div>
+            <div className='highEnergy'>
+                <p className='moodTags'>High</p>
+                <p className='moodTags'>High</p>
+                <p className='moodTags'>High</p>
+                <p className='moodTags'>High</p>
+                <p className='moodTags'>High</p>
+                <p className='moodTags'>High</p>
+            </div>
+        </div>
+    )
+}
+
 const Dashboard = () => {
     const [productName, setProductName] = useState("coco")
     return(
         <>
             <Header product={productName} />
             <Foryou/>
+            <MoodScrollList/>
         </>
     )
 }
