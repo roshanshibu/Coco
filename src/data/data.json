@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "songName": "You Are The Reason",
         "artist": "Calum Scott",
         "albumArt": "youare.jpg",
@@ -9,6 +10,7 @@
         "endTime": 65
     },
     {
+        "id": 2,
         "songName": "Slow Down Summer",
         "artist": "Thomas Rhett",
         "albumArt": "slow.jpg",
@@ -18,6 +20,7 @@
         "endTime": 65
     },
     {
+        "id": 3,
         "songName": "Heaven",
         "artist": "Bryan Adams",
         "albumArt": "heaven.gif",
@@ -27,6 +30,7 @@
         "endTime": 58
     },
     {
+        "id": 4,
         "songName": "Touch",
         "artist": "3LAU",
         "albumArt": "touch.jpg",
@@ -36,6 +40,7 @@
         "endTime": 72
     },
     {
+        "id": 5,
         "songName": "Slow (R3hab Remix)",
         "artist": "Matoma",
         "albumArt": "matoma.jpg",
@@ -45,6 +50,7 @@
         "endTime": 68
     }, 
     {
+        "id": 6,
         "songName": "Feel Good",
         "artist": "Gryffin",
         "albumArt": "feelgood.gif",
@@ -54,6 +60,7 @@
         "endTime": 228
     },
     {
+        "id": 7,
         "songName": "Beautiful People",
         "artist": "Ed Sheeran",
         "albumArt": "beautifulpeople.jpg",
@@ -63,6 +70,7 @@
         "endTime": 148
     },
     {
+        "id": 8,
         "songName": "Lose You Too",
         "artist": "SHY Martin",
         "albumArt": "loose.jpg",
