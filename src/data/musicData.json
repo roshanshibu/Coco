@@ -1,0 +1,96 @@
+{
+    "playlists": [
+      {
+        "id": 1,
+        "name": "My Favorites",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Bohemian Rhapsody",
+            "artist": "Queen",
+            "album": "A Night at the Opera",
+            "duration": "5:54"
+          },
+          {
+            "id": 2,
+            "title": "Stairway to Heaven",
+            "artist": "Led Zeppelin",
+            "album": "Led Zeppelin IV",
+            "duration": "8:02"
+          },
+          {
+            "id": 3,
+            "title": "Hotel California",
+            "artist": "Eagles",
+            "album": "Hotel California",
+            "duration": "6:31"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Rock Classics",
+        "songs": [
+          {
+            "id": 4,
+            "title": "Highway to Hell",
+            "artist": "AC/DC",
+            "album": "Highway to Hell",
+            "duration": "3:29"
+          },
+          {
+            "id": 5,
+            "title": "Sweet Child O' Mine",
+            "artist": "Guns N' Roses",
+            "album": "Appetite for Destruction",
+            "duration": "5:55"
+          },
+          {
+            "id": 6,
+            "title": "Smoke on the Water",
+            "artist": "Deep Purple",
+            "album": "Machine Head",
+            "duration": "5:40"
+          }
+        ]
+      }
+    ],
+    "downloads": [
+      {
+        "id": 1,
+        "name": "Led Zeppelin IV",
+        "size": 78.3
+      },
+      {
+        "id": 2,
+        "name": "Appetite for Destruction",
+        "size": 68.7
+      },
+      {
+        "id": 3,
+        "name": "A Night at the Opera",
+        "size": 83.9
+      }
+    ],
+    "history": [
+      {
+        "id": 1,
+        "song": "Bohemian Rhapsody",
+        "artist": "Queen",
+        "date": "2022-02-28"
+      },
+      {
+        "id": 2,
+        "song": "Stairway to Heaven",
+        "artist": "Led Zeppelin",
+        "date": "2022-03-02"
+      },
+      {
+        "id": 3,
+        "song": "Sweet Child O' Mine",
+        "artist": "Guns N' Roses",
+        "date": "2022-03-04"
+      }
+    ]
+  }
+  
