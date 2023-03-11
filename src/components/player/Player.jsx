@@ -14,6 +14,8 @@ import { ReactComponent as RepeatIcon } from '../../assets/repeat.svg';
 import { ReactComponent as ShareIcon } from '../../assets/share.svg';
 import { ReactComponent as MoreOptionsIcon } from '../../assets/more options.svg';
 
+import { ReactComponent as PullUpIcon } from '../../assets/Pull up.svg';
+
 import { useState, useRef, useEffect, forwardRef } from "react";
 
 const AlbumArtLyric = (props) => {
@@ -181,6 +183,7 @@ const Player = () => {
             <ControlRow accentColor={accentColor} 
                 isPlaying={isPlaying} togglePlay={togglePlay} />
             <OptionsRow />
+            <PullUpIcon className="pullUpIcon" />
         </div>
     )
 }

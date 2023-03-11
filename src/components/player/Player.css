@@ -10,8 +10,6 @@
     flex-direction: column;
     padding: 35px 0px 20px 0px;
     border-radius: 23px;
-    width: 85%;
-    max-width: 300px;
     min-width: 285px;
     align-self: center;
     position: relative;
@@ -19,6 +17,8 @@
 }
 .albumArt{
     border-radius: 23px;
+    max-height: 300px;
+    object-fit: cover;
 }
 .hidden{
     opacity: 0;
@@ -132,9 +132,9 @@ input[type=range]::-webkit-slider-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 35px;
+    gap: 41px;
     background: #414141;
-    padding: 10px 25px;
+    padding: 7px 25px;
     border-radius: 27px;
     width: fit-content;
     align-self: center;
@@ -142,5 +142,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .optionsIcon{
-    width: 23px;
+    width: 20px;
+}
+
+.pullUpIcon{
+    bottom: 0;
+    position: absolute;
+    align-self: center;
 }
