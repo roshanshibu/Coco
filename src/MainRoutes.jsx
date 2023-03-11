@@ -6,7 +6,6 @@ import Search from './components/search/Search'
 import Chorus from './components/chorus/Chorus'
 import Library from './components/library/Library'
 import ErrorPage from './components/404/Errorpage'
-import Player from './components/player/Player';
 
 function MainRoutes() {
     return (
@@ -17,7 +16,6 @@ function MainRoutes() {
                 <Route path='/search' element={<Search />} />
                 <Route path='/chorus' element={<Chorus />} />
                 <Route path='/library' element={<Library />} />
-                <Route path='/player' element={<Player />} />
                 <Route path="/*" element={<ErrorPage />} />
             </Routes>
         </>

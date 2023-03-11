@@ -3,6 +3,11 @@ import albumArtBg from "../../assets/albumArt_bg.svg"
 import lyricGradient from "../../assets/lyricGradient.svg"
 import { ReactComponent as FavouriteIcon } from "../../assets/favourite.svg"
 import { ReactComponent as LyricsIcon } from '../../assets/lyrics.svg';
+
+import { ReactComponent as PlayIcon } from '../../assets/play.svg';
+import { ReactComponent as PauseIcon } from '../../assets/pause.svg';
+import { ReactComponent as NextIcon } from '../../assets/next.svg';
+import { ReactComponent as PreviousIcon } from '../../assets/previous.svg';
 import { useState } from "react";
 
 const AlbumArtLyric = (props) => {
@@ -50,6 +55,22 @@ const Timeline = (props) => {
     )
 }
 
+const ControlRow = (props) => {
+    return(
+        <div className="controlContainer">
+            <PreviousIcon className="controlIcon" />
+            {!props.isPlaying ? 
+                <PlayIcon style={{color: props.accentColor}} 
+                    className="playPauseIcon" onClick={props.togglePlay} />
+                :
+                <PauseIcon style={{color: props.accentColor}} 
+                    className="playPauseIcon" onClick={props.togglePlay} />
+            }
+            <NextIcon className="controlIcon"/>
+        </div>
+    )
+}
+
 const Player = () => {
 
     const [showAlbumArt, SetShowAlbumArt] = useState(true)
@@ -63,11 +84,16 @@ const Player = () => {
     const [artist, SetArtist] = useState("Gryffin")
     const [isFavourite, SetFavourite] = useState(false)
 
+    const [isPlaying, SetPlaying] = useState(true)
+
     const toggleAlbumArtLyric = () => {
         SetShowAlbumArt(!showAlbumArt)
     }
     const toggleFavourite = () => {
         SetFavourite(!isFavourite)
+    }
+    const togglePlay = () => {
+        SetPlaying(!isPlaying)
     }
 
 
@@ -84,6 +110,8 @@ const Player = () => {
                 showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
                 isFavourite={isFavourite} toggleFavourite={toggleFavourite} />
             <Timeline />
+            <ControlRow accentColor={accentColor} 
+                isPlaying={isPlaying} togglePlay={togglePlay} />
         </div>
     )
 }

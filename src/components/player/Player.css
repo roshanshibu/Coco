@@ -11,7 +11,7 @@
     padding: 35px 0px 20px 0px;
     border-radius: 23px;
     width: 85%;
-    max-width: 325px;
+    max-width: 300px;
     min-width: 285px;
     align-self: center;
     position: relative;
@@ -111,4 +111,18 @@ input[type=range]::-webkit-slider-thumb {
 
 .playbackTime{
     margin: 0;
+}
+
+.controlContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 25px;
+}
+
+.controlIcon{
+    width: 40px
+}
+.playPauseIcon{
+    width: 60px
 }
