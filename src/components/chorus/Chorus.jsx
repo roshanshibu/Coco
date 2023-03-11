@@ -21,7 +21,7 @@ const ChorusCard = (props) => {
         let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
 
         if (direction === "up"){
-            navigate("../player/1");
+            navigate("../player/"+props.songid);
         }
 
         player.ontimeupdate = () => {
@@ -187,6 +187,7 @@ const ChorusCardStack = (props) => {
                                 setChorusSongUrl={props.setChorusSongUrl} 
                                 setChorusStartTime={props.setChorusStartTime} 
                                 setChorusEndTime={props.setChorusEndTime}
+                                songid={song.songid}
                                 />
                 cardsStack.push(retCard)
             }
