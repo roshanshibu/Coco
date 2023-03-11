@@ -8,7 +8,7 @@ import { ReactComponent as PlayIcon } from '../../assets/play.svg';
 import { ReactComponent as PauseIcon } from '../../assets/pause.svg';
 import { ReactComponent as NextIcon } from '../../assets/next.svg';
 import { ReactComponent as PreviousIcon } from '../../assets/previous.svg';
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, forwardRef } from "react";
 
 const AlbumArtLyric = (props) => {
     return(
@@ -40,8 +40,10 @@ const SongDetailRow = (props) => {
     )
 }
 
-const Timeline = (props) => {
+const Timeline =  forwardRef((props, ref) => {
     function sToTime(t) {
+        if (isNaN(parseInt((t / (60)) % 60)))
+            return "00:00"
         return padZero(parseInt((t / (60)) % 60)) + ":" + 
                 padZero(parseInt((t) % 60));
     }
@@ -54,8 +56,14 @@ const Timeline = (props) => {
             <input
                 type="range" min="0"
                 max={props.duration} 
-                default="50" 
+                default="0" 
                 value={props.timeProgress}
+                onChange={(e) => {
+                    console.log(e.target.value)
+                    props.setTimeProgress(e.target.value)
+                    console.log(ref.current.currentTime)
+                    ref.current.currentTime = e.target.value
+                }}
             />
             <div className="timelineInfo">
                 <p className="playbackTime">{sToTime(props.timeProgress)}</p>
@@ -63,7 +71,7 @@ const Timeline = (props) => {
             </div>
         </div>
     )
-}
+})
 
 const ControlRow = (props) => {
     return(
@@ -105,7 +113,6 @@ const Player = () => {
     const play = () => {
         SetPlaying(true);
         audioRef.current.play();
-        console.log(audioRef)
     };
     const pause = () => {
         SetPlaying(false);
@@ -113,6 +120,9 @@ const Player = () => {
     };
     audioRef.current.ontimeupdate = () => {
         setTimeProgress(audioRef.current.currentTime)
+    }
+    audioRef.current.onload = () => {
+        setDuration(audioRef.current.duration)
     }
     
     const toggleAlbumArtLyric = () => {
@@ -130,7 +140,7 @@ const Player = () => {
     }
 
     useEffect(() => {
-        setDuration(audioRef.current.duration)
+            setDuration(audioRef.current.duration)
     })
 
     return(
@@ -145,7 +155,8 @@ const Player = () => {
             <SongDetailRow songName={songName} artist={artist} accentColor={accentColor}
                 showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
                 isFavourite={isFavourite} toggleFavourite={toggleFavourite} />
-            <Timeline duration={duration} timeProgress={timeProgress}/>
+            <Timeline duration={duration} timeProgress={timeProgress} 
+                ref={audioRef} setTimeProgress={setTimeProgress}/>
             <ControlRow accentColor={accentColor} 
                 isPlaying={isPlaying} togglePlay={togglePlay} />
         </div>
