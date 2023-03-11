@@ -1,56 +1,78 @@
-import React, { useState, useEffect } from 'react';
-//import "./Search.css";
+import React, { useState } from "react";
+import "./Search.css";
+import musicData from "../../data/musicData.json";
 
 const Search = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [songs, setSongs] = useState([]);
-  const [filteredSongs, setFilteredSongs] = useState([]);  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [songResults, setSongResults] = useState([]);
+  const [artistResults, setArtistResults] = useState([]);
+  const [lyricResults, setLyricResults] = useState([]);
 
-  useEffect(() => {
-    try {
-      fetch("https://raw.githubusercontent.com/roshanshibu/Coco/LibraryComponnet-Suma/src/data/data.json?token=GHSAT0AAAAAAB7UQPJRIAKLXZDB5W5DZCKSZALKJUQ")
-        .then(response => response.json())
-        .then(data => setSongs(data));
-    } catch (error) {
-      console.log("Error fetching data:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-
-   const filteredSongs = songs.filter(song =>
-      song.songName.toLowerCase().includes(searchQuery.toLowerCase())    
+  const handleSearch = () => {
+    const filteredSongs = musicData.songs.filter((song) =>
+      song.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    setSongResults(filteredSongs);
 
-  setFilteredSongs(filteredSongs);
-  console.log("Filtered Songs:", filteredSongs);
-  }, [songs, searchQuery]);
+    const filteredArtists = musicData.artists.filter((artist) =>
+      artist.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setArtistResults(filteredArtists);
 
-
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value.toLowerCase());
-    console.log("Search Text:", searchQuery);
+    const filteredLyrics = musicData.lyrics.filter((lyric) =>
+      lyric.text.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setLyricResults(filteredLyrics);
   };
 
   return (
-    <div>
-      <input 
-        type="text" 
-        placeholder="Search Songs" 
-        value={searchQuery} 
-        onChange={handleSearch} 
-        //onFocus={() => setFilteredSongs([])} 
-      />
-      {filteredSongs.length > 0 && (
-        <ul>
-          {filteredSongs.map(song => (
-            <li key={song.id}>
-              <h2>{song.songName}</h2>
-              <p>{song.artist}</p>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="music-search">
+      <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+      <button onClick={handleSearch}>Search</button>
+      <div className="results-container">
+        <SongResults songs={songResults} />
+        <ArtistResults artists={artistResults} />
+        <LyricResults lyrics={lyricResults} />
+      </div>
+    </div>
+  );
+};
+
+const SongResults = ({ songs }) => {
+  return (
+    <div className="song-results">
+      <h2>Songs</h2>
+      <ul>
+        {songs.map((song) => (
+          <li key={song.id}>{song.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const ArtistResults = ({ artists }) => {
+  return (
+    <div className="artist-results">
+      <h2>Artists</h2>
+      <ul>
+        {artists.map((artist) => (
+          <li key={artist.id}>{artist.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const LyricResults = ({ lyrics }) => {
+  return (
+    <div className="lyric-results">
+      <h2>Lyrics</h2>
+      <ul>
+        {lyrics.map((lyric) => (
+          <li key={lyric.id}>{lyric.text}</li>
+        ))}
+      </ul>
     </div>
   );
 };
