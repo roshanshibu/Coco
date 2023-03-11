@@ -1,0 +1,64 @@
+.playerContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.albumArtLyric{
+    display: flex;
+    flex-direction: column;
+    padding: 35px 20px;
+    border-radius: 23px;
+    width: 85%;
+    max-width: 315px;
+    min-width: 280px;
+    align-self: center;
+    position: relative;
+    justify-content: center;
+}
+.albumArt{
+    border-radius: 23px;
+}
+.hidden{
+    opacity: 0;
+}
+
+.gradient{
+    position: absolute;
+    align-self: center;
+    left: 20px;
+    top: 35px;
+    width: 85%;
+}
+
+.lyricContainer{
+    position: absolute;
+    align-self: center;
+    text-align: center;
+    padding: 50px;
+    line-height: 1.5;
+    font-size: 19px;
+}
+
+.lyricNonFocus{
+    color: #FFFFFF;
+}
+.lyricFocus{
+    font-weight: 600;
+}
+
+
+.songDetailContainer{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 40px;
+}
+.songDetails{
+    color: #ffffff;
+    text-align: center;
+    font-size: 20px;
+    line-height: 0.4;
+}
+.artistName{
+    font-weight: 600;
+    font-size: 17px;
+}
