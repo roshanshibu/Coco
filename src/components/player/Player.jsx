@@ -8,7 +8,7 @@ import { ReactComponent as PlayIcon } from '../../assets/play.svg';
 import { ReactComponent as PauseIcon } from '../../assets/pause.svg';
 import { ReactComponent as NextIcon } from '../../assets/next.svg';
 import { ReactComponent as PreviousIcon } from '../../assets/previous.svg';
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const AlbumArtLyric = (props) => {
     return(
@@ -41,15 +41,25 @@ const SongDetailRow = (props) => {
 }
 
 const Timeline = (props) => {
+    function sToTime(t) {
+        return padZero(parseInt((t / (60)) % 60)) + ":" + 
+                padZero(parseInt((t) % 60));
+    }
+    function padZero(v) {
+        return (v < 10) ? "0" + v : v;
+    }
+
     return (
         <div className="timelineContainer">
             <input
                 type="range" min="0"
-                max={1000} default="50" value={200}
+                max={props.duration} 
+                default="50" 
+                value={props.timeProgress}
             />
             <div className="timelineInfo">
-                <p className="playbackTime">0:12</p>
-                <p className="playbackTime">2:45</p>
+                <p className="playbackTime">{sToTime(props.timeProgress)}</p>
+                <p className="playbackTime">{sToTime(props.duration)}</p>
             </div>
         </div>
     )
@@ -71,21 +81,40 @@ const ControlRow = (props) => {
     )
 }
 
+
 const Player = () => {
 
     const [showAlbumArt, SetShowAlbumArt] = useState(true)
     const [albumArtUrl, SetAlbumArtUrl] = useState("https://raw.githubusercontent.com/roshanshibu/CocoBackend/master/images/matoma.jpg")
-    const [accentColor, SetAccentColor] = useState("#EA7C44")
+    const [accentColor, SetAccentColor] = useState("#b55fec")
     const [previousLine, SetPreviousLine] = useState("Pull me close, show me, baby, where the light is")
     const [currentLine, SetCurrentLine] = useState("I was scared of a heart I couldn't silence")
     const [nextLine, SetNextLine] = useState("But you make me, you make me feel good")
 
-    const [songName, SetSongName] = useState("Feel Good")
-    const [artist, SetArtist] = useState("Gryffin")
+    const [songName, SetSongName] = useState("Slow (R3hab remix)")
+    const [artist, SetArtist] = useState("Matoma")
     const [isFavourite, SetFavourite] = useState(false)
 
-    const [isPlaying, SetPlaying] = useState(true)
+    const [isPlaying, SetPlaying] = useState(false)
 
+    var mp3file = "https://github.com/roshanshibu/CocoBackend/raw/master/songs/matoma%20slow%20r3hab%20remix.mp3"
+    const [timeProgress, setTimeProgress] = useState(0);
+    const [duration, setDuration] = useState(0);
+
+    const audioRef = useRef(new Audio(mp3file));
+    const play = () => {
+        SetPlaying(true);
+        audioRef.current.play();
+        console.log(audioRef)
+    };
+    const pause = () => {
+        SetPlaying(false);
+        audioRef.current.pause();
+    };
+    audioRef.current.ontimeupdate = () => {
+        setTimeProgress(audioRef.current.currentTime)
+    }
+    
     const toggleAlbumArtLyric = () => {
         SetShowAlbumArt(!showAlbumArt)
     }
@@ -93,9 +122,16 @@ const Player = () => {
         SetFavourite(!isFavourite)
     }
     const togglePlay = () => {
+        if(isPlaying)
+            pause()
+        else
+            play()
         SetPlaying(!isPlaying)
     }
 
+    useEffect(() => {
+        setDuration(audioRef.current.duration)
+    })
 
     return(
         <div className="playerContainer">
@@ -109,7 +145,7 @@ const Player = () => {
             <SongDetailRow songName={songName} artist={artist} accentColor={accentColor}
                 showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
                 isFavourite={isFavourite} toggleFavourite={toggleFavourite} />
-            <Timeline />
+            <Timeline duration={duration} timeProgress={timeProgress}/>
             <ControlRow accentColor={accentColor} 
                 isPlaying={isPlaying} togglePlay={togglePlay} />
         </div>
