@@ -4,6 +4,9 @@ import lyricGradient from "../../assets/lyricGradient.svg"
 import { ReactComponent as FavouriteIcon } from "../../assets/favourite.svg"
 import { ReactComponent as LyricsIcon } from '../../assets/lyrics.svg';
 
+import LoadingAlbumArt from '../../assets/loading_album_art.svg';
+import { ReactComponent as CircleLoad} from "../../assets/circle_load.svg"
+
 import { ReactComponent as PlayIcon } from '../../assets/play.svg';
 import { ReactComponent as PauseIcon } from '../../assets/pause.svg';
 import { ReactComponent as NextIcon } from '../../assets/next.svg';
@@ -17,12 +20,15 @@ import { ReactComponent as MoreOptionsIcon } from '../../assets/more options.svg
 import { ReactComponent as PullUpIcon } from '../../assets/Pull up.svg';
 
 import { useState, useRef, useEffect, forwardRef } from "react";
+import { useParams } from "react-router-dom";
+import { getSongDetails } from "../../api/song";
 
 const AlbumArtLyric = (props) => {
     return(
         <div className="albumArtLyric">
             <img className="albumArt" 
-                src={props.isAlbumArt ? props.albumArtUrl : albumArtBg} />
+                src={props.isAlbumArt ? (props.albumArtUrl ? props.albumArtUrl : LoadingAlbumArt) 
+                                        : albumArtBg} />
             <div className={"lyricContainer " + (props.isAlbumArt ? "hidden" : "")}>
                 <p className="lyricNonFocus">{props.previousLine}</p>
                 <p className="lyricFocus" style={{color: props.accentColor}} >{props.currentLine}</p>
@@ -84,8 +90,13 @@ const ControlRow = (props) => {
         <div className="controlContainer">
             <PreviousIcon className="controlIcon" />
             {!props.isPlaying ? 
-                <PlayIcon style={{color: props.accentColor}} 
-                    className="playPauseIcon" onClick={props.togglePlay} />
+                (
+                    !props.isSongLoaded?
+                        <CircleLoad className="playPauseIcon" style={{height: "73px"}} />
+                    :
+                        <PlayIcon style={{color: props.accentColor}} 
+                        className="playPauseIcon" onClick={props.togglePlay} />
+                )
                 :
                 <PauseIcon style={{color: props.accentColor}} 
                     className="playPauseIcon" onClick={props.togglePlay} />
@@ -118,29 +129,30 @@ const UpNext = (props) => {
 const Player = () => {
 
     const [showAlbumArt, SetShowAlbumArt] = useState(true)
-    const [albumArtUrl, SetAlbumArtUrl] = useState("https://raw.githubusercontent.com/roshanshibu/CocoBackend/master/images/matoma.jpg")
-    const [accentColor, SetAccentColor] = useState("#b55fec")
+    const [albumArtUrl, SetAlbumArtUrl] = useState("")
+    const [accentColor, SetAccentColor] = useState("grey")
     const [previousLine, SetPreviousLine] = useState("Pull me close, show me, baby, where the light is")
     const [currentLine, SetCurrentLine] = useState("I was scared of a heart I couldn't silence")
     const [nextLine, SetNextLine] = useState("But you make me, you make me feel good")
 
-    const [songName, SetSongName] = useState("Slow (R3hab remix)")
-    const [artist, SetArtist] = useState("Matoma")
+    const [songName, SetSongName] = useState("-")
+    const [artist, SetArtist] = useState("-")
     const [isFavourite, SetFavourite] = useState(false)
+    const [isSongLoaded, SetSongLoaded] = useState(false)
 
     const [isPlaying, SetPlaying] = useState(false)
-
     
     const [isShuffle, SetShuffle] = useState(false)
     const [isRepeat, SetRepeat] = useState(false)
     const [isShare, SetShare] = useState(false)
     const [isMoreOptions, SetMoreOptions] = useState(false)
 
-    var mp3file = "https://github.com/roshanshibu/CocoBackend/raw/master/songs/matoma%20slow%20r3hab%20remix.mp3"
+    const [songUrl, setSongUrl] = useState("")
     const [timeProgress, setTimeProgress] = useState(0);
     const [duration, setDuration] = useState(0);
 
-    const audioRef = useRef(new Audio(mp3file));
+    // const audioRef = useRef(new Audio(songUrl));
+    const audioRef = useRef();
     const play = () => {
         SetPlaying(true);
         audioRef.current.play();
@@ -149,12 +161,6 @@ const Player = () => {
         SetPlaying(false);
         audioRef.current.pause();
     };
-    audioRef.current.ontimeupdate = () => {
-        setTimeProgress(audioRef.current.currentTime)
-    }
-    audioRef.current.onload = () => {
-        setDuration(audioRef.current.duration)
-    }
     
     const toggleAlbumArtLyric = () => {
         SetShowAlbumArt(!showAlbumArt)
@@ -170,12 +176,39 @@ const Player = () => {
         SetPlaying(!isPlaying)
     }
 
+    const updateSong = (source) => {
+        setSongUrl(source);
+        if(audioRef.current){
+            audioRef.current.load();
+            SetSongLoaded(true)
+        }
+    }
+
+    const { songid } = useParams()
+
     useEffect(() => {
-            setDuration(audioRef.current.duration)
+        setDuration(audioRef.current.duration)
     })
+    useEffect(() => {
+        getSongDetails(songid)
+        .then((res) => {
+            SetSongLoaded(false)
+            console.log(res.data.url)
+            SetSongName(res.data.songName)
+            SetArtist(res.data.artist)
+            SetAlbumArtUrl(res.data.albumArt)
+            SetAccentColor(res.data.color)
+            updateSong(res.data.url)
+        })
+        .catch((err) => console.error(err));
+    }, [])
 
     return(
         <div className="playerContainer">
+            <audio src={songUrl} ref={audioRef} 
+                onTimeUpdate={() => {setTimeProgress(audioRef.current.currentTime)}}
+                onLoad={() => {setDuration(audioRef.current.duration)}} >
+            </audio>
             <AlbumArtLyric isAlbumArt={showAlbumArt} 
                 albumArtUrl={albumArtUrl}
                 accentColor={accentColor}
@@ -189,7 +222,8 @@ const Player = () => {
             <Timeline duration={duration} timeProgress={timeProgress} 
                 ref={audioRef} setTimeProgress={setTimeProgress}/>
             <ControlRow accentColor={accentColor} 
-                isPlaying={isPlaying} togglePlay={togglePlay} />
+                isPlaying={isPlaying} togglePlay={togglePlay}
+                isSongLoaded={isSongLoaded} />
             <OptionsRow />
             <UpNext />
         </div>
