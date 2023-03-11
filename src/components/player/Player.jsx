@@ -24,7 +24,7 @@ const SongDetailRow = (props) => {
     return(
         <div className="songDetailContainer">
             <img className="songDetailIcon" src={favouriteIcon} />
-            <div className="songDetails">
+            <div className="p_songDetails">
                 <p>{props.songName}</p>
                 <p className="artistName">{props.artist}</p>
             </div>
