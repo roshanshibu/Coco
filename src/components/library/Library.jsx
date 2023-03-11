@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import musicData from "../../data/musicData.json";
+import "./Library.css";
 
 const Library = () => {
   const [activeTab, setActiveTab] = useState("playlists");
