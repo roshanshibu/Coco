@@ -1,12 +1,13 @@
 .playerContainer{
     display: flex;
     flex-direction: column;
+    min-width: 300px;
 }
 
 .albumArtLyric{
     display: flex;
     flex-direction: column;
-    padding: 35px 20px;
+    padding: 35px 20px 20px 20px;
     border-radius: 23px;
     width: 85%;
     max-width: 315px;
@@ -50,6 +51,7 @@
 .songDetailContainer{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0px 40px;
 }
 .p_songDetails{

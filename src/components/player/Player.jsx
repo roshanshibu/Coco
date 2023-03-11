@@ -1,8 +1,8 @@
 import "./Player.css";
 import albumArtBg from "../../assets/albumArt_bg.svg"
 import lyricGradient from "../../assets/lyricGradient.svg"
-import favouriteIcon from "../../assets/favourite.svg"
-import lyricsIcon from "../../assets/lyrics.svg"
+import { ReactComponent as FavouriteIcon } from "../../assets/favourite.svg"
+import { ReactComponent as LyricsIcon } from '../../assets/lyrics.svg';
 import { useState } from "react";
 
 const AlbumArtLyric = (props) => {
@@ -23,19 +23,21 @@ const AlbumArtLyric = (props) => {
 const SongDetailRow = (props) => {
     return(
         <div className="songDetailContainer">
-            <img className="songDetailIcon" src={favouriteIcon} />
+            <FavouriteIcon style={{color: (props.isFavourite ? "#ea4444" : "#F0F0F0")}}
+                onClick={props.toggleFavourite} />
             <div className="p_songDetails">
                 <p>{props.songName}</p>
-                <p className="artistName">{props.artist}</p>
+                <p className="artistName" style={{color: props.accentColor}} >{props.artist}</p>
             </div>
-            <img className="songDetailIcon" src={lyricsIcon} />
+            <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor)}}
+                onClick={props.toggleAlbumArtLyric} />
         </div>
     )
 }
 
 const Player = () => {
 
-    const [toggleAlbumArt, SetToggleAlbum] = useState(false)
+    const [showAlbumArt, SetShowAlbumArt] = useState(false)
     const [albumArtUrl, SetAlbumArtUrl] = useState("https://raw.githubusercontent.com/roshanshibu/CocoBackend/master/images/matoma.jpg")
     const [accentColor, SetAccentColor] = useState("#EA7C44")
     const [previousLine, SetPreviousLine] = useState("Pull me close, show me, baby, where the light is")
@@ -44,17 +46,35 @@ const Player = () => {
 
     const [songName, SetSongName] = useState("Feel Good")
     const [artist, SetArtist] = useState("Gryffin")
+    const [isFavourite, SetFavourite] = useState(false)
+
+    const toggleAlbumArtLyric = () => {
+        SetShowAlbumArt(!showAlbumArt)
+    }
+    const toggleFavourite = () => {
+        SetFavourite(!isFavourite)
+    }
 
     return(
         <div className="playerContainer">
-            <AlbumArtLyric isAlbumArt={toggleAlbumArt} 
+            <AlbumArtLyric isAlbumArt={showAlbumArt} 
                 albumArtUrl={albumArtUrl}
                 accentColor={accentColor}
                 previousLine={previousLine}
                 currentLine={currentLine}
                 nextLine={nextLine}
                 />
-            <SongDetailRow songName={songName} artist={artist} />
+            <SongDetailRow songName={songName} artist={artist} accentColor={accentColor}
+                showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
+                isFavourite={isFavourite} toggleFavourite={toggleFavourite} />
+            <input
+                type="range"
+                min="0"
+                max={10 / 1000}
+                default="0"
+                value={200}
+                className="timeline"
+            />
         </div>
     )
 }
