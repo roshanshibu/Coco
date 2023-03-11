@@ -35,9 +35,24 @@ const SongDetailRow = (props) => {
     )
 }
 
+const Timeline = (props) => {
+    return (
+        <div className="timelineContainer">
+            <input
+                type="range" min="0"
+                max={1000} default="50" value={200}
+            />
+            <div className="timelineInfo">
+                <p className="playbackTime">0:12</p>
+                <p className="playbackTime">2:45</p>
+            </div>
+        </div>
+    )
+}
+
 const Player = () => {
 
-    const [showAlbumArt, SetShowAlbumArt] = useState(false)
+    const [showAlbumArt, SetShowAlbumArt] = useState(true)
     const [albumArtUrl, SetAlbumArtUrl] = useState("https://raw.githubusercontent.com/roshanshibu/CocoBackend/master/images/matoma.jpg")
     const [accentColor, SetAccentColor] = useState("#EA7C44")
     const [previousLine, SetPreviousLine] = useState("Pull me close, show me, baby, where the light is")
@@ -55,6 +70,7 @@ const Player = () => {
         SetFavourite(!isFavourite)
     }
 
+
     return(
         <div className="playerContainer">
             <AlbumArtLyric isAlbumArt={showAlbumArt} 
@@ -67,14 +83,7 @@ const Player = () => {
             <SongDetailRow songName={songName} artist={artist} accentColor={accentColor}
                 showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
                 isFavourite={isFavourite} toggleFavourite={toggleFavourite} />
-            <input
-                type="range"
-                min="0"
-                max={10 / 1000}
-                default="0"
-                value={200}
-                className="timeline"
-            />
+            <Timeline />
         </div>
     )
 }
