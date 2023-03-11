@@ -71,9 +71,9 @@ const ChorusCard = (props) => {
                     let cWidth = endWidth
                     let cHeight = endHeight
                     
-                    let forceUpPos = -90
+                    let forceUpPos = -150
                     let stopUpPos = -180
-                    let upTraiangleBase = 130
+                    let upTraiangleBase = 10
                     
                     let detailOpactityEndY = -115
                     let detailOpactity = 1
