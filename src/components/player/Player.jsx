@@ -106,6 +106,14 @@ const OptionsRow = (props) => {
     )
 }
 
+const UpNext = (props) => {
+    return(
+        <div className="upNextContainer">
+            <PullUpIcon className="pullUpIcon" />
+        </div>
+    )
+}
+
 
 const Player = () => {
 
@@ -183,7 +191,7 @@ const Player = () => {
             <ControlRow accentColor={accentColor} 
                 isPlaying={isPlaying} togglePlay={togglePlay} />
             <OptionsRow />
-            <PullUpIcon className="pullUpIcon" />
+            <UpNext />
         </div>
     )
 }
