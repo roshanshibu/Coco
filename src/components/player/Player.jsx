@@ -8,6 +8,12 @@ import { ReactComponent as PlayIcon } from '../../assets/play.svg';
 import { ReactComponent as PauseIcon } from '../../assets/pause.svg';
 import { ReactComponent as NextIcon } from '../../assets/next.svg';
 import { ReactComponent as PreviousIcon } from '../../assets/previous.svg';
+
+import { ReactComponent as ShuffleIcon } from '../../assets/shuffle.svg';
+import { ReactComponent as RepeatIcon } from '../../assets/repeat.svg';
+import { ReactComponent as ShareIcon } from '../../assets/share.svg';
+import { ReactComponent as MoreOptionsIcon } from '../../assets/more options.svg';
+
 import { useState, useRef, useEffect, forwardRef } from "react";
 
 const AlbumArtLyric = (props) => {
@@ -28,13 +34,13 @@ const AlbumArtLyric = (props) => {
 const SongDetailRow = (props) => {
     return(
         <div className="songDetailContainer">
-            <FavouriteIcon style={{color: (props.isFavourite ? "#ea4444" : "#F0F0F0")}}
+            <FavouriteIcon style={{color: (props.isFavourite ? "#ea4444" : "#F0F0F0"), width: "30px"}}
                 onClick={props.toggleFavourite} />
             <div className="p_songDetails">
                 <p>{props.songName}</p>
                 <p className="artistName" style={{color: props.accentColor}} >{props.artist}</p>
             </div>
-            <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor)}}
+            <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor), width: "30px"}}
                 onClick={props.toggleAlbumArtLyric} />
         </div>
     )
@@ -59,9 +65,7 @@ const Timeline =  forwardRef((props, ref) => {
                 default="0" 
                 value={props.timeProgress}
                 onChange={(e) => {
-                    console.log(e.target.value)
                     props.setTimeProgress(e.target.value)
-                    console.log(ref.current.currentTime)
                     ref.current.currentTime = e.target.value
                 }}
             />
@@ -89,6 +93,17 @@ const ControlRow = (props) => {
     )
 }
 
+const OptionsRow = (props) => {
+    return(
+        <div className="moreOptions">
+            <ShuffleIcon className="optionsIcon" />
+            <RepeatIcon className="optionsIcon" />
+            <ShareIcon className="optionsIcon" />
+            <MoreOptionsIcon className="optionsIcon" />
+        </div>
+    )
+}
+
 
 const Player = () => {
 
@@ -104,6 +119,12 @@ const Player = () => {
     const [isFavourite, SetFavourite] = useState(false)
 
     const [isPlaying, SetPlaying] = useState(false)
+
+    
+    const [isShuffle, SetShuffle] = useState(false)
+    const [isRepeat, SetRepeat] = useState(false)
+    const [isShare, SetShare] = useState(false)
+    const [isMoreOptions, SetMoreOptions] = useState(false)
 
     var mp3file = "https://github.com/roshanshibu/CocoBackend/raw/master/songs/matoma%20slow%20r3hab%20remix.mp3"
     const [timeProgress, setTimeProgress] = useState(0);
@@ -159,6 +180,7 @@ const Player = () => {
                 ref={audioRef} setTimeProgress={setTimeProgress}/>
             <ControlRow accentColor={accentColor} 
                 isPlaying={isPlaying} togglePlay={togglePlay} />
+            <OptionsRow />
         </div>
     )
 }

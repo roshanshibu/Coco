@@ -126,3 +126,21 @@ input[type=range]::-webkit-slider-thumb {
 .playPauseIcon{
     width: 60px
 }
+
+
+.moreOptions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    background: #414141;
+    padding: 10px 25px;
+    border-radius: 27px;
+    width: fit-content;
+    align-self: center;
+    margin-top: 45px;
+}
+
+.optionsIcon{
+    width: 23px;
+}
