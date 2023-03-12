@@ -58,8 +58,10 @@ const SongDetailRow = (props) => {
                     style={{color: props.accentColor}}
                     onClick={() => { navigate("../bio/somename");}} >{props.artist}</p>
             </div>
-            <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor), width: "30px"}}
-                onClick={props.toggleAlbumArtLyric} />
+            <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor), 
+                                width: "30px",
+                            opacity: (props.isLyricsAvailable ? 1 : 0.1)}}
+                onClick={props.isLyricsAvailable ? props.toggleAlbumArtLyric : null} />
         </div>
     )
 }
@@ -147,6 +149,7 @@ const Player = () => {
     const [currentLine, SetCurrentLine] = useState(null)
     const [nextLine, SetNextLine] = useState(null)
     const [lyricKey, SetLyricKey] = useState(1)
+    const [isLyricsAvailable, SetLyricsAvailable] = useState(true)
 
     const [songName, SetSongName] = useState("-")
     const [artist, SetArtist] = useState("-")
@@ -238,7 +241,8 @@ const Player = () => {
             // console.log(res.data)
             SetLyrics(res.data)
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {console.error(err)
+            SetLyricsAvailable(false)});
     }, [])
 
     return(
@@ -257,7 +261,8 @@ const Player = () => {
                 />
             <SongDetailRow songName={songName} artist={artist} accentColor={accentColor}
                 showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
-                isFavourite={isFavourite} toggleFavourite={toggleFavourite} />
+                isFavourite={isFavourite} toggleFavourite={toggleFavourite}
+                isLyricsAvailable={isLyricsAvailable} />
             <Timeline duration={duration} timeProgress={timeProgress} 
                 ref={audioRef} setTimeProgress={setTimeProgress}/>
             <ControlRow accentColor={accentColor} 
