@@ -1,0 +1,95 @@
+.chorusPageContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.hintsContainer{
+    display: grid;
+    grid-template-areas:
+    "s s s"
+    "d d l";
+    padding: 60px 20px 10px 20px;
+}
+.dislikeHint{
+    grid-area: d;
+}
+.superlikeHint{
+    grid-area: s;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.likeHint{
+    grid-area: l;
+    justify-content: end;
+}
+.hint{
+    display: flex;
+}
+
+.cardsContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.chorusCard{
+    display: flex;
+    width: 75%;
+    height: 50%;
+    /* background-color: aquamarine; */
+    position: absolute;
+    transition: display 2s;
+}
+.gone{
+    display: none;
+}
+.hiddenChorusPlayer{
+    display: none;
+}
+.cardDetails{
+    width: 100%;
+    border-radius: 25px;
+    border: solid 3px white;
+    background-size: cover;
+    background-position-x: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    /* box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.56); */
+}
+.cardDetailsSubContainer{
+    border-radius: 0px 0px 23px 23px;
+    padding: 20px 15px;
+    /* background-size: contain; */
+}
+.chorusPlayingIndicator{
+    width: 30px;
+    padding-bottom: 5px;
+}
+.songName{
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 0;
+    margin: 0;
+}
+.artistName{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 0.5;
+}
+.hiddenDetail{
+    display: none;
+}
+
+.unselectableText {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.skeletonContainer{
+    padding-bottom: 10px;
+}
