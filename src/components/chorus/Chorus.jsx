@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom'
 import TinderCard from 'react-tinder-card'
 import "./Chorus.css";
 import { getChorusPage } from "../../api/chorus"
@@ -7,25 +8,33 @@ import SuperlikeHint from "../../assets/superlike_hint.svg"
 import DislikeHint from "../../assets/dislike_hint.svg"
 import LikeHint from "../../assets/like_hint.svg"
 import LoadingCard from "../../assets/loading_album_art.svg"
+import PlayingIndicator from "../../assets/playing_indicator.gif"
+import CircleLoad from "../../assets/circle_load.svg"
 import SkeletonText from "../skeleton/Skeleton"
 
 
 const ChorusCard = (props) => {
     const [swipedOut, setSwipedOut] = useState(false);
-    
-    const delay = () => {
-        return new Promise( res => setTimeout(res, 350) );
-    }
+    const navigate = useNavigate()
 
     const onSwipe = async(direction) => {
-        // console.log('card swiped to ' + direction)
-        await delay()
-        setSwipedOut(true)
-        props.reportSwipe(direction, props.markerCard)
+        let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
+
+        if (direction === "up"){
+            navigate("../player/"+props.songid);
+        }
+
+        player.ontimeupdate = () => {
+            console.log("card left")
+            player.volume = player.volume - 0.2
+            
+        }
+        props.reportSwipe(direction, props.markerCard, setSwipedOut)
     }
 
     const onCardLeftScreen = (songName) => {
         console.log(songName + ' swiped out')
+        setSwipedOut(true)
     }
 
     useEffect(() => {
@@ -68,9 +77,9 @@ const ChorusCard = (props) => {
                     let cWidth = endWidth
                     let cHeight = endHeight
                     
-                    let forceUpPos = -90
+                    let forceUpPos = -150
                     let stopUpPos = -180
-                    let upTraiangleBase = 130
+                    let upTraiangleBase = 10
                     
                     let detailOpactityEndY = -115
                     let detailOpactity = 1
@@ -142,6 +151,7 @@ const ChorusCard = (props) => {
                             </div>
                             :
                             <>
+                                <img src={CircleLoad} className='chorusPlayingIndicator' id={props.songUrl} />
                                 <p className='songName unselectableText'>{props.songName}</p>
                                 <p className='artistName unselectableText' style={{color: props.color}}>{props.artist}</p>
                             </>
@@ -160,7 +170,8 @@ const ChorusCardStack = (props) => {
     const parseSongs = (songJson) => {
         let loadingCard = <ChorusCard loading={true} songUrl="urlx" color="grey"
                             reportSwipe={reportSwipe} key={Math.random()*1000} setChorusSongUrl={props.setChorusSongUrl}
-                            setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime} />
+                            setChorusStartTime={props.setChorusStartTime} setChorusEndTime={props.setChorusEndTime}
+                            />
         let cardsStack = [loadingCard]
         let songBaseUrl = ""
         let albumArtBaseUrl = ""
@@ -175,7 +186,9 @@ const ChorusCardStack = (props) => {
                                 reportSwipe={reportSwipe} key={Math.random()*1000} markerCard={index == 1 ? true : false} 
                                 setChorusSongUrl={props.setChorusSongUrl} 
                                 setChorusStartTime={props.setChorusStartTime} 
-                                setChorusEndTime={props.setChorusEndTime}/>
+                                setChorusEndTime={props.setChorusEndTime}
+                                songid={song.songid}
+                                />
                 cardsStack.push(retCard)
             }
         })
@@ -188,20 +201,20 @@ const ChorusCardStack = (props) => {
             let next5Cards = []
             getChorusPage(1)
                 .then((res) => {
-                    next5Cards = [...next5Cards, ...parseSongs(res.data)]
-                    // console.log(next5Cards)
-                    setDynamicStack([next5Cards, ...dynamicStack])
+                    // next5Cards = [...next5Cards, ...parseSongs(res.data)]
+                    // setDynamicStack([next5Cards, ...dynamicStack])
+                    setDynamicStack([...parseSongs(res.data)])
                 })
                 .catch((err) => console.error(err));;
         }
     }
 
     useEffect(()=>{
-        let top2Cards = []
+        let topCards = []
         getChorusPage(1)
             .then((res) => {
-                top2Cards = parseSongs(res.data)
-                setDynamicStack([top2Cards])
+                topCards = parseSongs(res.data)
+                setDynamicStack([topCards])
             })
             .catch((err) => console.error(err));;
     }, [])
@@ -218,6 +231,12 @@ const ChorusCardStack = (props) => {
 const ChorusPlayer = (props) => {
     useEffect(() => {
         let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
+
+        player.onplay = () => {
+            let loadingIcon = document.getElementById(props.chorusUrl)
+            loadingIcon.src = PlayingIndicator
+        }
+
         player.ontimeupdate = () => {
             let softFadeDelay = 1
             if (player.currentTime <= (props.startTime - softFadeDelay)|| player.currentTime >= (props.endTime + softFadeDelay)) 
@@ -270,8 +289,12 @@ const Chorus = () => {
     
     const [chorusSongUrl, setChorusSongUrl] = useState("")
     const [chorusStartTime, setChorusStartTime] = useState(10)
-    const [chorusEndTime, setChorusEndTime] = useState(20)    
-    
+    const [chorusEndTime, setChorusEndTime] = useState(20)   
+
+    const updateSongUrl = (newurl) => {
+        setChorusSongUrl(newurl)
+    }
+
     return(
         <div className='chorusPageContainer'>
             <div className='hintsContainer'>
@@ -279,9 +302,12 @@ const Chorus = () => {
                 <Hint icon={SuperlikeHint} hintClass="superlikeHint" />
                 <Hint icon={LikeHint} hintClass="likeHint" />
             </div>
-            <ChorusPlayer chorusUrl={chorusSongUrl} startTime={chorusStartTime} endTime={chorusEndTime} />
+            <ChorusPlayer chorusUrl={chorusSongUrl} startTime={chorusStartTime} endTime={chorusEndTime}/>
             <div className='cardsContainer'>
-                <ChorusCardStack setChorusSongUrl={setChorusSongUrl} setChorusStartTime={setChorusStartTime} setChorusEndTime={setChorusEndTime} />
+                <ChorusCardStack setChorusSongUrl={updateSongUrl} 
+                                setChorusStartTime={setChorusStartTime} 
+                                setChorusEndTime={setChorusEndTime}
+                                />
             </div>
         </div>
     )
