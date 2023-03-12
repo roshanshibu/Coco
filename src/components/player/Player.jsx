@@ -196,8 +196,11 @@ const Player = () => {
     }
 
     const updateLyric = (currentTime) => {
-        let lyricsTillNow = lyrics.filter((lrc) => {return (currentTime >= lrc.endTime)})
-        console.log( lyricsTillNow.slice(-1)[0]  )
+        let lyricsTillNow = lyrics.filter((lrc) => {return (currentTime+1.2 >= lrc.endTime)})
+        if (currentLine !== lyricsTillNow.slice(-1)[0].lyric)
+            SetCurrentLine(lyricsTillNow.slice(-1)[0].lyric)
+        let currentLine_ = lyricsTillNow.slice(-1)[0] 
+        console.log( currentLine_  )
     } 
 
     const { songid } = useParams()
