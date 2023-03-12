@@ -38,7 +38,7 @@ const SongArtistSuggestion = (props) => {
 const Foryou = () => {
     return (
         <div className='forYou'>
-            <p className='forYouLabel'>For You</p>
+            <p className='forYouLabel'>Your Top Picks</p>
             <div className='suggestions'>
                 <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumCover} />
                 <SongArtistSuggestion artist="Jane" image={artistCover} artistType={true}/>
@@ -53,25 +53,28 @@ const Foryou = () => {
 
 const MoodScrollList = () => {
     return(
-        <div className='moodScroll'>
-            <div className='lowEnergy'>
-                <p className='moodTags'>sleep</p>
-                <p className='moodTags'>relax</p>
-                <p className='moodTags'>focus</p>
-                <p className='moodTags'>low</p>
-                <p className='moodTags'>low</p>
-                <p className='moodTags'>low</p>
-            </div>
-            <div className='scrollCenter'>
-                <img className='scrollIcon' src={moodScrollIcon}/>
-            </div>
-            <div className='highEnergy'>
-                <p className='moodTags'>party</p>
-                <p className='moodTags'>energetic</p>
-                <p className='moodTags'>High</p>
-                <p className='moodTags'>High</p>
-                <p className='moodTags'>High</p>
-                <p className='moodTags'>High</p>
+        <div className='moodPicker'>
+            <p className='moodPickerLabel'>Pick and Play To Your Mood</p>
+            <div className='moodScroll'>
+                <div className='lowEnergy'>
+                    <p className='moodTags'>sleep</p>
+                    <p className='moodTags'>relax</p>
+                    <p className='moodTags'>focus</p>
+                    <p className='moodTags'>low</p>
+                    <p className='moodTags'>low</p>
+                    <p className='moodTags'>low</p>
+                </div>
+                <div className='scrollCenter'>
+                    <img className='scrollIcon' src={moodScrollIcon}/>
+                </div>
+                <div className='highEnergy'>
+                    <p className='moodTags'>party</p>
+                    <p className='moodTags'>energetic</p>
+                    <p className='moodTags'>High</p>
+                    <p className='moodTags'>High</p>
+                    <p className='moodTags'>High</p>
+                    <p className='moodTags'>High</p>
+                </div>
             </div>
         </div>
     )
@@ -80,21 +83,54 @@ const MoodScrollList = () => {
 
 const SuggestionCard = () => {
     return(
-        <div className='suggestionCard'>
-            <div className='topPlay'>
-                <div className='topAlbumCover'>
-                    <img className='coverImage' src={albumArt2}/>
+        <div className='suggestionCardContainer'>
+            <p className='suggestionCardLabel'>For You..</p>
+            <div className='suggestionCard'>
+                <div className='topPlay'>
+                    <div className='topAlbumCover'>
+                        <img className='coverImage' src={albumArt2}/>
+                    </div>
+                    <div className='topAlbumDetails'>
+                        <p className='topPlayHeading'>Because you listened to</p>
+                        <p className='topPlaySong'>Snowman | Sia</p>
+                    </div>
                 </div>
-                <div className='topAlbumDetails'>
-                    <p className='topPlayHeading'>Because you listened to</p>
-                    <p className='topPlaySong'>Snowman | Sia</p>
+                <div>
+                    <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
+                </div>
+                <div>
+                    <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
                 </div>
             </div>
-            <div>
-                <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
-            </div>
-            <div>
-                <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
+        </div>
+    )
+}
+
+const GenreBasedRadios = () => {
+    return(
+        <div className='genreRadiosContainer'>
+            <p className='genreRadiosLabel'>Genre Based Radios</p>
+            <div className='radioScrollFlex'>
+                <img className='scrollIcon' src={moodScrollIcon}/>
+                <div className='dashboardRadios'>
+                    <div>
+                        <img className='dashboardRadio' src={albumCover}/>
+                        <p className='radioLabel'>POP</p>
+                    </div>
+                    <div>
+                        <img className='dashboardRadio' src={albumCover}/>
+                        <p className='radioLabel'>POP</p>
+                    </div>
+                    <div>
+                        <img className='dashboardRadio' src={albumCover}/>
+                        <p className='radioLabel'>POP</p>
+                    </div>
+                    <div>
+                        <img className='dashboardRadio' src={albumCover}/>
+                        <p className='radioLabel'>POP</p>
+                    </div>
+                </div>
+                <img className='scrollIcon' src={moodScrollIcon}/>
             </div>
         </div>
     )
@@ -105,9 +141,12 @@ const Dashboard = () => {
     return(
         <>
             <Header product={productName} />
+            <div className='dashboardFrame'>
             <Foryou/>
             <MoodScrollList/>
             <SuggestionCard/>
+            <GenreBasedRadios/>
+            </div>
         </>
     )
 }
