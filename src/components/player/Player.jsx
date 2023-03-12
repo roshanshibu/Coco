@@ -20,8 +20,9 @@ import { ReactComponent as MoreOptionsIcon } from '../../assets/more options.svg
 import { ReactComponent as PullUpIcon } from '../../assets/Pull up.svg';
 
 import { useState, useRef, useEffect, forwardRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getSongDetails } from "../../api/song";
+import { getLyrics } from "../../api/lyrics";
 
 const AlbumArtLyric = (props) => {
     return(
@@ -40,13 +41,16 @@ const AlbumArtLyric = (props) => {
 }
 
 const SongDetailRow = (props) => {
+    const navigate = useNavigate()
     return(
         <div className="songDetailContainer">
             <FavouriteIcon style={{color: (props.isFavourite ? "#ea4444" : "#F0F0F0"), width: "30px"}}
                 onClick={props.toggleFavourite} />
             <div className="p_songDetails">
                 <p>{props.songName}</p>
-                <p className="artistName" style={{color: props.accentColor}} >{props.artist}</p>
+                <p className="artistName" 
+                    style={{color: props.accentColor}}
+                    onClick={() => { navigate("../bio/somename");}} >{props.artist}</p>
             </div>
             <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor), width: "30px"}}
                 onClick={props.toggleAlbumArtLyric} />
@@ -131,9 +135,11 @@ const Player = () => {
     const [showAlbumArt, SetShowAlbumArt] = useState(true)
     const [albumArtUrl, SetAlbumArtUrl] = useState("")
     const [accentColor, SetAccentColor] = useState("grey")
-    const [previousLine, SetPreviousLine] = useState("Pull me close, show me, baby, where the light is")
-    const [currentLine, SetCurrentLine] = useState("I was scared of a heart I couldn't silence")
-    const [nextLine, SetNextLine] = useState("But you make me, you make me feel good")
+
+    const [lyrics, SetLyrics] = useState(null)
+    const [previousLine, SetPreviousLine] = useState(null)
+    const [currentLine, SetCurrentLine] = useState(null)
+    const [nextLine, SetNextLine] = useState(null)
 
     const [songName, SetSongName] = useState("-")
     const [artist, SetArtist] = useState("-")
@@ -184,6 +190,16 @@ const Player = () => {
         }
     }
 
+    const onMusicTimeUpdate = () => {
+        setTimeProgress(audioRef.current.currentTime)
+        updateLyric(audioRef.current.currentTime)
+    }
+
+    const updateLyric = (currentTime) => {
+        let lyricsTillNow = lyrics.filter((lrc) => {return (currentTime >= lrc.endTime)})
+        console.log( lyricsTillNow.slice(-1)[0]  )
+    } 
+
     const { songid } = useParams()
 
     useEffect(() => {
@@ -201,13 +217,20 @@ const Player = () => {
             updateSong(res.data.url)
         })
         .catch((err) => console.error(err));
+        
+        getLyrics(songid)
+        .then((res) => {
+            console.log(res.data)
+            SetLyrics(res.data)
+        })
+        .catch((err) => console.error(err));
     }, [])
 
     return(
         <div className="playerContainer">
             <audio src={songUrl} ref={audioRef} 
                 autoPlay
-                onTimeUpdate={() => {setTimeProgress(audioRef.current.currentTime)}}
+                onTimeUpdate={onMusicTimeUpdate}
                 onLoad={() => {setDuration(audioRef.current.duration)}} >
             </audio>
             <AlbumArtLyric isAlbumArt={showAlbumArt} 
