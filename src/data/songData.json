@@ -1,0 +1,45 @@
+{
+    "songs": [
+      {
+        "id": 1,
+        "title": "Shape of You"
+      },
+      {
+        "id": 2,
+        "title": "Uptown Funk"
+      },
+      {
+        "id": 3,
+        "title": "Closer"
+      }
+    ],
+    "artists": [
+      {
+        "id": 1,
+        "name": "Ed Sheeran"
+      },
+      {
+        "id": 2,
+        "name": "Mark Ronson"
+      },
+      {
+        "id": 3,
+        "name": "The Chainsmokers"
+      }
+    ],
+    "lyrics": [
+      {
+        "id": 1,
+        "text": "I'm in love with the shape of you"
+      },
+      {
+        "id": 2,
+        "text": "Don't believe me just watch"
+      },
+      {
+        "id": 3,
+        "text": "So baby pull me closer in the backseat of your Rover"
+      }
+    ]
+  }
+  
