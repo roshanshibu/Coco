@@ -231,6 +231,18 @@ const Player = () => {
         setDuration(audioRef.current.duration)
     })
     useEffect(() => {
+        // if pressing next or previous button, we shouldnt save all that
+        // to browser history. If we do, then the user will have to navigate
+        // through all the played songs in order to get back to the previous screen
+        let stateObj = {
+            foo: "bar",
+        };
+        // we should ideally push the url of the screen that naviagted to this
+        // player screen. We have used the "\\" dash screen here for simplicity
+        // reasons. Fix later.
+        history.pushState(stateObj, "", "\\");
+        console.log(history)
+
         getSongDetails(songid)
         .then((res) => {
             SetSongLoaded(false)
