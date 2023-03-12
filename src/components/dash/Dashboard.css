@@ -1,3 +1,15 @@
+.dashboardFrame{
+    margin: 20px;
+    overflow-y: auto;
+    height: 85vh;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.dashboardFrame::-webkit-scrollbar{
+    display: none; /* chrome */
+}
+
 .header{
     display: flex;
     align-items: center;
@@ -42,7 +54,7 @@
     background-position: center;
     display: flex;
     border-radius: 50%;
-    border: 1.5px solid #F0F0F0;
+    border: 1.5px solid #C2C2C2;
 }
 .artistBorder{
     border-radius: 20%;
@@ -67,12 +79,20 @@
     display: grid;
     grid-template-columns: auto auto;
     row-gap: 15px;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
 }
 
-.moodScroll{
+.moodPicker{
     color: #FFFFFF;
-    font-family: 'Poppins';
+    margin: 30px 0 0 0;
+    
+}
+.moodPickerLabel {
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0 0 5px 20px;
+}
+.moodScroll{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -183,16 +203,24 @@
     border-radius: 5px;
 }
 
+.suggestionCardContainer{
+    color: #FFFFFF;
+    margin: 0 20px;
+}
+.suggestionCardLabel{
+    font-weight: 600;
+    font-size: 22px;
+}
 .suggestionCard{
-    margin: 20px 35px;
-    padding: 10px;
+    /* margin: 20px; */
+    padding: 15px;
     background: #151414;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     color: #FFFFFF;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     gap: 15px;
 }
 p.suggestionHeader{
@@ -220,4 +248,38 @@ p.suggestionHeader{
 .topPlaySong{
     margin: 0;
     font-weight: 600;
+}
+
+.genreRadiosContainer{
+    color: #FFFFFF;
+    margin: 30px 20px;
+}
+.genreRadiosLabel{
+    font-weight: 600;
+    font-size: 22px;
+    margin: 30px 0 22px 0;
+}
+.radioScrollFlex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dashboardRadios{
+    display: flex;
+    gap: 28px;
+    overflow-x: auto;
+    width: 70%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.dashboardRadios::-webkit-scrollbar {
+    display: none; /* chrome */
+}
+.dashboardRadio{
+    border-radius: 50%;
+    border: 1.5px solid #C2C2C2; 
+    width: 100px;
+}
+.radioLabel{
+    text-align: center;
 }
