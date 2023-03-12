@@ -64,12 +64,13 @@
     width: 30px;
 }
 .songDetails{
-    line-height: 0;
+    /* line-height: 0; */
     padding-left: 7px;
     font-size: 14px;
 }
 .ssArtistName{
     font-weight: 600;
+    margin: 0;
 }
 .hidden{
     opacity: 0;
@@ -90,7 +91,7 @@
 .moodPickerLabel {
     font-weight: 600;
     font-size: 22px;
-    margin: 0 0 5px 20px;
+    margin: 0 0 0 20px;
 }
 .moodScroll{
     display: flex;
@@ -180,7 +181,7 @@
 
 .scrollIcon{
     height: 20px;
-    margin: 10px 5px;
+    margin: 22px 0 0 0;
 }
 
 
@@ -201,11 +202,12 @@
     background: #00000042;
     padding: 8px 12px;
     border-radius: 5px;
+    margin: 22px 0 0 0;
 }
 
 .suggestionCardContainer{
     color: #FFFFFF;
-    margin: 0 20px;
+    margin: 30px 20px 0 20px;
 }
 .suggestionCardLabel{
     font-weight: 600;
@@ -214,7 +216,7 @@
 .suggestionCard{
     /* margin: 20px; */
     padding: 15px;
-    background: #151414;
+    background: #1b1b1b;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     color: #FFFFFF;
@@ -259,16 +261,15 @@ p.suggestionHeader{
     font-size: 22px;
     margin: 30px 0 22px 0;
 }
-.radioScrollFlex{
+/* .radioScrollFlex{
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 .dashboardRadios{
     display: flex;
     gap: 28px;
     overflow-x: auto;
-    width: 70%;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
@@ -277,9 +278,16 @@ p.suggestionHeader{
 }
 .dashboardRadio{
     border-radius: 50%;
-    border: 1.5px solid #C2C2C2; 
-    width: 100px;
+    /* border: 1.5px solid #C2C2C2;  */
+    width: 90px;
+    box-shadow: rgb(0 0 0) 11px 8px 16px -10px;
 }
 .radioLabel{
     text-align: center;
+}
+.trialclass{
+  white-space: nowrap; 
+  width: 88px; 
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
