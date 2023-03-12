@@ -47,9 +47,19 @@
 }
 .lyricFocus{
     font-weight: 600;
-}
-
-
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+  }
+  
 .songDetailContainer{
     display: flex;
     justify-content: space-between;
@@ -74,7 +84,6 @@
     /* padding: 0px 30px; */
 }
 input[type=range] {
-    -webkit-appearance: none;
     margin: 10px 0;
     width: 100%;
     align-self: center;
@@ -88,7 +97,6 @@ input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
     height: 2px;
     cursor: pointer;
-    animate: 0.2s;
     background: #bebebe;
     border-radius: 30px;
 }

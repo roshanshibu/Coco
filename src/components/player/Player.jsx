@@ -6,6 +6,7 @@ import { ReactComponent as LyricsIcon } from '../../assets/lyrics.svg';
 
 import LoadingAlbumArt from '../../assets/loading_album_art.svg';
 import { ReactComponent as CircleLoad} from "../../assets/circle_load.svg"
+import PlayingIndicator from "../../assets/playing_indicator.gif"
 
 import { ReactComponent as PlayIcon } from '../../assets/play.svg';
 import { ReactComponent as PauseIcon } from '../../assets/pause.svg';
@@ -32,7 +33,12 @@ const AlbumArtLyric = (props) => {
                                         : albumArtBg} />
             <div className={"lyricContainer " + (props.isAlbumArt ? "hidden" : "")}>
                 <p className="lyricNonFocus">{props.previousLine}</p>
-                <p className="lyricFocus" style={{color: props.accentColor}} >{props.currentLine}</p>
+                {
+                    props.currentLine === "MUSIC_ICON" ?
+                    <img src={PlayingIndicator} style={{width:'60px', opacity:'0.7',animation: 'fadeIn 0.5s forwards'}}/>
+                    :
+                    <p key={props.lyricKey} className="lyricFocus" style={{color: props.accentColor}} >{props.currentLine}</p>
+                }
                 <p className="lyricNonFocus">{props.nextLine}</p>
             </div>
             {!props.isAlbumArt && <img className="albumArt gradient" src={lyricGradient} />}
@@ -140,6 +146,7 @@ const Player = () => {
     const [previousLine, SetPreviousLine] = useState(null)
     const [currentLine, SetCurrentLine] = useState(null)
     const [nextLine, SetNextLine] = useState(null)
+    const [lyricKey, SetLyricKey] = useState(1)
 
     const [songName, SetSongName] = useState("-")
     const [artist, SetArtist] = useState("-")
@@ -196,11 +203,16 @@ const Player = () => {
     }
 
     const updateLyric = (currentTime) => {
-        let lyricsTillNow = lyrics.filter((lrc) => {return (currentTime+1.2 >= lrc.endTime)})
-        if (currentLine !== lyricsTillNow.slice(-1)[0].lyric)
+        let lyricsTillNow = lyrics.filter((lrc) => {return (currentTime >= lrc.startTime)})
+        if (currentLine !== lyricsTillNow.slice(-1)[0].lyric){
             SetCurrentLine(lyricsTillNow.slice(-1)[0].lyric)
-        let currentLine_ = lyricsTillNow.slice(-1)[0] 
-        console.log( currentLine_  )
+            SetLyricKey(lyricKey+1)
+            // SetPreviousLine(lyricsTillNow[lyricsTillNow.length-2].lyric)
+            // SetNextLine(lyrics[lyricsTillNow.length].lyric)
+        }
+        // console.log( "last", lyricsTillNow[lyricsTillNow.length-2]  )
+        // console.log( "current", lyricsTillNow[lyricsTillNow.length-1]  )
+        // console.log( "next", lyrics[lyricsTillNow.length]  )
     } 
 
     const { songid } = useParams()
@@ -212,7 +224,7 @@ const Player = () => {
         getSongDetails(songid)
         .then((res) => {
             SetSongLoaded(false)
-            console.log(res.data.url)
+            // console.log(res.data.url)
             SetSongName(res.data.songName)
             SetArtist(res.data.artist)
             SetAlbumArtUrl(res.data.albumArt)
@@ -223,7 +235,7 @@ const Player = () => {
         
         getLyrics(songid)
         .then((res) => {
-            console.log(res.data)
+            // console.log(res.data)
             SetLyrics(res.data)
         })
         .catch((err) => console.error(err));
@@ -240,7 +252,7 @@ const Player = () => {
                 albumArtUrl={albumArtUrl}
                 accentColor={accentColor}
                 previousLine={previousLine}
-                currentLine={currentLine}
+                currentLine={currentLine} lyricKey={lyricKey}
                 nextLine={nextLine}
                 />
             <SongDetailRow songName={songName} artist={artist} accentColor={accentColor}
