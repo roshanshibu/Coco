@@ -1,7 +1,7 @@
 .dashboardFrame{
     margin: 20px;
     overflow-y: auto;
-    padding-bottom: 76px;
+    height: 85vh;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
