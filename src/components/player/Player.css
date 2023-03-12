@@ -84,6 +84,7 @@
     /* padding: 0px 30px; */
 }
 input[type=range] {
+    -webkit-appearance: none;
     margin: 10px 0;
     width: 100%;
     align-self: center;
