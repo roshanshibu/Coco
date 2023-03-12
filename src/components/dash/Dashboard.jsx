@@ -22,13 +22,16 @@ const Header = (props) => {
 const SongArtistSuggestion = (props) => {
     return (
         <div className="songSuggestion">
-            <div className='songIconContainer' style = {props.playlistType ? {backgroundImage: `url(${playlistBg})`, paddingRight:"19px", backgroundSize:"contain"} : {padding: "0px 11px 0px 3px"}}>
+            <div className='songIconContainer' style = {props.playlistType ? {backgroundImage: `url(${playlistBg})`, paddingRight:"14px", backgroundSize:"contain"} : {padding: "0px 11px 0px 3px"}}>
                 <div className={`songIcon   ${props.artistType ? "artistBorder" : ""}`} style={{backgroundImage: `url(${props.image})`}}>
                     <img className={`playIcon  ${props.artistType ? "hidden" : ""}`} src={playIcon}/>
                 </div>
             </div>
             <div className="songDetails">
-                <p>{props.songName}</p>
+                <div className='trialclass'>
+                    {props.songName}
+                </div>
+                {/* <p>{props.songName}</p> */}
                 <p className="ssArtistName">{props.artist}</p>
             </div>
         </div>
@@ -54,7 +57,7 @@ const Foryou = () => {
 const MoodScrollList = () => {
     return(
         <div className='moodPicker'>
-            <p className='moodPickerLabel'>Pick and Play To Your Mood</p>
+            <p className='moodPickerLabel'>Play To Your Mood</p>
             <div className='moodScroll'>
                 <div className='lowEnergy'>
                     <p className='moodTags'>sleep</p>
@@ -84,7 +87,7 @@ const MoodScrollList = () => {
 const SuggestionCard = () => {
     return(
         <div className='suggestionCardContainer'>
-            <p className='suggestionCardLabel'>For You..</p>
+            <p className='suggestionCardLabel'>Picked For You</p>
             <div className='suggestionCard'>
                 <div className='topPlay'>
                     <div className='topAlbumCover'>
@@ -110,8 +113,8 @@ const GenreBasedRadios = () => {
     return(
         <div className='genreRadiosContainer'>
             <p className='genreRadiosLabel'>Genre Based Radios</p>
-            <div className='radioScrollFlex'>
-                <img className='scrollIcon' src={moodScrollIcon}/>
+            {/* <div className='radioScrollFlex'> */}
+                {/* <img className='scrollIcon' src={moodScrollIcon}/> */}
                 <div className='dashboardRadios'>
                     <div>
                         <img className='dashboardRadio' src={albumCover}/>
@@ -129,9 +132,13 @@ const GenreBasedRadios = () => {
                         <img className='dashboardRadio' src={albumCover}/>
                         <p className='radioLabel'>POP</p>
                     </div>
+                    <div>
+                        <img className='dashboardRadio' src={albumCover}/>
+                        <p className='radioLabel'>POP</p>
+                    </div>
                 </div>
-                <img className='scrollIcon' src={moodScrollIcon}/>
-            </div>
+                {/* <img className='scrollIcon' src={moodScrollIcon}/> */}
+            {/* </div> */}
         </div>
     )
 }
