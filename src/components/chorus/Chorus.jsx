@@ -21,7 +21,7 @@ const ChorusCard = (props) => {
         let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
 
         if (direction === "up"){
-            navigate("../player/"+props.songid);
+            navigate("../player?songid="+props.songid);
         }
 
         player.ontimeupdate = () => {

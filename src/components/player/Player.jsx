@@ -21,7 +21,7 @@ import { ReactComponent as MoreOptionsIcon } from '../../assets/more options.svg
 import { ReactComponent as PullUpIcon } from '../../assets/Pull up.svg';
 
 import { useState, useRef, useEffect, forwardRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { getSongDetails } from "../../api/song";
 import { getLyrics } from "../../api/lyrics";
 
@@ -100,7 +100,8 @@ const Timeline =  forwardRef((props, ref) => {
 const ControlRow = (props) => {
     return(
         <div className="controlContainer">
-            <PreviousIcon className="controlIcon" />
+            <PreviousIcon className="controlIcon"
+                onClick={()=> {props.updatePlayerSong(+props.currentSongId - 1)}}/>
             {!props.isPlaying ? 
                 (
                     !props.isSongLoaded?
@@ -113,7 +114,8 @@ const ControlRow = (props) => {
                 <PauseIcon style={{color: props.accentColor}} 
                     className="playPauseIcon" onClick={props.togglePlay} />
             }
-            <NextIcon className="controlIcon"/>
+            <NextIcon className="controlIcon" 
+                onClick={()=> {props.updatePlayerSong(+props.currentSongId + 1)}} />
         </div>
     )
 }
@@ -189,7 +191,6 @@ const Player = () => {
             pause()
         else
             play()
-        SetPlaying(!isPlaying)
     }
 
     const updateSong = (source) => {
@@ -202,7 +203,8 @@ const Player = () => {
 
     const onMusicTimeUpdate = () => {
         setTimeProgress(audioRef.current.currentTime)
-        updateLyric(audioRef.current.currentTime)
+        if (isLyricsAvailable)
+            updateLyric(audioRef.current.currentTime)
     }
 
     const updateLyric = (currentTime) => {
@@ -218,8 +220,13 @@ const Player = () => {
         // console.log( "next", lyrics[lyricsTillNow.length]  )
     } 
 
-    const { songid } = useParams()
+    const [songParams, setSongParams] = useSearchParams()
+    let songid = songParams.get("songid")
 
+    const updatePlayerSong = (newSongId) => {
+        setSongParams({"songid": newSongId})
+        SetPlaying(true)
+    }
     useEffect(() => {
         setDuration(audioRef.current.duration)
     })
@@ -234,16 +241,21 @@ const Player = () => {
             SetAccentColor(res.data.color)
             updateSong(res.data.url)
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+                            console.error(err);
+                            updatePlayerSong(songid > 1 ? 1 : 9)
+                });
         
         getLyrics(songid)
         .then((res) => {
             // console.log(res.data)
             SetLyrics(res.data)
+            SetLyricsAvailable(true)
         })
         .catch((err) => {console.error(err)
             SetLyricsAvailable(false)});
-    }, [])
+            SetShowAlbumArt(true)
+    }, [songid])
 
     return(
         <div className="playerContainer">
@@ -267,7 +279,9 @@ const Player = () => {
                 ref={audioRef} setTimeProgress={setTimeProgress}/>
             <ControlRow accentColor={accentColor} 
                 isPlaying={isPlaying} togglePlay={togglePlay}
-                isSongLoaded={isSongLoaded} />
+                isSongLoaded={isSongLoaded} 
+                updatePlayerSong={updatePlayerSong}
+                currentSongId={songid} />
             <OptionsRow />
             <UpNext />
         </div>
