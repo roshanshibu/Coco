@@ -140,7 +140,7 @@ const Player = () => {
     const [isFavourite, SetFavourite] = useState(false)
     const [isSongLoaded, SetSongLoaded] = useState(false)
 
-    const [isPlaying, SetPlaying] = useState(false)
+    const [isPlaying, SetPlaying] = useState(true)
     
     const [isShuffle, SetShuffle] = useState(false)
     const [isRepeat, SetRepeat] = useState(false)
@@ -206,6 +206,7 @@ const Player = () => {
     return(
         <div className="playerContainer">
             <audio src={songUrl} ref={audioRef} 
+                autoPlay
                 onTimeUpdate={() => {setTimeProgress(audioRef.current.currentTime)}}
                 onLoad={() => {setDuration(audioRef.current.duration)}} >
             </audio>
