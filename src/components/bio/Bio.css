@@ -1,0 +1,113 @@
+.bioFrameScroll{
+    overflow-y: auto;
+    overflow-x: hidden ;
+    height: 91vh;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.bioFrameScroll::-webkit-scrollbar{
+    display: none; /* chrome */
+}
+
+
+.bioImageContainer{
+    background-position: 50% 50%;
+    height: 300px;
+    background-repeat: no-repeat;
+    background-size: cover ;
+    -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+}
+.biosArtist{
+    color: #FFFFFF;
+    padding-left: 20px;
+}
+.biosArtistName{
+    margin: 0;
+    font-weight: 600;
+    font-size: 40px;
+}
+.artistMusicList{
+    margin: 20px;
+    color: #FFFFFF;
+}
+.artistMusicListLabel{
+    font-weight: 600;
+    font-size: 22px;
+}
+.amlCardsContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.artistMusicCard{
+    padding: 15px;
+    background: #1b1b1b;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.2);
+}
+
+
+
+.bioSongSuggestion{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.bioSongIconContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bioSongIcon{
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    border-radius: 50%;
+    border: 1.5px solid #C2C2C2;
+}
+
+.playIcon{
+    padding: 10px 8px 10px 12px;
+    width: 30px;
+}
+.bioSongDetails{
+    /* line-height: 0; */
+    padding-left: 7px;
+    font-size: 14px;
+}
+.bioSongYear{
+    font-weight: 600;
+    margin: 0;
+}
+
+
+
+.bioArtistRecommendations{
+    margin: 30px 20px;
+    color: #FFFFFF;
+}
+.barLabel{
+    font-weight: 600;
+    font-size: 22px;
+}
+.bArtistListContainer{
+    display: flex;
+    gap: 28px;
+    overflow-x: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.bArtistListContainer::-webkit-scrollbar {
+    display: none; /* chrome */
+}
+
+.barImageContainer{
+    width: 90px;
+    height: 90px;
+    border-radius: 10%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover ;
+}
