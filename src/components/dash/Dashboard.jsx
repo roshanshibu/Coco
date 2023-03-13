@@ -9,6 +9,8 @@ import albumArt2 from "../../assets/albumartsnowman.jpg"
 import albumCover from "../../assets/music2.jpg"
 import playlistCover from "../../assets/playlistCover.jpg"
 import artistCover from "../../assets/artist1.jpg"
+import { NavLink } from 'react-router-dom';
+
 
 const Header = (props) => {
     return (
@@ -44,7 +46,9 @@ const Foryou = () => {
             <p className='forYouLabel'>Your Top Picks</p>
             <div className='suggestions'>
                 <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumCover} />
+                <NavLink to={`/bio/1`} className="dashLinkDecorations">
                 <SongArtistSuggestion artist="Jane" image={artistCover} artistType={true}/>
+                </NavLink>
                 <SongArtistSuggestion artist="Jane" image={artistCover} artistType={true}/>
                 <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
                 <SongArtistSuggestion songName="Playlist" image={playlistCover} playlistType={true}/>
