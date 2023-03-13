@@ -2,7 +2,7 @@
     "songs": [
       {
         "id": 1,
-        "title": "Shape of You"
+        "title": "Shape of You"        
       },
       {
         "id": 2,
@@ -11,6 +11,10 @@
       {
         "id": 3,
         "title": "Closer"
+      },
+      {
+        "id": 4,
+        "title": "Close Up"
       }
     ],
     "artists": [
@@ -25,6 +29,10 @@
       {
         "id": 3,
         "name": "The Chainsmokers"
+      },
+      {
+        "id": 4,
+        "name": "Victor"
       }
     ],
     "lyrics": [
@@ -39,7 +47,12 @@
       {
         "id": 3,
         "text": "So baby pull me closer in the backseat of your Rover"
+      },
+      {
+        "id": 4,
+        "text": "Winter fall"
       }
+      
     ]
   }
   
