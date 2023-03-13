@@ -296,7 +296,7 @@ const Chorus = () => {
     }
 
     return(
-        <div className='chorusPageContainer'>
+        <div className='chorusPageContainer' data-testid='chorusPage'>
             <div className='hintsContainer'>
                 <Hint icon={DislikeHint} hintClass="dislikeHint" />
                 <Hint icon={SuperlikeHint} hintClass="superlikeHint" />

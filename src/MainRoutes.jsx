@@ -7,10 +7,12 @@ import Chorus from './components/chorus/Chorus'
 import Library from './components/library/Library'
 import ErrorPage from './components/404/Errorpage'
 import Bio from './components/bio/Bio';
+import Player from './components/player/Player';
 
 function MainRoutes() {
     return (
         <>
+            <Player miniplayer={true} songid="1"/> 
             <Navbar/>
             <Routes>
                 <Route path='/' element={<Dashboard />} />

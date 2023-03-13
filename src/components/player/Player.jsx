@@ -20,27 +20,30 @@ import { ReactComponent as MoreOptionsIcon } from '../../assets/more options.svg
 
 import { ReactComponent as PullUpIcon } from '../../assets/Pull up.svg';
 
-import { useState, useRef, useEffect, forwardRef } from "react";
+import React, { useState, useRef, useEffect, forwardRef } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { getSongDetails } from "../../api/song";
 import { getLyrics } from "../../api/lyrics";
 
 const AlbumArtLyric = (props) => {
     return(
-        <div className="albumArtLyric">
-            <img className="albumArt" 
+        <div className={props.miniplayer ? "" : "albumArtLyric"} 
+            onClick={props.miniplayer ? props.openBigPlayer : () => {}}>
+            <img className={props.miniplayer ? "albumArtSmall" : "albumArt"} 
                 src={props.isAlbumArt ? (props.albumArtUrl ? props.albumArtUrl : LoadingAlbumArt) 
                                         : albumArtBg} />
-            <div className={"lyricContainer " + (props.isAlbumArt ? "hidden" : "")}>
-                <p className="lyricNonFocus">{props.previousLine}</p>
-                {
-                    props.currentLine === "MUSIC_ICON" ?
-                    <img src={PlayingIndicator} style={{width:'60px', opacity:'0.7',animation: 'fadeIn 0.5s forwards'}}/>
-                    :
-                    <p key={props.lyricKey} className="lyricFocus" style={{color: props.accentColor}} >{props.currentLine}</p>
-                }
-                <p className="lyricNonFocus">{props.nextLine}</p>
-            </div>
+            {!props.miniplayer &&
+                <div className={"lyricContainer " + (props.isAlbumArt ? "hidden" : "")}>
+                    <p className="lyricNonFocus">{props.previousLine}</p>
+                    {
+                        props.currentLine === "MUSIC_ICON" ?
+                        <img src={PlayingIndicator} style={{width:'60px', opacity:'0.7',animation: 'fadeIn 0.5s forwards'}}/>
+                        :
+                        <p key={props.lyricKey} className="lyricFocus" style={{color: props.accentColor}} >{props.currentLine}</p>
+                    }
+                    <p className="lyricNonFocus">{props.nextLine}</p>
+                </div>
+            }
             {!props.isAlbumArt && <img className="albumArt gradient" src={lyricGradient} />}
         </div>
     )
@@ -49,19 +52,24 @@ const AlbumArtLyric = (props) => {
 const SongDetailRow = (props) => {
     const navigate = useNavigate()
     return(
-        <div className="songDetailContainer">
-            <FavouriteIcon style={{color: (props.isFavourite ? "#ea4444" : "#F0F0F0"), width: "30px"}}
+        <div className={"songDetailContainer " + (props.miniplayer && "miniDetails")}>
+
+            {!props.miniplayer &&
+                <FavouriteIcon style={{color: (props.isFavourite ? "#ea4444" : "#F0F0F0"), width: "30px"}}
                 onClick={props.toggleFavourite} />
-            <div className="p_songDetails">
+            }
+            <div className={props.miniplayer ? "p_miniSongDetails" : "p_songDetails"}>
                 <p>{props.songName}</p>
-                <p className="artistName" 
+                <p className={props.miniplayer ? "miniArtistName" : "artistName"} 
                     style={{color: props.accentColor}}
                     onClick={() => { navigate("../bio/somename");}} >{props.artist}</p>
             </div>
-            <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor), 
+            {!props.miniplayer &&
+                <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor), 
                                 width: "30px",
                             opacity: (props.isLyricsAvailable ? 1 : 0.1)}}
                 onClick={props.isLyricsAvailable ? props.toggleAlbumArtLyric : null} />
+            }
         </div>
     )
 }
@@ -99,23 +107,30 @@ const Timeline =  forwardRef((props, ref) => {
 
 const ControlRow = (props) => {
     return(
-        <div className="controlContainer">
-            <PreviousIcon className="controlIcon"
+        <div className={props.miniplayer ? "miniPauseContainer" : "controlContainer"}>
+
+            {!props.miniplayer &&
+                <PreviousIcon className="controlIcon"
                 onClick={()=> {props.updatePlayerSong(+props.currentSongId - 1)}}/>
+            }
             {!props.isPlaying ? 
                 (
                     !props.isSongLoaded?
                         <CircleLoad className="playPauseIcon" style={{height: "73px"}} />
                     :
                         <PlayIcon style={{color: props.accentColor}} 
-                        className="playPauseIcon" onClick={props.togglePlay} />
+                            className={props.miniplayer ? "miniPlayPauseIcon" : "playPauseIcon"} 
+                            onClick={props.togglePlay} />
                 )
                 :
                 <PauseIcon style={{color: props.accentColor}} 
-                    className="playPauseIcon" onClick={props.togglePlay} />
+                    className={props.miniplayer ? "miniPlayPauseIcon" : "playPauseIcon"} 
+                    onClick={props.togglePlay} />
             }
-            <NextIcon className="controlIcon" 
-                onClick={()=> {props.updatePlayerSong(+props.currentSongId + 1)}} />
+            {!props.miniplayer &&
+                <NextIcon className="controlIcon" 
+                    onClick={()=> {props.updatePlayerSong(+props.currentSongId + 1)}} />
+            }
         </div>
     )
 }
@@ -131,16 +146,17 @@ const OptionsRow = (props) => {
     )
 }
 
-const UpNext = (props) => {
+const Minimize = (props) => {
     return(
-        <div className="upNextContainer">
+        <div className="upNextContainer"
+            onClick={props.minimizePlayer}>
             <PullUpIcon className="pullUpIcon" />
         </div>
     )
 }
 
 
-const Player = () => {
+const Player = (props) => {
 
     const [showAlbumArt, SetShowAlbumArt] = useState(true)
     const [albumArtUrl, SetAlbumArtUrl] = useState("")
@@ -221,10 +237,19 @@ const Player = () => {
     } 
 
     const [songParams, setSongParams] = useSearchParams()
-    let songid = songParams.get("songid")
+    const [songid, SetSongId] = useState (props.songid)
+    const [miniplayer, SetMiniPlayer] = useState(props.miniplayer)
+    
+    const openBigPlayer = () => {
+        console.log("opening Big Player")
+        SetMiniPlayer(false)
+    }
+    const minimizePlayer = () => {
+        SetMiniPlayer(true)
+    }
 
     const updatePlayerSong = (newSongId) => {
-        setSongParams({"songid": newSongId})
+        SetSongId(newSongId)
         SetPlaying(true)
     }
     useEffect(() => {
@@ -270,32 +295,46 @@ const Player = () => {
     }, [songid])
 
     return(
-        <div className="playerContainer">
+        <div className={"playerContainer " + (miniplayer ? "miniplayer" : "")}
+            style={{backgroundColor: (miniplayer ? `${accentColor}30` : "#252525"),
+            backdropFilter: 'blur(50px)'}}>
             <audio src={songUrl} ref={audioRef} 
                 autoPlay
                 onTimeUpdate={onMusicTimeUpdate}
                 onLoad={() => {setDuration(audioRef.current.duration)}} >
             </audio>
-            <AlbumArtLyric isAlbumArt={showAlbumArt} 
+            <AlbumArtLyric miniplayer={miniplayer}
+                openBigPlayer={openBigPlayer}
+                isAlbumArt={showAlbumArt} 
                 albumArtUrl={albumArtUrl}
                 accentColor={accentColor}
                 previousLine={previousLine}
                 currentLine={currentLine} lyricKey={lyricKey}
                 nextLine={nextLine}
                 />
-            <SongDetailRow songName={songName} artist={artist} accentColor={accentColor}
+            <SongDetailRow miniplayer={miniplayer}
+                openBigPlayer={openBigPlayer}
+                songName={songName} artist={artist} accentColor={accentColor}
                 showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
                 isFavourite={isFavourite} toggleFavourite={toggleFavourite}
                 isLyricsAvailable={isLyricsAvailable} />
-            <Timeline duration={duration} timeProgress={timeProgress} 
+            
+            {!miniplayer &&
+                <Timeline duration={duration} timeProgress={timeProgress} 
                 ref={audioRef} setTimeProgress={setTimeProgress}/>
-            <ControlRow accentColor={accentColor} 
+            }
+            <ControlRow miniplayer={miniplayer}
+                accentColor={accentColor} 
                 isPlaying={isPlaying} togglePlay={togglePlay}
                 isSongLoaded={isSongLoaded} 
                 updatePlayerSong={updatePlayerSong}
                 currentSongId={songid} />
-            <OptionsRow />
-            <UpNext />
+            {!miniplayer &&
+                <>
+                    <OptionsRow />
+                    <Minimize minimizePlayer={minimizePlayer} />
+                </>
+            } 
         </div>
     )
 }
