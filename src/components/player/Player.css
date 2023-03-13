@@ -3,6 +3,17 @@
     flex-direction: column;
     min-width: 300px;
     padding: 0px 30px;
+    /* opacity: 0; */
+    animation: flyIn 0.2s forwards;
+}
+
+@keyframes flyIn {
+    from{
+        transform: translateY(100%)
+    }
+    to{
+        transform: translateY(0%)
+    }
 }
 
 .albumArtLyric{
