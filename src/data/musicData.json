@@ -1,0 +1,166 @@
+{
+  "profile1": {
+    "playlists": [
+      {
+        "id": 1,
+        "name": "Top English",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Leave The Door Open",
+            "artist": "Silk Sonic",
+            "album": "An Evening with Silk Sonic",
+            "year": 2021,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Peaches",
+            "artist": "Justin Bieber, Daniel Caesar, Giveon",
+            "album": "Justice",
+            "year": 2021,
+            "duration": "3:18"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Top Hindi",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Tum Hi Ho",
+            "artist": "Arijith Song",
+            "album": "Tamasha",
+            "year": 2016,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Naada Parindey",
+            "artist": "Mohit Chauhan",
+            "album": "Rockstar",
+            "year": 2012,
+            "duration": "3:18"
+          }
+        ]
+      }
+    ],
+    "downloads": [
+      {
+        "id": 1,
+        "name": "Good 4 U",
+        "artist": "Olivia Rodrigo",
+        "album": "SOUR",
+        "year": 2021,
+        "duration": "2:58",
+        "size": "8.7 MB"
+      },
+      {
+        "id": 2,
+        "name": "Levitating",
+        "artist": "Dua Lipa ft. DaBaby",
+        "album": "Future Nostalgia",
+        "year": 2021,
+        "duration": "3:23",
+        "size": "7.4 MB"
+      }
+    ],
+    "history": [
+      {
+        "id": 1,
+        "song": "Leave The Door Open",
+        "artist": "Silk Sonic",
+        "date": "2021-03-05"
+      },
+      {
+        "id": 2,
+        "song": "Good 4 U",
+        "artist": "Olivia Rodrigo",
+        "date": "2021-07-12"
+      }
+    ]
+  },
+  "profile2": {
+    "playlists": [
+      {
+        "id": 1,
+        "name": "Drive",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Watermelon Sugar",
+            "artist": "Harry Styles",
+            "album": "Fine Line",
+            "year": 2019,
+            "duration": "2:54"
+          },
+          {
+            "id": 2,
+            "title": "Stupid Love",
+            "artist": "Lady Gaga",
+            "album": "Chromatica",
+            "year": 2020,
+            "duration": "3:14"
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "name": "Gym",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Naatu Naatu",
+            "artist": "Rahul SipligunJ",
+            "album": "RRR",
+            "year": 2022,
+            "duration": "2:54"
+          },
+          {
+            "id": 2,
+            "title": "Samajavaragamana",
+            "artist": "Sid Sriram",
+            "album": "Ala Vaikuntapuramlo",
+            "year": 2020,
+            "duration": "3:14"
+          }
+        ]
+      }
+    ],
+    "downloads": [
+      {
+        "id": 1,
+        "name": "drivers license",
+        "artist": "Olivia Rodrigo",
+        "album": "SOUR",
+        "year": 2021,
+        "duration": "4:02",
+        "size": "10.2 MB"
+      },
+      {
+        "id": 2,
+        "name": "positions",
+        "artist": "Ariana Grande",
+        "album": "Positions",
+        "year": 2020,
+        "duration": "2:52",
+        "size": "6.5 MB"
+      }
+    ],
+    "history": [
+      {
+        "id": 1,
+        "song": "Stupid Love",
+        "artist": "Lady Gaga",
+        "date": "2020-02-28"
+      },
+      {
+        "id": 2,
+        "song": "positions",
+        "artist": "Ariana Grande",
+        "date": "2020-10-30"
+      }
+    ]
+  }
+}

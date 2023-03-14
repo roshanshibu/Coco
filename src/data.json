@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "publisher": "J. B. Lippincott & Co.",
+    "year": 1960
+  },
+  {
+    "id": 2,
+    "title": "1984",
+    "author": "George Orwell",
+    "publisher": "Secker & Warburg",
+    "year": 1949
+  },
+  {
+    "id": 3,
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "publisher": "Charles Scribner's Sons",
+    "year": 1925
+  },
+  {
+    "id": 4,
+    "title": "One Hundred Years of Solitude",
+    "author": "Gabriel García Márquez",
+    "publisher": "Harper & Row",
+    "year": 1967
+  },
+  {
+    "id": 5,
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "publisher": "T. Egerton, Whitehall",
+    "year": 1813
+  }
+
+]
