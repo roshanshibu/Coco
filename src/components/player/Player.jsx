@@ -290,8 +290,8 @@ const Player = (props) => {
         // we should ideally push the url of the screen that naviagted to this
         // player screen. We have used the "\\" dash screen here for simplicity
         // reasons. Fix later.
-        history.pushState(stateObj, "", "\\");
-        console.log(history)
+        window.history.pushState(stateObj, "", "\\");
+        console.log(window.history)
 
         getSongDetails(songid)
         .then((res) => {
