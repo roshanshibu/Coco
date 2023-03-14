@@ -16,7 +16,7 @@ describe('App Component', () => {
     }
 
     beforeEach(() => {
-        wrapper = component();
+        wrapper = component("/chorus");
     })
     it("is Rendered", () => {
         const app = wrapper.find({"data-testid":"chorusPage"})

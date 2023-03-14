@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import "./Dashboard.css"
-import myHomeIcon from "../../../coco-logo.png"
+import myHomeIcon from "../../assets/coco-logo.png"
 import albumArt from "../../assets/rect-album.jpg"
 import playIcon from "../../assets/padded_play.svg"
 import playlistBg from "../../assets/playlist_bg.svg"
