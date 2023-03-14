@@ -1,10 +1,10 @@
-.music-library {
+.library {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
 
-.music-library-header {
+.library-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,29 +14,29 @@
   font-size: 0.5rem;
 }
 
-.music-library-title{
+.library-title{
   color: #ddd;
   font-size:x-large
 }
 
-.music-library-profile-select {
+.library-profile-select {
   margin-bottom: 20px;
   text-align: center;
 }
 
-.music-library-content {
+.library-content {
   display: flex;
   flex-direction: column;
 }
 
-.music-library-tab-content {
+.library-tab-content {
   border: 1px solid #ddd;
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 5px;
 }
 
-.music-library-tab-header {
+.library-tab-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -46,31 +46,31 @@
   cursor: pointer;
 }
 
-.music-library-tab-body {
+.library-tab-body {
   padding: 20px;
 }
 
-.music-library-tab-body ul {
+.library-tab-body ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.music-library-tab-body li {
+.library-tab-body li {
   margin-bottom: 10px;
 }
 
-.music-library-playlist-name {
+.library-playlist-name {
   font-weight: bold;
 }
 
-.music-library-playlist-length {
+.library-playlist-length {
   margin-top: 5px;
   font-size: 12px;
   color: #777;
 }
 
-.music-library-playlist-song {
+.library-playlist-song {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -79,35 +79,61 @@
   padding-top: 10px;
 }
 
-.music-library-playlist-song-title {
+.library-playlist-song-title {
   font-weight: bold;
 }
 
-.music-library-playlist-song-artist {
+.library-playlist-song-artist {
   color: #777;
   font-size: 12px;
 }
 
-.music-library-download-name {
+.library-download-name {
   font-weight: bold;
 }
 
-.music-library-download-size {
+.library-download-size {
   margin-top: 5px;
   font-size: 12px;
   color: #777;
 }
 
-.music-library-history-song {
+.library-history-song {
   font-weight: bold;
 }
 
-.music-library-history-artist {
+.library-history-artist {
   color: #777;
   font-size: 12px;
 }
 
-.music-library-history-date {
+.library-history-date {
   font-size: 12px;
   color: #777;
+}
+
+select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: none;
+  background-color: #f5f5f5;
+  color: #333;
+  border-radius: 0.25rem;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+select:hover {
+  background-color: #eee;
+}
+
+select:focus {
+  box-shadow: 0 0 0 2px #3f51b5;
+  background-color: #fff;
+}
+
+select option {
+  background-color: #fff;
+  color: #333;
 }
