@@ -7,7 +7,6 @@ import Chorus from './components/chorus/Chorus'
 import Library from './components/library/Library'
 import ErrorPage from './components/404/Errorpage'
 
-
 function MainRoutes() {
     return (
         <>

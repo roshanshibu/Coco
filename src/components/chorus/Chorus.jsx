@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom'
 import TinderCard from 'react-tinder-card'
 import "./Chorus.css";
 import { getChorusPage } from "../../api/chorus"
@@ -14,9 +15,14 @@ import SkeletonText from "../skeleton/Skeleton"
 
 const ChorusCard = (props) => {
     const [swipedOut, setSwipedOut] = useState(false);
-    
+    const navigate = useNavigate()
+
     const onSwipe = async(direction) => {
         let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
+
+        if (direction === "up"){
+            navigate("../player");
+        }
 
         player.ontimeupdate = () => {
             console.log("card left")
@@ -71,9 +77,9 @@ const ChorusCard = (props) => {
                     let cWidth = endWidth
                     let cHeight = endHeight
                     
-                    let forceUpPos = -90
+                    let forceUpPos = -150
                     let stopUpPos = -180
-                    let upTraiangleBase = 130
+                    let upTraiangleBase = 10
                     
                     let detailOpactityEndY = -115
                     let detailOpactity = 1
