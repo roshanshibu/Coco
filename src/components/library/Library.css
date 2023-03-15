@@ -1,10 +1,17 @@
 .library {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0px;
+  height:100vh;
+  overflow: auto;
 }
 
 .library-header {
+  position:fixed;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,6 +19,7 @@
   background-color: #222;
   color: #fff;
   font-size: 0.5rem;
+  z-index: 10;
 }
 
 .library-title{
@@ -20,6 +28,7 @@
 }
 
 .library-profile-select {
+  font-size:x-small;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -27,14 +36,22 @@
 .library-content {
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 40px;
+  padding: 5px;
+  padding: 15px;
+  z-index: 0;
 }
 
+
 .library-tab-content {
-  border: 1px solid #ddd;
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 5px;
 }
+
+
 
 .library-tab-header {
   display: flex;
@@ -42,12 +59,29 @@
   justify-content: space-between;
   padding: 10px 20px;
   font-weight: bold;
-  background-color: #f5f5f5;
+  color: #f5f5f5;
   cursor: pointer;
+  font-size:large;
 }
 
+.library-tab-header .title {
+  order: 1;
+  margin-right: auto;
+
+}
+
+.library-tab-header .arrows {
+  order: 2;
+  align-items:flex-end;
+}
+
+
 .library-tab-body {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  padding-bottom: 0%;
+  padding-top: 0%;
 }
 
 .library-tab-body ul {
@@ -60,56 +94,143 @@
   margin-bottom: 10px;
 }
 
+.library-Playlist-songs {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  padding-bottom: 0%;
+  padding-top: 5%;
+}
+
+.library-Playlist-songs ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.library-Playlist-songs li {
+  margin-bottom: 10px;
+}
+
+.library-tab-playlist-body {
+  display: flex;
+  flex-wrap: nowrap; 
+  overflow-x: auto;
+  white-space: nowrap;
+  transition: transform 0.3s ease-out;
+  padding: 20px
+}
+
+.library-tab-playlist-body:hover {
+  transform: translateX(-10px);
+}
+
+.library-playlist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px;
+  width: 200px; 
+  margin-right: 10px; 
+}
+
 .library-playlist-name {
+  font-size: smaller;
   font-weight: bold;
+  color: #f5f5f5;
+  margin-bottom: 5px; 
 }
 
 .library-playlist-length {
-  margin-top: 5px;
-  font-size: 12px;
+  font-size: x-small;
   color: #777;
 }
 
-.library-playlist-song {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-  border-top: 1px solid #ddd;
-  padding-top: 10px;
-}
+
 
 .library-playlist-song-title {
   font-weight: bold;
+  font-size: smaller;
+  color:#ddd;
 }
 
 .library-playlist-song-artist {
-  color: #777;
-  font-size: 12px;
+  font-size:x-small;
+  margin-top: 5px;
+  color: #777
+}
+
+.library-playlist-song {
+  margin-bottom: 10px;
+}
+
+
+.library-download {
+  margin-bottom: 10px;
 }
 
 .library-download-name {
+  font-size: smaller;
   font-weight: bold;
+  color:#ddd;
 }
 
-.library-download-size {
+.library-download-artist {
   margin-top: 5px;
-  font-size: 12px;
+  font-size:x-small;
   color: #777;
 }
 
+.library-playlist-song, 
+.library-download,
+.library-history-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #444;
+  margin-bottom: 10px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px;
+}
+
+.song-details{
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+}
+
+.library-playlist-song .play-icon, 
+.library-download .play-icon, 
+.library-history-item .play-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-image: url('../../assets/padded_play.svg');
+  background-size: cover;
+  background-position: center;
+  margin-right: 10px;
+}
+
+.library-playlist-song-title,
+.library-download-name,
 .library-history-song {
+  flex-grow: 1;
   font-weight: bold;
+  font-size: smaller;
+  color:#ddd;
 }
 
+.library-playlist-song-artist
+.library-download-artist,
 .library-history-artist {
-  color: #777;
-  font-size: 12px;
-}
-
-.library-history-date {
-  font-size: 12px;
-  color: #777;
+  flex-shrink: 0;
+  font-size:x-small;
+  margin-top: 5px;
+  color: #777
 }
 
 select {
@@ -137,3 +258,6 @@ select option {
   background-color: #fff;
   color: #333;
 }
+
+
+

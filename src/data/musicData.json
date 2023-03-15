@@ -44,6 +44,72 @@
             "duration": "3:18"
           }
         ]
+      },
+      {
+        "id": 3,
+        "name": "Top Telugu",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Tum Hi Ho",
+            "artist": "Arijith Song",
+            "album": "Tamasha",
+            "year": 2016,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Naada Parindey",
+            "artist": "Mohit Chauhan",
+            "album": "Rockstar",
+            "year": 2012,
+            "duration": "3:18"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Top Tamil",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Tum Hi Ho",
+            "artist": "Arijith Song",
+            "album": "Tamasha",
+            "year": 2016,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Naada Parindey",
+            "artist": "Mohit Chauhan",
+            "album": "Rockstar",
+            "year": 2012,
+            "duration": "3:18"
+          }
+        ]
+      },
+      {
+        "id": 45,
+        "name": "Top Kannada",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Tum Hi Ho",
+            "artist": "Arijith Song",
+            "album": "Tamasha",
+            "year": 2016,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Naada Parindey",
+            "artist": "Mohit Chauhan",
+            "album": "Rockstar",
+            "year": 2012,
+            "duration": "3:18"
+          }
+        ]
       }
     ],
     "downloads": [
@@ -64,6 +130,24 @@
         "year": 2021,
         "duration": "3:23",
         "size": "7.4 MB"
+      },
+      {
+        "id": 3,
+        "name": "Beleiver",
+        "artist": "Imagine Dragons",
+        "album": "Beleiver",
+        "year": 2018,
+        "duration": "3:23",
+        "size": "7.4 MB"
+      },
+      {
+        "id": 4,
+        "name": "Bones",
+        "artist": "Imagine Dragons",
+        "album": "Beleiver",
+        "year": 2022,
+        "duration": "3:23",
+        "size": "7.4 MB"
       }
     ],
     "history": [
@@ -77,6 +161,18 @@
         "id": 2,
         "song": "Good 4 U",
         "artist": "Olivia Rodrigo",
+        "date": "2021-07-12"
+      },
+      {
+        "id": 3,
+        "song": "Beleiver",
+        "artist": "Imagine Dragons",
+        "date": "2021-07-12"
+      },
+      {
+        "id": 4,
+        "song": "Bones",
+        "artist": "Imagine Dragons",
         "date": "2021-07-12"
       }
     ]
@@ -106,7 +202,7 @@
         ]
       },
       {
-        "id": 1,
+        "id": 2,
         "name": "Gym",
         "songs": [
           {
