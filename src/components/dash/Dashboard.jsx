@@ -11,15 +11,24 @@ import albumCover from "../../assets/music2.jpg"
 import playlistCover from "../../assets/playlistCover.jpg"
 import artistCover from "../../assets/artist1.jpg"
 import { NavLink } from 'react-router-dom';
-import { PlayerContext } from '../../MainRoutes';
+import { PlayerContext, UserContext } from '../../MainRoutes';
 
 
 const Header = (props) => {
+    const userContext = useContext(UserContext);
+  
     return (
         <div className='header' >
             <img className='logo' src={myHomeIcon} alt="coco logo" />
             <p className='productName'>{props.product}</p>
-            <img className='dashUserImage' src={myHomeIcon} alt="coco logo" />
+            <img className='dashUserImage' src={myHomeIcon} alt="coco logo" 
+                onClick={() => {
+                    if(userContext.currentUserId == 1)
+                        userContext.setCurrentUserId(2)
+                    else
+                    userContext.setCurrentUserId(1)
+                }}
+            />
         </div>
     )      
 }
