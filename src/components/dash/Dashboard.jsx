@@ -1,4 +1,5 @@
-import React,{useState} from 'react';
+import React,{useContext, useEffect, useState} from 'react';
+import { getDashDetails } from "../../api/dash"
 import "./Dashboard.css"
 import myHomeIcon from "../../assets/coco-logo.png"
 import albumArt from "../../assets/rect-album.jpg"
@@ -10,6 +11,7 @@ import albumCover from "../../assets/music2.jpg"
 import playlistCover from "../../assets/playlistCover.jpg"
 import artistCover from "../../assets/artist1.jpg"
 import { NavLink } from 'react-router-dom';
+import { PlayerContext } from '../../MainRoutes';
 
 
 const Header = (props) => {
@@ -23,7 +25,7 @@ const Header = (props) => {
 
 const SongArtistSuggestion = (props) => {
     return (
-        <div className="songSuggestion">
+        <div className="songSuggestion" onClick={props.playMusic ? ()=>{props.playMusic(props.songId)} : () => {}}>
             <div className='songIconContainer' style = {props.playlistType ? {backgroundImage: `url(${playlistBg})`, paddingRight:"14px", backgroundSize:"contain"} : {padding: "0px 11px 0px 3px"}}>
                 <div className={`songIcon   ${props.artistType ? "artistBorder" : ""}`} style={{backgroundImage: `url(${props.image})`}}>
                     <img className={`playIcon  ${props.artistType ? "hidden" : ""}`} src={playIcon}/>
@@ -40,21 +42,35 @@ const SongArtistSuggestion = (props) => {
     )
 }
 
-const Foryou = () => {
+const Foryou = (props) => {
     return (
-        <div className='forYou'>
+        ((props.data !== null) && <div className='forYou'>
             <p className='forYouLabel'>Your Top Picks</p>
             <div className='suggestions'>
-                <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumCover} />
-                <NavLink to={`/bio/1`} className="dashLinkDecorations">
-                <SongArtistSuggestion artist="Jane" image={artistCover} artistType={true}/>
-                </NavLink>
-                <SongArtistSuggestion artist="Jane" image={artistCover} artistType={true}/>
-                <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
-                <SongArtistSuggestion songName="Playlist" image={playlistCover} playlistType={true}/>
-                <SongArtistSuggestion songName="Playlist" image={playlistCover} playlistType={true}/>
+                {
+                    props.data.map((topPick,index) => {
+                        //console.log(topPick)
+
+                        switch(topPick.type) {
+                            case "song":
+                                console.log(topPick);
+                                return <SongArtistSuggestion 
+                                            key = {index} songName={topPick.songname} 
+                                            artist={topPick.artist} image={topPick.albumart}
+                                            playMusic={props.playMusic}
+                                            songId={1}/>
+                            case "artist":
+                                console.log(topPick);
+                                return <SongArtistSuggestion key = {index} artist={topPick.artist} image={topPick.artistimage} artistType={true}/>
+                            case "playlist":
+                                console.log(topPick);
+                                return <SongArtistSuggestion key = {index} songName={topPick.playlistname} image={topPick.albumart} playlistType={true} playMusic={props.playMusic} songId={3}/>
+                        }   
+
+                    })
+                }
             </div>
-        </div>
+        </div>)
     )      
 }
 
@@ -67,20 +83,18 @@ const MoodScrollList = () => {
                     <p className='moodTags'>sleep</p>
                     <p className='moodTags'>relax</p>
                     <p className='moodTags'>focus</p>
-                    <p className='moodTags'>low</p>
-                    <p className='moodTags'>low</p>
-                    <p className='moodTags'>low</p>
+                    <p className='moodTags'>Calm</p>
+                    <p className='moodTags'>Sad</p>
                 </div>
                 <div className='scrollCenter'>
                     <img className='scrollIcon' src={moodScrollIcon}/>
                 </div>
                 <div className='highEnergy'>
                     <p className='moodTags'>party</p>
+                    <p className='moodTags'>Chill</p>
+                    <p className='moodTags'>Workout</p>
                     <p className='moodTags'>energetic</p>
-                    <p className='moodTags'>High</p>
-                    <p className='moodTags'>High</p>
-                    <p className='moodTags'>High</p>
-                    <p className='moodTags'>High</p>
+                    <p className='moodTags'>Travel</p>
                 </div>
             </div>
         </div>
@@ -147,13 +161,30 @@ const GenreBasedRadios = () => {
     )
 }
 
+
 const Dashboard = () => {
     const [productName, setProductName] = useState("coco")
+    
+    const [topPicks, SetTopPicks] = useState(null)
+    useEffect(()=>{
+        getDashDetails(1)
+            .then((res) => {
+                SetTopPicks(res.data.topPicks)
+            })
+            .catch((err) => console.error(err))
+    }, [])
+
+    const playerContext = useContext(PlayerContext)
+
+    const playMusic = (songId) => {
+        playerContext.setPlayingSongId(songId)
+        playerContext.setGMiniPlayer(false)
+    }
     return(
         <>
             <Header product={productName} />
             <div className='dashboardFrame'>
-            <Foryou/>
+            <Foryou data={topPicks} playMusic={playMusic}/>
             <MoodScrollList/>
             <SuggestionCard/>
             <GenreBasedRadios/>
