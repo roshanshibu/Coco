@@ -337,6 +337,9 @@ const Player = (props) => {
         // when the first song is played, it should be made visible
         if(playerContext.playingSongId !== null){
             SetHideMiniPlayer(false)
+            if(isAutoplayEnabled){
+                play()
+            }
         }else{
             pause()
             minimizePlayer()
