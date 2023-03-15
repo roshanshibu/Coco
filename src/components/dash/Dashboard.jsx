@@ -19,6 +19,7 @@ const Header = (props) => {
         <div className='header' >
             <img className='logo' src={myHomeIcon} alt="coco logo" />
             <p className='productName'>{props.product}</p>
+            <img className='dashUserImage' src={myHomeIcon} alt="coco logo" />
         </div>
     )      
 }
