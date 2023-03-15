@@ -44,6 +44,72 @@
             "duration": "3:18"
           }
         ]
+      },
+      {
+        "id": 3,
+        "name": "Top Hindi",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Tum Hi Ho",
+            "artist": "Arijith Song",
+            "album": "Tamasha",
+            "year": 2016,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Naada Parindey",
+            "artist": "Mohit Chauhan",
+            "album": "Rockstar",
+            "year": 2012,
+            "duration": "3:18"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Top Hindi",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Tum Hi Ho",
+            "artist": "Arijith Song",
+            "album": "Tamasha",
+            "year": 2016,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Naada Parindey",
+            "artist": "Mohit Chauhan",
+            "album": "Rockstar",
+            "year": 2012,
+            "duration": "3:18"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Top Hindi",
+        "songs": [
+          {
+            "id": 1,
+            "title": "Tum Hi Ho",
+            "artist": "Arijith Song",
+            "album": "Tamasha",
+            "year": 2016,
+            "duration": "4:02"
+          },
+          {
+            "id": 2,
+            "title": "Naada Parindey",
+            "artist": "Mohit Chauhan",
+            "album": "Rockstar",
+            "year": 2012,
+            "duration": "3:18"
+          }
+        ]
       }
     ],
     "downloads": [
