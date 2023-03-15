@@ -20,10 +20,11 @@ import { ReactComponent as MoreOptionsIcon } from '../../assets/more options.svg
 
 import { ReactComponent as PullUpIcon } from '../../assets/Pull up.svg';
 
-import React, { useState, useRef, useEffect, forwardRef } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import React, { useState, useRef, useEffect, forwardRef, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { getSongDetails } from "../../api/song";
 import { getLyrics } from "../../api/lyrics";
+import { PlayerContext } from "../../MainRoutes";
 
 const AlbumArtLyric = (props) => {
     return(
@@ -52,8 +53,8 @@ const AlbumArtLyric = (props) => {
 const SongDetailRow = (props) => {
     const navigate = useNavigate()
     return(
-        <div className={"songDetailContainer " + (props.miniplayer && "miniDetails")}>
-
+        <div className={"songDetailContainer " + (props.miniplayer && "miniDetails")}
+        onClick={props.miniplayer ? props.openBigPlayer : () => {}}>
             {!props.miniplayer &&
                 <FavouriteIcon style={{color: (props.isFavourite ? "#ea4444" : "#F0F0F0"), width: "30px"}}
                 onClick={props.toggleFavourite} />
@@ -62,7 +63,14 @@ const SongDetailRow = (props) => {
                 <p>{props.songName}</p>
                 <p className={props.miniplayer ? "miniArtistName" : "artistName"} 
                     style={{color: props.accentColor}}
-                    onClick={() => { navigate("../bio/somename");}} >{props.artist}</p>
+                    onClick={!props.miniplayer ?
+                                    () => { props.minimizePlayer()
+                                            navigate("../bio/somename");} 
+                                : 
+                                    () =>{}}
+                    >
+                    {props.artist}
+                </p>
             </div>
             {!props.miniplayer &&
                 <LyricsIcon style={{color: (props.showAlbumArt ? "#F0F0F0" : props.accentColor), 
@@ -174,7 +182,9 @@ const Player = (props) => {
     const [isFavourite, SetFavourite] = useState(false)
     const [isSongLoaded, SetSongLoaded] = useState(false)
 
-    const [isPlaying, SetPlaying] = useState(true)
+    const [isPlaying, SetPlaying] = useState(false)
+
+    const [isAutoplayEnabled, SetAutoPlay] = useState(false)
     
     const [isShuffle, SetShuffle] = useState(false)
     const [isRepeat, SetRepeat] = useState(false)
@@ -249,32 +259,38 @@ const Player = (props) => {
     }
 
     const updateLyric = (currentTime) => {
-        let lyricsTillNow = lyrics.filter((lrc) => {return (currentTime >= lrc.startTime)})
-        if (currentLine !== lyricsTillNow.slice(-1)[0].lyric){
-            SetCurrentLine(lyricsTillNow.slice(-1)[0].lyric)
-            SetLyricKey(lyricKey+1)
-            // SetPreviousLine(lyricsTillNow[lyricsTillNow.length-2].lyric)
-            // SetNextLine(lyrics[lyricsTillNow.length].lyric)
+        if(lyrics){
+            let lyricsTillNow = lyrics.filter((lrc) => {return (currentTime >= lrc.startTime)})
+            if (currentLine !== lyricsTillNow.slice(-1)[0].lyric){
+                SetCurrentLine(lyricsTillNow.slice(-1)[0].lyric)
+                SetLyricKey(lyricKey+1)
+                // SetPreviousLine(lyricsTillNow[lyricsTillNow.length-2].lyric)
+                // SetNextLine(lyrics[lyricsTillNow.length].lyric)
+            }
+            // console.log( "last", lyricsTillNow[lyricsTillNow.length-2]  )
+            // console.log( "current", lyricsTillNow[lyricsTillNow.length-1]  )
+            // console.log( "next", lyrics[lyricsTillNow.length]  )
         }
-        // console.log( "last", lyricsTillNow[lyricsTillNow.length-2]  )
-        // console.log( "current", lyricsTillNow[lyricsTillNow.length-1]  )
-        // console.log( "next", lyrics[lyricsTillNow.length]  )
     } 
 
-    const [songParams, setSongParams] = useSearchParams()
-    const [songid, SetSongId] = useState (props.songid)
+    const playerContext = useContext(PlayerContext)
+    // const [songid, SetSongId] = useState (props.songid)
     const [miniplayer, SetMiniPlayer] = useState(props.miniplayer)
+    const [hideMiniPlayer, SetHideMiniPlayer] = useState(true)
     
     const openBigPlayer = () => {
         console.log("opening Big Player")
         SetMiniPlayer(false)
     }
     const minimizePlayer = () => {
+        //if lyrics is on, switch to album art
+        SetShowAlbumArt(true)
         SetMiniPlayer(true)
     }
 
     const updatePlayerSong = (newSongId) => {
-        SetSongId(newSongId)
+        SetAutoPlay(true)
+        playerContext.setPlayingSongId(newSongId)
         SetPlaying(true)
     }
     useEffect(() => {
@@ -293,7 +309,7 @@ const Player = (props) => {
         window.history.pushState(stateObj, "", "\\");
         console.log(window.history)
 
-        getSongDetails(songid)
+        getSongDetails(playerContext.playingSongId)
         .then((res) => {
             SetSongLoaded(false)
             // console.log(res.data.url)
@@ -305,10 +321,10 @@ const Player = (props) => {
         })
         .catch((err) => {
                             console.error(err);
-                            updatePlayerSong(songid > 1 ? 1 : 9)
+                            updatePlayerSong(playerContext.playingSongId)
                 });
         
-        getLyrics(songid)
+        getLyrics(playerContext.playingSongId)
         .then((res) => {
             // console.log(res.data)
             SetLyrics(res.data)
@@ -317,13 +333,27 @@ const Player = (props) => {
         .catch((err) => {console.error(err)
             SetLyricsAvailable(false)});
             SetShowAlbumArt(true)
-    }, [songid])
+        // when app starts, the miniplayer is hidden
+        // when the first song is played, it should be made visible
+        if(playerContext.playingSongId !== null){
+            SetHideMiniPlayer(false)
+        }else{
+            pause()
+            minimizePlayer()
+            SetHideMiniPlayer(true)
+        }
+        if(playerContext.g_miniplayer){
+            minimizePlayer()
+        }else{
+            openBigPlayer()
+        }
+    }, [playerContext.playingSongId, playerContext.g_miniplayer])
 
     return(
-        <div className={"playerContainer " + (miniplayer ? "miniplayer" : "")}
+        <div className={"playerContainer " + (miniplayer ? "miniplayer" : "") + (hideMiniPlayer ? " hideMiniPlayer" : "")}
             style={{backgroundColor: (miniplayer ? `${ColorHelper(accentColor, -50)}` : "#252525")}}>
             <audio src={songUrl} ref={audioRef} 
-                autoPlay
+                autoPlay={isAutoplayEnabled}
                 onTimeUpdate={onMusicTimeUpdate}
                 onLoad={() => {setDuration(audioRef.current.duration)}} >
             </audio>
@@ -341,7 +371,8 @@ const Player = (props) => {
                 songName={songName} artist={artist} accentColor={accentColor}
                 showAlbumArt={showAlbumArt} toggleAlbumArtLyric={toggleAlbumArtLyric}
                 isFavourite={isFavourite} toggleFavourite={toggleFavourite}
-                isLyricsAvailable={isLyricsAvailable} />
+                isLyricsAvailable={isLyricsAvailable}
+                minimizePlayer={minimizePlayer} />
             
             {!miniplayer &&
                 <Timeline duration={duration} timeProgress={timeProgress} 
@@ -352,7 +383,7 @@ const Player = (props) => {
                 isPlaying={isPlaying} togglePlay={togglePlay}
                 isSongLoaded={isSongLoaded} 
                 updatePlayerSong={updatePlayerSong}
-                currentSongId={songid} />
+                currentSongId={playerContext.playingSongId} />
             {!miniplayer &&
                 <>
                     <OptionsRow />
