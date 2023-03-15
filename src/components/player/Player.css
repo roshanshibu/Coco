@@ -219,3 +219,7 @@ input[type=range]::-webkit-slider-thumb {
     justify-content: center;
     padding-top: 45px;
 }
+
+.pullUpIcon{
+    transform: rotate(180deg);
+}
