@@ -1,10 +1,16 @@
 .dashboardFrame{
-    margin: 20px;
+    /* margin: 20px; */
     overflow-y: auto;
+    overflow-x: hidden;
     height: 85vh;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+.dashLinkDecorations{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
 
 .dashboardFrame::-webkit-scrollbar{
     display: none; /* chrome */
@@ -71,6 +77,7 @@
 .ssArtistName{
     font-weight: 600;
     margin: 0;
+    color: #FFFFFF;
 }
 .hidden{
     opacity: 0;
@@ -185,13 +192,23 @@
 }
 
 
-.highEnergy, .lowEnergy{
+.highEnergy{
     display: flex;
     gap: 10px;
     overflow-x: auto;
     width: 40%;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+}
+
+.lowEnergy{
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    width: 40%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    flex-direction: row-reverse;
 }
 
 .highEnergy::-webkit-scrollbar, .lowEnergy::-webkit-scrollbar {
@@ -254,12 +271,13 @@ p.suggestionHeader{
 
 .genreRadiosContainer{
     color: #FFFFFF;
-    margin: 30px 20px;
+    /* margin: 30px 20px; */
+    margin: 30px 0;
 }
 .genreRadiosLabel{
     font-weight: 600;
     font-size: 22px;
-    margin: 30px 0 22px 0;
+    margin: 30px 0 22px 20px;
 }
 /* .radioScrollFlex{
     display: flex;
@@ -269,6 +287,7 @@ p.suggestionHeader{
 .dashboardRadios{
     display: flex;
     gap: 28px;
+    padding-left: 20px;
     overflow-x: auto;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
@@ -280,7 +299,7 @@ p.suggestionHeader{
     border-radius: 50%;
     /* border: 1.5px solid #C2C2C2;  */
     width: 90px;
-    box-shadow: rgb(0 0 0) 11px 8px 16px -10px;
+    box-shadow: rgb(11 11 11) 10px 10px 11px -11px;
 }
 .radioLabel{
     text-align: center;

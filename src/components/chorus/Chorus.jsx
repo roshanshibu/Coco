@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom'
+import React, {useState, useEffect, useContext} from 'react';
 import TinderCard from 'react-tinder-card'
 import "./Chorus.css";
 import { getChorusPage } from "../../api/chorus"
@@ -11,22 +10,29 @@ import LoadingCard from "../../assets/loading_album_art.svg"
 import PlayingIndicator from "../../assets/playing_indicator.gif"
 import CircleLoad from "../../assets/circle_load.svg"
 import SkeletonText from "../skeleton/Skeleton"
+import { PlayerContext } from '../../MainRoutes';
+import { useNavigate } from 'react-router';
 
 
 const ChorusCard = (props) => {
     const [swipedOut, setSwipedOut] = useState(false);
+    const playerContext = useContext(PlayerContext)
     const navigate = useNavigate()
-
     const onSwipe = async(direction) => {
         let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
 
         if (direction === "up"){
-            navigate("../player/"+props.songid);
+            // console.log(playerContext.playingSongId, playerContext.setPlayingSongId)
+            playerContext.setPlayingSongId(props.songid)
+            playerContext.setGMiniPlayer(false)
+            navigate("/")
         }
 
         player.ontimeupdate = () => {
             console.log("card left")
-            player.volume = player.volume - 0.2
+            if (player.volume >= 0.2){
+                player.volume = player.volume - 0.2
+            }
             
         }
         props.reportSwipe(direction, props.markerCard, setSwipedOut)
@@ -234,7 +240,9 @@ const ChorusPlayer = (props) => {
 
         player.onplay = () => {
             let loadingIcon = document.getElementById(props.chorusUrl)
+            if (loadingIcon){
             loadingIcon.src = PlayingIndicator
+            }
         }
 
         player.ontimeupdate = () => {
@@ -294,9 +302,13 @@ const Chorus = () => {
     const updateSongUrl = (newurl) => {
         setChorusSongUrl(newurl)
     }
+    const playerContext = useContext(PlayerContext)
+    useEffect(()=>{
+        playerContext.setPlayingSongId(null)
+    })
 
     return(
-        <div className='chorusPageContainer'>
+        <div className='chorusPageContainer' data-testid='chorusPage'>
             <div className='hintsContainer'>
                 <Hint icon={DislikeHint} hintClass="dislikeHint" />
                 <Hint icon={SuperlikeHint} hintClass="superlikeHint" />
