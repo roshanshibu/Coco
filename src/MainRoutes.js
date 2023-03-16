@@ -14,7 +14,7 @@ export const UserContext = React.createContext()
 
 function MainRoutes() {
     const [playingSongId, setPlayingSongId] = useState(null)
-    const [g_miniplayer, setGMiniPlayer] = useState(false)
+    const [g_miniplayer, setGMiniPlayer] = useState(true)
     const [currentUserId, setCurrentUserId] = useState(1)
     return (
         <>

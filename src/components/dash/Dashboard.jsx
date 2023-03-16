@@ -184,8 +184,8 @@ const Dashboard = () => {
         playerContext.setGMiniPlayer(false)
     }
     return(
-        <div data-testid="dashPage">
-            <Header product={productName} userimage={userImage} />
+        <div data-testid='dashPage'>
+            <Header product={productName} data-testid='dashboard'/>
             <div className='dashboardFrame'>
             <Foryou data={topPicks} playMusic={playMusic}/>
             <MoodScrollList playMusic={playMusic}/>

@@ -137,6 +137,7 @@ const ChorusCard = (props) => {
 
     return(
             <TinderCard className={swipedOut? 'gone':'chorusCard'} 
+                data-testid='chorusCard'
                 flickOnSwipe={props.loading}
                 onSwipe={onSwipe}
                 onCardLeftScreen={() => onCardLeftScreen(props.songName)} 
@@ -209,6 +210,7 @@ const ChorusCardStack = (props) => {
                 .then((res) => {
                     // next5Cards = [...next5Cards, ...parseSongs(res.data)]
                     // setDynamicStack([next5Cards, ...dynamicStack])
+                    console.error(res.data)
                     setDynamicStack([...parseSongs(res.data)])
                 })
                 .catch((err) => console.error(err));;
@@ -219,6 +221,7 @@ const ChorusCardStack = (props) => {
         let topCards = []
         getChorusPage(1)
             .then((res) => {
+                console.log(res.data)
                 topCards = parseSongs(res.data)
                 setDynamicStack([topCards])
             })
@@ -237,40 +240,41 @@ const ChorusCardStack = (props) => {
 const ChorusPlayer = (props) => {
     useEffect(() => {
         let player = document.getElementsByClassName('hiddenChorusPlayer')[0]
+        if(player){
+            player.onplay = () => {
+                let loadingIcon = document.getElementById(props.chorusUrl)
+                if (loadingIcon){
+                loadingIcon.src = PlayingIndicator
+                }
+            }
 
-        player.onplay = () => {
-            let loadingIcon = document.getElementById(props.chorusUrl)
-            if (loadingIcon){
-            loadingIcon.src = PlayingIndicator
-            }
-        }
-
-        player.ontimeupdate = () => {
-            let softFadeDelay = 1
-            if (player.currentTime <= (props.startTime - softFadeDelay)|| player.currentTime >= (props.endTime + softFadeDelay)) 
-            {
-                    player.currentTime = props.startTime - softFadeDelay
-            }
-                
-            if (player.currentTime <= props.startTime)
-            {
-                    let computedVolume = (softFadeDelay - (props.startTime - player.currentTime))/softFadeDelay
-                    if (computedVolume < 0.1)
-                        player.volume = 0
-                    else
-                        player.volume = computedVolume
-            }
-            else if (player.currentTime >= props.endTime)
-            {
-                    let computedVolume = (softFadeDelay - (player.currentTime - props.endTime))/softFadeDelay
-                    if (computedVolume < 0.1)
+            player.ontimeupdate = () => {
+                let softFadeDelay = 1
+                if (player.currentTime <= (props.startTime - softFadeDelay)|| player.currentTime >= (props.endTime + softFadeDelay)) 
+                {
                         player.currentTime = props.startTime - softFadeDelay
-                    else
-                        player.volume = computedVolume
-            }
-            else
-            {
-                player.volume = 1
+                }
+                    
+                if (player.currentTime <= props.startTime)
+                {
+                        let computedVolume = (softFadeDelay - (props.startTime - player.currentTime))/softFadeDelay
+                        if (computedVolume < 0.1)
+                            player.volume = 0
+                        else
+                            player.volume = computedVolume
+                }
+                else if (player.currentTime >= props.endTime)
+                {
+                        let computedVolume = (softFadeDelay - (player.currentTime - props.endTime))/softFadeDelay
+                        if (computedVolume < 0.1)
+                            player.currentTime = props.startTime - softFadeDelay
+                        else
+                            player.volume = computedVolume
+                }
+                else
+                {
+                    player.volume = 1
+                }
             }
         }
         
