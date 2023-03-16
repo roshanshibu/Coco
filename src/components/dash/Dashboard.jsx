@@ -60,7 +60,7 @@ const Foryou = (props) => {
                                             key = {index} songName={topPick.songname} 
                                             artist={topPick.artist} image={topPick.albumart}
                                             playMusic={props.playMusic}
-                                            songId={1}/>
+                                            songId={topPick.songid}/>
                             case "artist":
                                 return(
                                     <Link to={`/bio/${topPick.artistid}`} className="dashLinkDecorations">
@@ -68,7 +68,7 @@ const Foryou = (props) => {
                                     </Link>
                                 )
                             case "playlist":
-                                return <SongArtistSuggestion key = {index} songName={topPick.playlistname} image={topPick.albumart} playlistType={true} playMusic={props.playMusic} songId={3}/>
+                                return <SongArtistSuggestion key = {index} songName={topPick.playlistname} image={topPick.albumart} playlistType={true} playMusic={props.playMusic} songId={topPick.songid}/>
                         }   
 
                     })

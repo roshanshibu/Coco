@@ -61,15 +61,15 @@ const Bio = () => {
                 </div>
                 <div className="artistMusicList">
                     <p className="artistMusicListLabel">Top Hits</p>
+                    <div className="amlCardsContainer">
                     {
                         bioDetails.topHits.map((topHit, index) => {
                             return (
-                                <div className="amlCardsContainer">
                                     <ArtistMusicComponent key={index} songName={topHit.songname} image={topHit.albumart} year={topHit.year}/>
-                                </div>
                             )
                         })
                     }
+                    </div>
                 </div>
                 <div className="bioArtistRecommendations">
                     <p className="barLabel">Artists You May Like</p>
