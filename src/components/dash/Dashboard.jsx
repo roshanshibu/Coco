@@ -16,7 +16,7 @@ const Header = (props) => {
         <div className='header' >
             <img className='logo' src={myHomeIcon} alt="coco logo" />
             <p className='productName'>{props.product}</p>
-            <img className='dashUserImage' src={myHomeIcon} alt="coco logo" 
+            <img className='dashUserImage' src={props.userimage} alt="coco logo" 
                 onClick={() => {
                     if(userContext.currentUserId == 1)
                         userContext.setCurrentUserId(2)
@@ -158,6 +158,7 @@ const GenreBasedRadios = (props) => {
 const Dashboard = () => {
     const [productName, setProductName] = useState("coco")
     const [userName, SetUserName] = useState(null)
+    const [userImage, SetUserImage] = useState(null)
     const [topPicks, SetTopPicks] = useState(null)
     const [suggestionCardData, SetSuggestionCardData] = useState(null)
     const [genreRadios, SetGenreRadios] = useState(null)
@@ -168,6 +169,7 @@ const Dashboard = () => {
         getDashDetails(userContext.currentUserId)
             .then((res) => {
                 SetUserName(res.data.userName)
+                SetUserImage(res.data.userImage)
                 SetTopPicks(res.data.topPicks)
                 SetSuggestionCardData(res.data.pickedForYou)
                 SetGenreRadios(res.data.radios)

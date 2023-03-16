@@ -1,13 +1,14 @@
-import React,{ useEffect, useState} from 'react';
+import React,{ useEffect, useState, useContext} from 'react';
 import {Link, useParams} from "react-router-dom"
 import "./Bio.css"
 import playIcon from "../../assets/padded_play.svg"
 import { getBioDetails } from "../../api/bio"
+import { PlayerContext } from '../../MainRoutes';
 
 
 const ArtistMusicComponent = (props) => {
     return(
-        <div className="artistMusicCard">
+        <div onClick={props.playMusic ? ()=>{props.playMusic(props.songId)} : () => {}} className="artistMusicCard">
             <div className="bioSongSuggestion">
                 <div className='bioSongIconContainer'>
                     <div className="bioSongIcon"  style={{backgroundImage: `url(${props.image})`}}>
@@ -49,6 +50,13 @@ const Bio = () => {
             .catch((err) => console.error(err))
     }, [artistId])
 
+    const playerContext = useContext(PlayerContext)
+
+    const playMusic = (songId) => {
+        playerContext.setPlayingSongId(songId)
+        playerContext.setGMiniPlayer(false)
+    }
+
     return (
         ((bioDetails) && <>
             <div className="bioFrameScroll">
@@ -65,7 +73,7 @@ const Bio = () => {
                     {
                         bioDetails.topHits.map((topHit, index) => {
                             return (
-                                    <ArtistMusicComponent key={index} songName={topHit.songname} image={topHit.albumart} year={topHit.year}/>
+                                    <ArtistMusicComponent key={index} songId={topHit.songid} songName={topHit.songname} image={topHit.albumart} year={topHit.year} playMusic={playMusic}/>
                             )
                         })
                     }
