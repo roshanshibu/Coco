@@ -28,6 +28,9 @@
     font-weight: 600;
     font-size: 40px;
 }
+.biosContent{
+    padding-right: 20px;
+}
 .artistMusicList{
     margin: 20px;
     color: #FFFFFF;
