@@ -2,64 +2,71 @@ import React, { useContext, useState } from "react";
 import musicData from "../../data/musicData.json";
 import "./Library.css";
 import playIcon from "../../assets/padded_play.svg"
-import { UserContext } from "../../MainRoutes";
+import { PlayerContext, UserContext } from '../../MainRoutes';
+import myHomeIcon from "../../assets/coco-logo.png"
 
 
-const LibraryHeader = ({profile, onChange}) => {
+const LibraryHeader = ({product}) => {
+  const userContext = useContext(UserContext);
+  
   return (
-    <>
-      <div className="library-title">Library</div>
-      {/* <div className="library-profile-select">
-        <label htmlFor="select-profile">Switch Profile:  </label>
-        <select id="select-profile" value={profile} onChange={onChange}>
-          <option value="profile1">Suma</option>
-          <option value="profile2">Satish</option>
-        </select>
-      </div> */}
-    </>
-  );
+      <div className='library-header' >
+          <img className='library-header-logo' src={myHomeIcon} alt="coco logo" />
+          <p className='library-header-productName'>{product}</p>
+          <img className='library-header-dashUserImage' src={myHomeIcon} alt="coco logo" 
+              onClick={() => {
+                  if(userContext.currentUserId == 1)
+                      userContext.setCurrentUserId(2)
+                  else
+                  userContext.setCurrentUserId(1)
+              }}
+          />
+      </div>
+  )    
 };
 
 
 const Playlist = ({ playlist, isSelected, onClick }) => {
   return (
     <div className={`library-playlist ${isSelected ? "selected" : ""}`} onClick={onClick}>
-      <div className="library-playlist-name">{playlist.name}</div>
-      <div className="library-playlist-length">{playlist.songs.length} songs</div>
+      <img className="PlaylistIcon" src={playlist.playlistArt} alt="Play Icon"/>
+        <div className="library-playlist-name">{playlist.name}</div>
+        <div className="library-playlist-length">{playlist.songs.length} songs</div>
     </div>
+
   );
 };
 
-const Song = ({ song }) => {
+const Song = ({ song, playMusic }) => {
   return (
-    <div className="library-playlist-song">
-      <img className="play-icon" src={playIcon} alt="Play Icon"/>
+    <div className="library-playlist-song" onClick={playMusic ? ()=>{playMusic(song.songId)} : () => {}}>
+      <img className="play-icon" src={playIcon} alt="Play Icon" style={{backgroundImage: `url(${song.albumArt})`}}/>
       <div className="song-details">
-        <div className="library-playlist-song-title">{song.title}</div>
-        <div className="library-playlist-song-artist">{song.artist}</div>
+        <div className="library-playlist-songname">{song.songName}</div>
+        <div className="library-playlist-artist">{song.artist}</div>
       </div>
     </div>
   );
 };
 
 
-const PlaylistSongs = ({ playlist }) => {
+const PlaylistSongs = ({ playlist, playMusic}) => {
   return (
     <div className="library-Playlist-songs">
       {playlist.songs.map((song) => (
-        <Song song={song} key={song.id} />
+        <Song song={song} key={song.id} playMusic={playMusic}/>
       ))}
     </div>
   );
 };
 
 
-const Download = ({ download }) => {
+const Download = ({ download, playMusic }) => {
   return (
-    <div className="library-download">
-      <img className="play-icon" src={playIcon} alt="Play Icon"/>
+    <div className="library-download" onClick={playMusic ? ()=>{playMusic(download.songId)} : () => {}}>
+      <img className="play-icon" src={playIcon} alt="Play Icon" style={{backgroundImage: `url(${download.albumArt})`}}/>
       <div className="song-details"></div>
-        <div className="library-download-name">{download.name}
+        <div className="library-download-songname">{download.songName}
         <div className="library-download-artist">{download.artist}</div>
       </div>
     </div>
@@ -67,12 +74,12 @@ const Download = ({ download }) => {
 };
 
 
-const HistoryItem = ({ historyItem }) => {
+const HistoryItem = ({ historyItem, playMusic }) => {
   return (
-    <div className="library-history-item">
-      <img className="play-icon" src={playIcon} alt="Play Icon"/>
+    <div className="library-history-item" onClick={playMusic ? ()=>{playMusic(historyItem.songId)} : () => {}}>
+      <img className="play-icon" src={playIcon} alt="Play Icon" style={{backgroundImage: `url(${historyItem.albumArt})`}}/>
       <div className="song-details">
-        <div className="library-history-song">{historyItem.song}</div>
+        <div className="library-history-songname">{historyItem.songName}</div>
         <div className="library-history-artist">{historyItem.artist}</div>
       </div>
     </div>
@@ -82,14 +89,9 @@ const HistoryItem = ({ historyItem }) => {
 
 const Library = () => {
   const userContext = useContext(UserContext);
-  const [profile, setProfile] = useState("profile1");
   const [downloadsOpen, setDownloadsOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-
-  const handleChangeProfile = (event) => {
-    setProfile(event.target.value);
-  };
 
   const handleDownloadsClick = () => {
     setDownloadsOpen(!downloadsOpen);
@@ -107,15 +109,17 @@ const Library = () => {
     }
   };
 
+  const playerContext = useContext(PlayerContext)
+
+  const playMusic = (songId) => {
+      playerContext.setPlayingSongId(songId)
+      playerContext.setGMiniPlayer(false)
+  }
+
   return (
-    <div className="library">
-
-      <div className="library-header">       
-        <LibraryHeader profile={profile} onChange={handleChangeProfile}/> 
-      </div>
-
+    <>     
+      <LibraryHeader product={"coco"}/> 
       <div className="library-content">
-
         <div className="library-tab-content">
           <div className="library-tab-header">Playlists</div>
             <div className="library-tab-playlist-body">
@@ -123,16 +127,15 @@ const Library = () => {
                 <Playlist 
                   playlist={playlist} 
                   key={playlist.id} i
-                  sSelected={selectedPlaylist === playlist.id} 
+                  isSelected={selectedPlaylist === playlist.id} 
                   onClick={() => handlePlaylistClick(playlist.id)}
                 />
             ))}
           </div>
           {selectedPlaylist !== null && (
-            <PlaylistSongs playlist={musicData["profile"+userContext.currentUserId].playlists.find(p => p.id === selectedPlaylist)} />
+            <PlaylistSongs playlist={musicData["profile"+userContext.currentUserId].playlists.find(p => p.id === selectedPlaylist)} playMusic={playMusic} />
           )}
         </div>
-
         <div className="library-tab-content">
           <div className="library-tab-header" onClick={handleDownloadsClick}>
             <div className="title">Downloads</div>
@@ -141,12 +144,11 @@ const Library = () => {
           {downloadsOpen && (
             <div className="library-tab-body">
               {musicData["profile"+userContext.currentUserId].downloads.map((download) => (
-                <Download download={download} key={download.id} />
+                <Download download={download} key={download.id} playMusic={playMusic}/>
               ))}
             </div>
           )}
         </div>
-
         <div className="library-tab-content">
           <div className="library-tab-header" onClick={handleHistoryClick}>
             <div className="title">History</div>
@@ -155,15 +157,13 @@ const Library = () => {
           {historyOpen && (
             <div className="library-tab-body">
               {musicData["profile"+userContext.currentUserId].history.map((historyItem) => (
-                <HistoryItem historyItem={historyItem} key={historyItem.id} />
+                <HistoryItem historyItem={historyItem} key={historyItem.id} playMusic={playMusic}/>
               ))}
             </div>
           )}
-        </div>
-        
+        </div>        
       </div>
-
-    </div>
+    </>
   );
 };
 
