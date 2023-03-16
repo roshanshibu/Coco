@@ -1,0 +1,93 @@
+.searchPage{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 82vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.stitle{
+    color: white;
+    font-weight: 600;
+    font-size: 25px;
+    padding-left: 15px;
+}
+
+.searchBoxContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 15px;
+}
+.searchBox{
+    color: white;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    display: flex;
+    outline: inherit;
+    margin: 9px;
+    background: transparent; 
+    border: solid 2px #1b1b1b;
+    border-radius: 11px;
+    padding: 6px;
+}
+.searchButton{
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    display: flex;
+    outline: inherit;
+    margin: 9px;
+    background: transparent;
+}
+.searchIcon{
+    width: 30px;
+    height: 30px;
+}
+
+.searchResult{
+    display: flex;
+    background-color: #1b1b1b;
+    margin: 15px;
+    padding: 15px;
+    line-height: 0.5;
+    color: white;
+    flex-direction: column;
+    border-radius: 16px;
+}
+.searchImage{
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.searchDetails{
+    padding-left: 15px;
+}
+
+.previousSearchContainer{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin: 15px;
+    line-height: 0;
+}
+.previousSearchesTitle{
+    font-size: 20px;
+    font-weight: 600px;
+    padding-bottom: 15px;
+}
+.previousSearchTerm{
+    color: rgba(255, 255, 255, 0.804);
+    font-size: 18px;
+    padding-left: 10px;
+    display: flex;
+    margin-bottom: 5px;
+}
+.historyIcon{
+    width: 20px;
+}

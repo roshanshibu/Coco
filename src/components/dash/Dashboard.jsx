@@ -162,15 +162,17 @@ const Dashboard = () => {
     const [suggestionCardData, SetSuggestionCardData] = useState(null)
     const [genreRadios, SetGenreRadios] = useState(null)
 
+    const userContext = useContext(UserContext);
+
     useEffect(()=>{
-        getDashDetails(2)
+        getDashDetails(userContext.currentUserId)
             .then((res) => {
                 SetTopPicks(res.data.topPicks)
                 SetSuggestionCardData(res.data.pickedForYou)
                 SetGenreRadios(res.data.radios)
             })
             .catch((err) => console.error(err))
-    }, [])
+    }, [userContext.currentUserId])
 
     const playerContext = useContext(PlayerContext)
 
