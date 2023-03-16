@@ -16,14 +16,14 @@ const Header = (props) => {
         <div className='header' >
             <img className='logo' src={myHomeIcon} alt="coco logo" />
             <p className='productName'>{props.product}</p>
-            <img className='dashUserImage' src={props.userimage} alt="coco logo" 
+            {((props.userimage) && <img className='dashUserImage' src={props.userimage} alt="coco logo" 
                 onClick={() => {
                     if(userContext.currentUserId == 1)
                         userContext.setCurrentUserId(2)
                     else
                     userContext.setCurrentUserId(1)
                 }}
-            />
+            />)}
         </div>
     )      
 }
@@ -185,7 +185,7 @@ const Dashboard = () => {
     }
     return(
         <div data-testid='dashPage'>
-            <Header product={productName} data-testid='dashboard'/>
+            <Header product={productName} userimage={userImage} data-testid='dashboard'/>
             <div className='dashboardFrame'>
             <Foryou data={topPicks} playMusic={playMusic}/>
             <MoodScrollList playMusic={playMusic}/>
