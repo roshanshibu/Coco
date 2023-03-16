@@ -1,9 +1,8 @@
-import {useParams} from "react-router-dom"
+import React,{ useEffect, useState} from 'react';
+import {Link, useParams} from "react-router-dom"
 import "./Bio.css"
 import playIcon from "../../assets/padded_play.svg"
-
-import artistCover from "../../assets/artist1.jpg"
-import albumCover from "../../assets/music2.jpg"
+import { getBioDetails } from "../../api/bio"
 
 
 const ArtistMusicComponent = (props) => {
@@ -39,39 +38,56 @@ const RecommendedArtistComponent = (props) => {
 
 const Bio = () => {
     const { artistId } = useParams()
+    const [bioDetails, SetBioDetails] = useState(null)
+
+    useEffect(()=>{
+        getBioDetails(artistId)
+            .then((res) => {
+                SetBioDetails(res.data)
+                console.log(bioDetails)
+            })
+            .catch((err) => console.error(err))
+    }, [artistId])
 
     return (
-        <>
+        ((bioDetails) && <>
             <div className="bioFrameScroll">
-                <div className="bioImageContainer" style={{backgroundImage: `url(${artistCover})`}} >
+                <div className="bioImageContainer" style={{backgroundImage: `url(${bioDetails.artistimage})`}} >
                     
                 </div>
                 <div className='biosArtist'>
-                        <p className="biosArtistName">Artist Name</p>
-                        <p className="biosContent">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p className="biosArtistName">{bioDetails.artistName}</p>
+                        <p className="biosContent">{bioDetails.bio}</p>
                 </div>
                 <div className="artistMusicList">
                     <p className="artistMusicListLabel">Top Hits</p>
-                    <div className="amlCardsContainer">
-                        <ArtistMusicComponent songName="Some Song" artist="Jane" image={albumCover} year="2023"/>
-                        <ArtistMusicComponent songName="Some Song 2" artist="Jane" image={albumCover} year="2019"/>
-                        <ArtistMusicComponent songName="Some Song 3" artist="Jane" image={albumCover} year="2019"/>
-                    </div>
+                    {
+                        bioDetails.topHits.map((topHit, index) => {
+                            return (
+                                <div className="amlCardsContainer">
+                                    <ArtistMusicComponent key={index} songName={topHit.songname} image={topHit.albumart} year={topHit.year}/>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
                 <div className="bioArtistRecommendations">
                     <p className="barLabel">Artists You May Like</p>
                     <div className="bArtistListContainer">
-                        <RecommendedArtistComponent artist="John" image={artistCover}/>
-                        <RecommendedArtistComponent artist="John" image={artistCover}/>
-                        <RecommendedArtistComponent artist="John" image={artistCover}/>
-                        <RecommendedArtistComponent artist="John" image={artistCover}/>
-                        <RecommendedArtistComponent artist="John" image={artistCover}/>
-                        <RecommendedArtistComponent artist="John" image={artistCover}/>
+                        {
+                            bioDetails.recommendedArtists.map((recommendedArtist, index) => {
+                                return (
+                                    <Link to={`/bio/${recommendedArtist.artistid}`} className="dashLinkDecorations">
+                                        <RecommendedArtistComponent key={index} artist={recommendedArtist.artisname} image={recommendedArtist.artistimage}/>
+                                    </Link>
+                                    
+                                )
+                            })
+                        }
                     </div>
-
                 </div>
             </div>
-        </>
+        </>)
     )
 }
 

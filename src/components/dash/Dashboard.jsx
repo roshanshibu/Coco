@@ -2,15 +2,10 @@ import React,{useContext, useEffect, useState} from 'react';
 import { getDashDetails } from "../../api/dash"
 import "./Dashboard.css"
 import myHomeIcon from "../../assets/coco-logo.png"
-import albumArt from "../../assets/rect-album.jpg"
 import playIcon from "../../assets/padded_play.svg"
 import playlistBg from "../../assets/playlist_bg.svg"
 import moodScrollIcon from "../../assets/moodScrollIcon.svg"
-import albumArt2 from "../../assets/albumartsnowman.jpg"
-import albumCover from "../../assets/music2.jpg"
-import playlistCover from "../../assets/playlistCover.jpg"
-import artistCover from "../../assets/artist1.jpg"
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PlayerContext, UserContext } from '../../MainRoutes';
 
 
@@ -67,7 +62,11 @@ const Foryou = (props) => {
                                             playMusic={props.playMusic}
                                             songId={1}/>
                             case "artist":
-                                return <SongArtistSuggestion key = {index} artist={topPick.artist} image={topPick.artistimage} artistType={true}/>
+                                return(
+                                    <Link to={`/bio/${topPick.artistid}`} className="dashLinkDecorations">
+                                        <SongArtistSuggestion key = {index} artist={topPick.artist} image={topPick.artistimage} artistType={true}/>
+                                    </Link>
+                                )
                             case "playlist":
                                 return <SongArtistSuggestion key = {index} songName={topPick.playlistname} image={topPick.albumart} playlistType={true} playMusic={props.playMusic} songId={3}/>
                         }   
