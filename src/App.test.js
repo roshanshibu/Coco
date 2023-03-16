@@ -22,7 +22,7 @@ describe('App Component', () => {
         wrapper = component("/");
     })
     it("is Rendered with dashboard on start", () => {
-        const app = wrapper.find({"data-testid":"dashboard"})
+        const app = wrapper.find({"data-testid":"dashPage"})
         expect(app.length).toBe(1)
     })
 })

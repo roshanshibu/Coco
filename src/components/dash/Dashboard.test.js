@@ -30,5 +30,15 @@ describe("Dashboard screen", () =>{
         const dash = wrapper.find({"data-testid":"dashPage"})
         expect(dash.length).toBe(1)
     })
+
+    it('Renders Header', () => {
+        const header = wrapper.find({"data-testid":"header"})
+        expect(header.length).toBe(1)
+    })
+
+    it('Renders User Toggle Button', () => {
+        const userButton = wrapper.find({"data-testid":"userImage"})
+        expect(userButton.length).toBe(1)
+    })
     
 })
