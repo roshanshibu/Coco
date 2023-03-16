@@ -3,21 +3,26 @@ import musicData from "../../data/musicData.json";
 import "./Library.css";
 import playIcon from "../../assets/padded_play.svg"
 import { PlayerContext, UserContext } from '../../MainRoutes';
+import myHomeIcon from "../../assets/coco-logo.png"
 
 
-const LibraryHeader = ({profile, onChange}) => {
+const LibraryHeader = ({product}) => {
+  const userContext = useContext(UserContext);
+  
   return (
-    <>
-      <div className="library-title">Library</div>
-      {/* <div className="library-profile-select">
-        <label htmlFor="select-profile">Switch Profile:  </label>
-        <select id="select-profile" value={profile} onChange={onChange}>
-          <option value="profile1">Suma</option>
-          <option value="profile2">Satish</option>
-        </select>
-      </div> */}
-    </>
-  );
+      <div className='library-header' >
+          <img className='library-header-logo' src={myHomeIcon} alt="coco logo" />
+          <p className='library-header-productName'>{product}</p>
+          <img className='library-header-dashUserImage' src={myHomeIcon} alt="coco logo" 
+              onClick={() => {
+                  if(userContext.currentUserId == 1)
+                      userContext.setCurrentUserId(2)
+                  else
+                  userContext.setCurrentUserId(1)
+              }}
+          />
+      </div>
+  )    
 };
 
 
@@ -84,14 +89,9 @@ const HistoryItem = ({ historyItem, playMusic }) => {
 
 const Library = () => {
   const userContext = useContext(UserContext);
-  const [profile, setProfile] = useState("profile1");
   const [downloadsOpen, setDownloadsOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-
-  const handleChangeProfile = (event) => {
-    setProfile(event.target.value);
-  };
 
   const handleDownloadsClick = () => {
     setDownloadsOpen(!downloadsOpen);
@@ -117,14 +117,9 @@ const Library = () => {
   }
 
   return (
-    <div className="library">
-
-      <div className="library-header">       
-        <LibraryHeader profile={profile} onChange={handleChangeProfile}/> 
-      </div>
-
+    <>     
+      <LibraryHeader product={"coco"}/> 
       <div className="library-content">
-
         <div className="library-tab-content">
           <div className="library-tab-header">Playlists</div>
             <div className="library-tab-playlist-body">
@@ -141,7 +136,6 @@ const Library = () => {
             <PlaylistSongs playlist={musicData["profile"+userContext.currentUserId].playlists.find(p => p.id === selectedPlaylist)} playMusic={playMusic} />
           )}
         </div>
-
         <div className="library-tab-content">
           <div className="library-tab-header" onClick={handleDownloadsClick}>
             <div className="title">Downloads</div>
@@ -155,7 +149,6 @@ const Library = () => {
             </div>
           )}
         </div>
-
         <div className="library-tab-content">
           <div className="library-tab-header" onClick={handleHistoryClick}>
             <div className="title">History</div>
@@ -168,11 +161,9 @@ const Library = () => {
               ))}
             </div>
           )}
-        </div>
-        
+        </div>        
       </div>
-
-    </div>
+    </>
   );
 };
 
