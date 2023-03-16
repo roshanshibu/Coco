@@ -42,7 +42,7 @@ const Search = () => {
         SetLoading(true)
         console.log(event.target.searchTerm.value)
         let sId = 1
-        if(event.target.searchTerm.value === "loose")
+        if(event.target.searchTerm.value === "shape")
             sId = 2
         getSearchResult(sId)
             .then((res) => {
