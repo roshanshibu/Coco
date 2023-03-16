@@ -128,12 +128,15 @@ const ControlRow = (props) => {
                     :
                         <PlayIcon style={{color: props.accentColor}} 
                             className={props.miniplayer ? "miniPlayPauseIcon" : "playPauseIcon"} 
-                            onClick={props.togglePlay} />
+                            onClick={props.togglePlay}
+                            data-testid='PlayButton'
+                            />
                 )
                 :
                 <PauseIcon style={{color: props.accentColor}} 
                     className={props.miniplayer ? "miniPlayPauseIcon" : "playPauseIcon"} 
-                    onClick={props.togglePlay} />
+                    onClick={props.togglePlay}
+                    data-testid='PauseButton' />
             }
             {!props.miniplayer &&
                 <NextIcon className="controlIcon" 
@@ -320,7 +323,7 @@ const Player = (props) => {
             updateSong(res.data.url)
         })
         .catch((err) => {
-                            console.error(err);
+                            console.log(err);
                             updatePlayerSong(playerContext.playingSongId)
                 });
         
@@ -330,9 +333,11 @@ const Player = (props) => {
             SetLyrics(res.data)
             SetLyricsAvailable(true)
         })
-        .catch((err) => {console.error(err)
-            SetLyricsAvailable(false)});
-            SetShowAlbumArt(true)
+        .catch((err) => {
+            // console.log(err)
+            SetLyricsAvailable(false)
+        });
+        SetShowAlbumArt(true)
         // when app starts, the miniplayer is hidden
         // when the first song is played, it should be made visible
         if(playerContext.playingSongId !== null){
@@ -354,6 +359,7 @@ const Player = (props) => {
 
     return(
         <div className={"playerContainer " + (miniplayer ? "miniplayer" : "") + (hideMiniPlayer ? " hideMiniPlayer" : "")}
+            data-testid='PlayerScreen'
             style={{backgroundColor: (miniplayer ? `${ColorHelper(accentColor, -50)}` : "#252525")}}>
             <audio src={songUrl} ref={audioRef} 
                 autoPlay={isAutoplayEnabled}
