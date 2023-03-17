@@ -1,86 +1,57 @@
-import React,{useState} from 'react';
+import React,{useContext, useEffect, useState} from 'react';
+import { getDashDetails } from "../../api/dash"
 import "./Dashboard.css"
 import myHomeIcon from "../../assets/coco-logo.png"
-import albumArt from "../../assets/rect-album.jpg"
-import playIcon from "../../assets/padded_play.svg"
-import playlistBg from "../../assets/playlist_bg.svg"
+import user1Image from "../../assets/steve.jpg"
+import user2Image from "../../assets/linda.jpg"
 import moodScrollIcon from "../../assets/moodScrollIcon.svg"
-import albumArt2 from "../../assets/albumartsnowman.jpg"
-import albumCover from "../../assets/music2.jpg"
-import playlistCover from "../../assets/playlistCover.jpg"
-import artistCover from "../../assets/artist1.jpg"
-import { NavLink } from 'react-router-dom';
+import { PlayerContext, UserContext } from '../../MainRoutes';
+
+import Foryou from './Foryou'
+import SongArtistSuggestion from './SongArtistSuggestion'
+
 
 
 const Header = (props) => {
+    const userContext = useContext(UserContext);
+  
     return (
-        <div className='header' >
+        <div className='header' data-testid='header'>
             <img className='logo' src={myHomeIcon} alt="coco logo" />
             <p className='productName'>{props.product}</p>
+            <img className='dashUserImage' data-testid='userImage' src={userContext.currentUserId == 1 ? user1Image : user2Image} alt="user image" 
+                onClick={() => {
+                    if(userContext.currentUserId == 1)
+                        userContext.setCurrentUserId(2)
+                    else
+                    userContext.setCurrentUserId(1)
+                }}
+            />
         </div>
     )      
 }
 
-const SongArtistSuggestion = (props) => {
-    return (
-        <div className="songSuggestion">
-            <div className='songIconContainer' style = {props.playlistType ? {backgroundImage: `url(${playlistBg})`, paddingRight:"14px", backgroundSize:"contain"} : {padding: "0px 11px 0px 3px"}}>
-                <div className={`songIcon   ${props.artistType ? "artistBorder" : ""}`} style={{backgroundImage: `url(${props.image})`}}>
-                    <img className={`playIcon  ${props.artistType ? "hidden" : ""}`} src={playIcon}/>
-                </div>
-            </div>
-            <div className="songDetails">
-                <div className='trialclass'>
-                    {props.songName}
-                </div>
-                {/* <p>{props.songName}</p> */}
-                <p className="ssArtistName">{props.artist}</p>
-            </div>
-        </div>
-    )
-}
-
-const Foryou = () => {
-    return (
-        <div className='forYou'>
-            <p className='forYouLabel'>Your Top Picks</p>
-            <div className='suggestions'>
-                <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumCover} />
-                <NavLink to={`/bio/1`} className="dashLinkDecorations">
-                <SongArtistSuggestion artist="Jane" image={artistCover} artistType={true}/>
-                </NavLink>
-                <SongArtistSuggestion artist="Jane" image={artistCover} artistType={true}/>
-                <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
-                <SongArtistSuggestion songName="Playlist" image={playlistCover} playlistType={true}/>
-                <SongArtistSuggestion songName="Playlist" image={playlistCover} playlistType={true}/>
-            </div>
-        </div>
-    )      
-}
-
-const MoodScrollList = () => {
+const MoodScrollList = (props) => {
     return(
         <div className='moodPicker'>
             <p className='moodPickerLabel'>Play To Your Mood</p>
             <div className='moodScroll'>
                 <div className='lowEnergy'>
-                    <p className='moodTags'>sleep</p>
-                    <p className='moodTags'>relax</p>
-                    <p className='moodTags'>focus</p>
-                    <p className='moodTags'>low</p>
-                    <p className='moodTags'>low</p>
-                    <p className='moodTags'>low</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(1)} : () => {}} className='moodTags'>sleep</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(2)} : () => {}} className='moodTags'>relax</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(3)} : () => {}} className='moodTags'>focus</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(4)} : () => {}} className='moodTags'>Calm</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(5)} : () => {}} className='moodTags'>Sad</p>
                 </div>
                 <div className='scrollCenter'>
                     <img className='scrollIcon' src={moodScrollIcon}/>
                 </div>
                 <div className='highEnergy'>
-                    <p className='moodTags'>party</p>
-                    <p className='moodTags'>energetic</p>
-                    <p className='moodTags'>High</p>
-                    <p className='moodTags'>High</p>
-                    <p className='moodTags'>High</p>
-                    <p className='moodTags'>High</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(6)} : () => {}} className='moodTags'>party</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(7)} : () => {}} className='moodTags'>Chill</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(8)} : () => {}} className='moodTags'>Workout</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(9)} : () => {}} className='moodTags'>energetic</p>
+                    <p onClick={props.playMusic ? ()=>{props.playMusic(10)} : () => {}} className='moodTags'>Travel</p>
                 </div>
             </div>
         </div>
@@ -88,77 +59,91 @@ const MoodScrollList = () => {
 }
 
 
-const SuggestionCard = () => {
+const SuggestionCard = (props) => {
     return(
-        <div className='suggestionCardContainer'>
-            <p className='suggestionCardLabel'>Picked For You</p>
+        ((props.data !== null) && <div className='suggestionCardContainer'>
+            <p className='suggestionCardLabel'>Picked For {props.user}</p>
             <div className='suggestionCard'>
                 <div className='topPlay'>
                     <div className='topAlbumCover'>
-                        <img className='coverImage' src={albumArt2}/>
+                        <img className='coverImage' src={props.data.image}/>
                     </div>
                     <div className='topAlbumDetails'>
                         <p className='topPlayHeading'>Because you listened to</p>
-                        <p className='topPlaySong'>Snowman | Sia</p>
+                        <p className='topPlaySong'>{props.data.songname} | {props.data.artistname}</p>
                     </div>
                 </div>
-                <div>
-                    <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
-                </div>
-                <div>
-                    <SongArtistSuggestion songName="Some Song" artist="Jane" image={albumArt} />
-                </div>
+                {
+                    props.data.recommendations.map((recommendation,index) => {
+                        return (
+                        <div onClick={props.playMusic ? ()=>{props.playMusic(recommendation.songid)} : () => {}}>
+                        <SongArtistSuggestion key={index} songName={recommendation.songname} artist={recommendation.artist} image={recommendation.albumart} songId={recommendation.songid}/>
+                        </div>
+                        )
+                    })
+                }
             </div>
-        </div>
+        </div>)
     )
 }
 
-const GenreBasedRadios = () => {
+const GenreBasedRadios = (props) => {
     return(
-        <div className='genreRadiosContainer'>
+        ((props.data !== null) && <div className='genreRadiosContainer'>
             <p className='genreRadiosLabel'>Genre Based Radios</p>
-            {/* <div className='radioScrollFlex'> */}
-                {/* <img className='scrollIcon' src={moodScrollIcon}/> */}
                 <div className='dashboardRadios'>
-                    <div>
-                        <img className='dashboardRadio' src={albumCover}/>
-                        <p className='radioLabel'>POP</p>
-                    </div>
-                    <div>
-                        <img className='dashboardRadio' src={albumCover}/>
-                        <p className='radioLabel'>POP</p>
-                    </div>
-                    <div>
-                        <img className='dashboardRadio' src={albumCover}/>
-                        <p className='radioLabel'>POP</p>
-                    </div>
-                    <div>
-                        <img className='dashboardRadio' src={albumCover}/>
-                        <p className='radioLabel'>POP</p>
-                    </div>
-                    <div>
-                        <img className='dashboardRadio' src={albumCover}/>
-                        <p className='radioLabel'>POP</p>
-                    </div>
+                    {
+                        props.data.map((radio, index) => {
+                            return (
+                                <div onClick={props.playMusic ? ()=>{props.playMusic(radio.songid)} : () => {}}>
+                                    <img className='dashboardRadio' src={radio.image}/>
+                                    <p className='radioLabel'>{radio.name}</p>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
-                {/* <img className='scrollIcon' src={moodScrollIcon}/> */}
-            {/* </div> */}
-        </div>
+        </div>)
     )
 }
+
 
 const Dashboard = () => {
     const [productName, setProductName] = useState("coco")
+    const [userName, SetUserName] = useState(null)
+    const [topPicks, SetTopPicks] = useState(null)
+    const [suggestionCardData, SetSuggestionCardData] = useState(null)
+    const [genreRadios, SetGenreRadios] = useState(null)
+
+    const userContext = useContext(UserContext);
+
+    useEffect(()=>{
+        getDashDetails(userContext.currentUserId)
+            .then((res) => {
+                SetUserName(res.data.userName)
+                SetTopPicks(res.data.topPicks)
+                SetSuggestionCardData(res.data.pickedForYou)
+                SetGenreRadios(res.data.radios)
+            })
+            .catch((err) => console.error(err))
+    }, [userContext.currentUserId])
+
+    const playerContext = useContext(PlayerContext)
+
+    const playMusic = (songId) => {
+        playerContext.setPlayingSongId(songId)
+        playerContext.setGMiniPlayer(false)
+    }
     return(
-        <>
-            <Header product={productName} />
+        <div data-testid='dashPage'>
+            <Header product={productName}/>
             <div className='dashboardFrame'>
-            <Foryou/>
-            <MoodScrollList/>
-            <SuggestionCard/>
-            <GenreBasedRadios/>
+            <Foryou data={topPicks} playMusic={playMusic}/>
+            <MoodScrollList playMusic={playMusic}/>
+            <SuggestionCard data={suggestionCardData} user={userName} playMusic={playMusic}/>
+            <GenreBasedRadios data={genreRadios} playMusic={playMusic}/>
             </div>
-        </>
+        </div>
     )
 }
 

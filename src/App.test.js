@@ -1,10 +1,13 @@
-import 'jsdom-global/register';
 import { mount } from "enzyme"
 import { MemoryRouter } from "react-router-dom"
 import App from "./App"
 import React from "react"
 
 describe('App Component', () => {
+    const pauseStub = jest
+    .spyOn(window.HTMLMediaElement.prototype, 'pause')
+    .mockImplementation(() => {})
+    
     let wrapper = null
 
     const component = (path) => {
@@ -16,10 +19,10 @@ describe('App Component', () => {
     }
 
     beforeEach(() => {
-        wrapper = component("/chorus");
+        wrapper = component("/");
     })
-    it("is Rendered", () => {
-        const app = wrapper.find({"data-testid":"chorusPage"})
-        expect(app.length).toBe(0)
+    it("is Rendered with dashboard on start", () => {
+        const app = wrapper.find({"data-testid":"dashPage"})
+        expect(app.length).toBe(1)
     })
 })
