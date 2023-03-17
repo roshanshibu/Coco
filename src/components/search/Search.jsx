@@ -28,46 +28,62 @@ const SearchResult = (props) => {
 }
 
 const PreviousSearchTerm = (props) => {
-    return(
-        <div className='previousSearchTerm'>
-            <img src={historyIcon} className="historyIcon" />
-            <p style={{paddingLeft: "10px"}}>{props.term}</p>
-        </div>
-    )
-}
+    const handleRecentSearchClick = () => {
+      props.setSearchTerm(props.term);
+    };
+  
+    return (
+      <div className='previousSearchTerm' onClick={handleRecentSearchClick}>
+        <img src={historyIcon} className="historyIcon" />
+        <p style={{ paddingLeft: "10px" }}>{props.term}</p>
+      </div>
+    );
+  };
 
-const Search = () => {
+const Search = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         SetLoading(true)
         console.log(event.target.searchTerm.value)
-        let sId = 1
-        if(event.target.searchTerm.value === "shape")
-            sId = 2
-        getSearchResult(sId)
+        getSearchResult(event.target.searchTerm.value)
             .then((res) => {
                 SetSearchResults(res.data)
                 SetLoading(false)
             })
+            
             .catch((err) => {
                     console.error(err)
                     SetLoading(false)
+                    if (err.response && err.response.status === 404) {
+                        SetSearchResults(null)
+                        SetBadResults(true)
+                        //alert("Custom 404 error message: Resource not found");
+                        // or display the custom message in the UI using a modal, toast, or other component
+                      }
             })
     }
     const [searchResults, SetSearchResults] = useState(null)
+    const [badResults, SetBadResults] = useState(false)
+    const [searchTerm, setSearchTerm] = useState('')
     const [loading, SetLoading] = useState(false)
+
+
+    const handleInputChange = (event) => {
+        setSearchTerm(props.term);
+        
+    }
 
 
     return(
         <div className='searchPage'>
             <p className='stitle'>Search</p>
             <form onSubmit={handleSubmit} className="searchBoxContainer">
-                <input  className='searchBox' type="text" name='searchTerm' style={{width: "100%"}} />
+                <input  className='searchBox' type="text" value = {searchTerm} name='searchTerm' onChange={handleInputChange} style={{width: "100%"}} placeholder="search by SongName, Artist or Lyrics..." />
                 <button type="submit" className='searchButton'>
                     <img className='searchIcon' src={searchIcon}/>
                 </button>
             </form>
-            {searchResults !== null ?
+            {searchResults !== null ? (
                 <div>
                     {
                         searchResults.map((result, index)=>{
@@ -83,13 +99,21 @@ const Search = () => {
                         })
                     }
                 </div>
-                :
+            ) : badResults ? (
+                <div className='previousSearchContainer'>
+                    <p className='previousSearchesTitle'>No results Found</p>
+                    <PreviousSearchTerm term="shape" setSearchTerm={setSearchTerm}/>
+                    <PreviousSearchTerm term="gucci" setSearchTerm={setSearchTerm}/>
+                    <PreviousSearchTerm term="ghost dragon" setSearchTerm={setSearchTerm}/>
+                </div> 
+            ) : (
                 <div className='previousSearchContainer'>
                     <p className='previousSearchesTitle'>Previous Searches</p>
-                    <PreviousSearchTerm term="Taylor Swift" />
-                    <PreviousSearchTerm term="FatRat" />
-                    <PreviousSearchTerm term="Ghost Dragon" />
-                </div>   
+                    <PreviousSearchTerm term="shape" setSearchTerm={setSearchTerm}/>
+                    <PreviousSearchTerm term="gucci" setSearchTerm={setSearchTerm}/>
+                    <PreviousSearchTerm term="ghost dragon" setSearchTerm={setSearchTerm}/>
+                </div> 
+            )
             }
         </div>
     )

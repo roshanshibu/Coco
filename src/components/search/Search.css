@@ -32,6 +32,7 @@
     border: solid 2px #1b1b1b;
     border-radius: 11px;
     padding: 6px;
+    border-color:#999;
 }
 .searchButton{
     color: inherit;
@@ -91,3 +92,8 @@
 .historyIcon{
     width: 20px;
 }
+
+input::placeholder {
+    font-size: 14px; /* Change the font size to 14px */
+    color: #999; /* Change the color of the placeholder text */
+  }
