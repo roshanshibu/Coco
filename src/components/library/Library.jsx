@@ -4,6 +4,8 @@ import "./Library.css";
 import playIcon from "../../assets/padded_play.svg"
 import { PlayerContext, UserContext } from '../../MainRoutes';
 import myHomeIcon from "../../assets/coco-logo.png"
+import user1Image from "../../assets/steve.jpg"
+import user2Image from "../../assets/linda.jpg"
 
 
 const LibraryHeader = ({product}) => {
@@ -13,7 +15,7 @@ const LibraryHeader = ({product}) => {
       <div className='library-header' >
           <img className='library-header-logo' src={myHomeIcon} alt="coco logo" />
           <p className='library-header-productName'>{product}</p>
-          <img className='library-header-dashUserImage' src={myHomeIcon} alt="coco logo" 
+          <img className='library-header-dashUserImage' src={userContext.currentUserId == 1 ? user1Image : user2Image} alt="user image" 
               onClick={() => {
                   if(userContext.currentUserId == 1)
                       userContext.setCurrentUserId(2)
@@ -89,6 +91,7 @@ const HistoryItem = ({ historyItem, playMusic }) => {
 
 const Library = () => {
   const userContext = useContext(UserContext);
+  const [userImage, SetUserImage] = useState(null)
   const [downloadsOpen, setDownloadsOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
