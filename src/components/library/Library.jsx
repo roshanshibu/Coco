@@ -88,82 +88,83 @@ const HistoryItem = ({ historyItem, playMusic }) => {
 
 
 const Library = () => {
-  const userContext = useContext(UserContext);
-  const [downloadsOpen, setDownloadsOpen] = useState(false);
-  const [historyOpen, setHistoryOpen] = useState(false);
-  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  // const userContext = useContext(UserContext);
+  // const [downloadsOpen, setDownloadsOpen] = useState(false);
+  // const [historyOpen, setHistoryOpen] = useState(false);
+  // const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
-  const handleDownloadsClick = () => {
-    setDownloadsOpen(!downloadsOpen);
-  };
+  // const handleDownloadsClick = () => {
+  //   setDownloadsOpen(!downloadsOpen);
+  // };
 
-  const handleHistoryClick = () => {
-    setHistoryOpen(!historyOpen);
-  };
+  // const handleHistoryClick = () => {
+  //   setHistoryOpen(!historyOpen);
+  // };
 
-  const handlePlaylistClick = (playlistId) => {
-    if (selectedPlaylist === playlistId) {
-      setSelectedPlaylist(null);
-    } else {
-      setSelectedPlaylist(playlistId);
-    }
-  };
+  // const handlePlaylistClick = (playlistId) => {
+  //   if (selectedPlaylist === playlistId) {
+  //     setSelectedPlaylist(null);
+  //   } else {
+  //     setSelectedPlaylist(playlistId);
+  //   }
+  // };
 
-  const playerContext = useContext(PlayerContext)
+  // const playerContext = useContext(PlayerContext)
 
-  const playMusic = (songId) => {
-      playerContext.setPlayingSongId(songId)
-      playerContext.setGMiniPlayer(false)
-  }
+  // const playMusic = (songId) => {
+  //     playerContext.setPlayingSongId(songId)
+  //     playerContext.setGMiniPlayer(false)
+  // }
 
   return (
-    <>     
-      <LibraryHeader product={"coco"}/> 
-      <div className="library-content">
-        <div className="library-tab-content">
-          <div className="library-tab-header">Playlists</div>
-            <div className="library-tab-playlist-body">
-              {musicData["profile"+userContext.currentUserId].playlists.map((playlist) => (
-                <Playlist 
-                  playlist={playlist} 
-                  key={playlist.id} i
-                  isSelected={selectedPlaylist === playlist.id} 
-                  onClick={() => handlePlaylistClick(playlist.id)}
-                />
-            ))}
-          </div>
-          {selectedPlaylist !== null && (
-            <PlaylistSongs playlist={musicData["profile"+userContext.currentUserId].playlists.find(p => p.id === selectedPlaylist)} playMusic={playMusic} />
-          )}
-        </div>
-        <div className="library-tab-content">
-          <div className="library-tab-header" onClick={handleDownloadsClick}>
-            <div className="title">Downloads</div>
-            <div className="arrows">  {downloadsOpen ? "▼" : "►"}</div>
-          </div>
-          {downloadsOpen && (
-            <div className="library-tab-body">
-              {musicData["profile"+userContext.currentUserId].downloads.map((download) => (
-                <Download download={download} key={download.id} playMusic={playMusic}/>
-              ))}
-            </div>
-          )}
-        </div>
-        <div className="library-tab-content">
-          <div className="library-tab-header" onClick={handleHistoryClick}>
-            <div className="title">History</div>
-            <div className="arrows">  {historyOpen ? "▼" : "►"}</div>
-          </div>
-          {historyOpen && (
-            <div className="library-tab-body">
-              {musicData["profile"+userContext.currentUserId].history.map((historyItem) => (
-                <HistoryItem historyItem={historyItem} key={historyItem.id} playMusic={playMusic}/>
-              ))}
-            </div>
-          )}
-        </div>        
-      </div>
-    </>
+    // <>     
+    //   <LibraryHeader product={"coco"}/> 
+    //   <div className="library-content">
+    //     <div className="library-tab-content">
+    //       <div className="library-tab-header">Playlists</div>
+    //         <div className="library-tab-playlist-body">
+    //           {musicData["profile"+userContext.currentUserId].playlists.map((playlist) => (
+    //             <Playlist 
+    //               playlist={playlist} 
+    //               key={playlist.id} i
+    //               isSelected={selectedPlaylist === playlist.id} 
+    //               onClick={() => handlePlaylistClick(playlist.id)}
+    //             />
+    //         ))}
+    //       </div>
+    //       {selectedPlaylist !== null && (
+    //         <PlaylistSongs playlist={musicData["profile"+userContext.currentUserId].playlists.find(p => p.id === selectedPlaylist)} playMusic={playMusic} />
+    //       )}
+    //     </div>
+    //     <div className="library-tab-content">
+    //       <div className="library-tab-header" onClick={handleDownloadsClick}>
+    //         <div className="title">Downloads</div>
+    //         <div className="arrows">  {downloadsOpen ? "▼" : "►"}</div>
+    //       </div>
+    //       {downloadsOpen && (
+    //         <div className="library-tab-body">
+    //           {musicData["profile"+userContext.currentUserId].downloads.map((download) => (
+    //             <Download download={download} key={download.id} playMusic={playMusic}/>
+    //           ))}
+    //         </div>
+    //       )}
+    //     </div>
+    //     <div className="library-tab-content">
+    //       <div className="library-tab-header" onClick={handleHistoryClick}>
+    //         <div className="title">History</div>
+    //         <div className="arrows">  {historyOpen ? "▼" : "►"}</div>
+    //       </div>
+    //       {historyOpen && (
+    //         <div className="library-tab-body">
+    //           {musicData["profile"+userContext.currentUserId].history.map((historyItem) => (
+    //             <HistoryItem historyItem={historyItem} key={historyItem.id} playMusic={playMusic}/>
+    //           ))}
+    //         </div>
+    //       )}
+    //     </div>        
+    //   </div>
+    // </>
+    <p>Library</p>
   );
 };
 

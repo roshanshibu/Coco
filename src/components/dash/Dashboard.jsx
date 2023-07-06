@@ -109,41 +109,44 @@ const GenreBasedRadios = (props) => {
 
 
 const Dashboard = () => {
-    const [productName, setProductName] = useState("coco")
-    const [userName, SetUserName] = useState(null)
-    const [topPicks, SetTopPicks] = useState(null)
-    const [suggestionCardData, SetSuggestionCardData] = useState(null)
-    const [genreRadios, SetGenreRadios] = useState(null)
+    // const [productName, setProductName] = useState("coco")
+    // const [userName, SetUserName] = useState(null)
+    // const [topPicks, SetTopPicks] = useState(null)
+    // const [suggestionCardData, SetSuggestionCardData] = useState(null)
+    // const [genreRadios, SetGenreRadios] = useState(null)
 
-    const userContext = useContext(UserContext);
+    // const userContext = useContext(UserContext);
 
-    useEffect(()=>{
-        getDashDetails(userContext.currentUserId)
-            .then((res) => {
-                SetUserName(res.data.userName)
-                SetTopPicks(res.data.topPicks)
-                SetSuggestionCardData(res.data.pickedForYou)
-                SetGenreRadios(res.data.radios)
-            })
-            .catch((err) => console.error(err))
-    }, [userContext.currentUserId])
+    // useEffect(()=>{
+    //     getDashDetails(userContext.currentUserId)
+    //         .then((res) => {
+    //             SetUserName(res.data.userName)
+    //             SetTopPicks(res.data.topPicks)
+    //             SetSuggestionCardData(res.data.pickedForYou)
+    //             SetGenreRadios(res.data.radios)
+    //         })
+    //         .catch((err) => console.error(err))
+    // }, [userContext.currentUserId])
 
-    const playerContext = useContext(PlayerContext)
+    // const playerContext = useContext(PlayerContext)
 
-    const playMusic = (songId) => {
-        playerContext.setPlayingSongId(songId)
-        playerContext.setGMiniPlayer(false)
-    }
+    // const playMusic = (songId) => {
+    //     playerContext.setPlayingSongId(songId)
+    //     playerContext.setGMiniPlayer(false)
+    // }
     return(
-        <div data-testid='dashPage'>
-            <Header product={productName}/>
-            <div className='dashboardFrame'>
-            <Foryou data={topPicks} playMusic={playMusic}/>
-            <MoodScrollList playMusic={playMusic}/>
-            <SuggestionCard data={suggestionCardData} user={userName} playMusic={playMusic}/>
-            <GenreBasedRadios data={genreRadios} playMusic={playMusic}/>
-            </div>
-        </div>
+        // <div data-testid='dashPage'>
+        //     <Header product={productName}/>
+        //     <div className='dashboardFrame'>
+        //     <Foryou data={topPicks} playMusic={playMusic}/>
+        //     <MoodScrollList playMusic={playMusic}/>
+        //     <SuggestionCard data={suggestionCardData} user={userName} playMusic={playMusic}/>
+        //     <GenreBasedRadios data={genreRadios} playMusic={playMusic}/>
+        //     </div>
+        // </div>
+        <p>
+            Dashboard
+        </p>
     )
 }
 

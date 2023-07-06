@@ -37,61 +37,62 @@ const PreviousSearchTerm = (props) => {
 }
 
 const Search = () => {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        SetLoading(true)
-        console.log(event.target.searchTerm.value)
-        let sId = 1
-        if(event.target.searchTerm.value === "shape")
-            sId = 2
-        getSearchResult(sId)
-            .then((res) => {
-                SetSearchResults(res.data)
-                SetLoading(false)
-            })
-            .catch((err) => {
-                    console.error(err)
-                    SetLoading(false)
-            })
-    }
-    const [searchResults, SetSearchResults] = useState(null)
-    const [loading, SetLoading] = useState(false)
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     SetLoading(true)
+    //     console.log(event.target.searchTerm.value)
+    //     let sId = 1
+    //     if(event.target.searchTerm.value === "shape")
+    //         sId = 2
+    //     getSearchResult(sId)
+    //         .then((res) => {
+    //             SetSearchResults(res.data)
+    //             SetLoading(false)
+    //         })
+    //         .catch((err) => {
+    //                 console.error(err)
+    //                 SetLoading(false)
+    //         })
+    // }
+    // const [searchResults, SetSearchResults] = useState(null)
+    // const [loading, SetLoading] = useState(false)
 
 
     return(
-        <div className='searchPage'>
-            <p className='stitle'>Search</p>
-            <form onSubmit={handleSubmit} className="searchBoxContainer">
-                <input  className='searchBox' type="text" name='searchTerm' style={{width: "100%"}} />
-                <button type="submit" className='searchButton'>
-                    <img className='searchIcon' src={searchIcon}/>
-                </button>
-            </form>
-            {searchResults !== null ?
-                <div>
-                    {
-                        searchResults.map((result, index)=>{
-                            return (
-                                <SearchResult stype={result.type} 
-                                    artistName={result.artistName}
-                                    songName={result.songName}
-                                    lyricHit={result.lyricHit}
-                                    imageUrl={result.url}
-                                    key={index}
-                                />
-                            )
-                        })
-                    }
-                </div>
-                :
-                <div className='previousSearchContainer'>
-                    <p className='previousSearchesTitle'>Previous Searches</p>
-                    <PreviousSearchTerm term="Taylor Swift" />
-                    <PreviousSearchTerm term="FatRat" />
-                    <PreviousSearchTerm term="Ghost Dragon" />
-                </div>   
-            }
-        </div>
+        // <div className='searchPage'>
+        //     <p className='stitle'>Search</p>
+        //     <form onSubmit={handleSubmit} className="searchBoxContainer">
+        //         <input  className='searchBox' type="text" name='searchTerm' style={{width: "100%"}} />
+        //         <button type="submit" className='searchButton'>
+        //             <img className='searchIcon' src={searchIcon}/>
+        //         </button>
+        //     </form>
+        //     {searchResults !== null ?
+        //         <div>
+        //             {
+        //                 searchResults.map((result, index)=>{
+        //                     return (
+        //                         <SearchResult stype={result.type} 
+        //                             artistName={result.artistName}
+        //                             songName={result.songName}
+        //                             lyricHit={result.lyricHit}
+        //                             imageUrl={result.url}
+        //                             key={index}
+        //                         />
+        //                     )
+        //                 })
+        //             }
+        //         </div>
+        //         :
+        //         <div className='previousSearchContainer'>
+        //             <p className='previousSearchesTitle'>Previous Searches</p>
+        //             <PreviousSearchTerm term="Taylor Swift" />
+        //             <PreviousSearchTerm term="FatRat" />
+        //             <PreviousSearchTerm term="Ghost Dragon" />
+        //         </div>   
+        //     }
+        // </div>
+        <p>Search</p>
     )
 }
 
