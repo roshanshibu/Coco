@@ -18,7 +18,13 @@ const Info = () => {
       </p>
       <p className="box">
         View my other projects at &nbsp;
-        <a href="www.roshanshibu.com">www.roshanshibu.com</a>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.roshanshibu.com"
+        >
+          www.roshanshibu.com
+        </a>
       </p>
     </div>
   );
