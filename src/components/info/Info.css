@@ -1,6 +1,6 @@
 .infoContainer{
     color: white;
-    margin: 55px;    
+    padding: 55px;    
     height: 100vh;
     overflow: scroll;
 }
@@ -18,5 +18,5 @@ a{
     background: #171717;
     border-radius: 5px;
     padding: 16px;
-    margin-bottom: 184px;
+    margin-bottom: 190px;
 }
