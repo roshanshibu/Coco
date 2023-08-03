@@ -16,6 +16,10 @@ const Info = () => {
         up with a strong focus on the user experience and implemented using
         React.
       </p>
+      <p className="box">
+        View my other projects at &nbsp;
+        <a href="www.roshanshibu.com">www.roshanshibu.com</a>
+      </p>
     </div>
   );
 };

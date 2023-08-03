@@ -21,7 +21,7 @@ const Navicon = (props) => {
 const Navbar = (props) => {
     return (
         <div className='navContainer'>
-            <NavLink to="/info" className={({ isActive }) => { return isActive ? "navSelected" : "navUnselected" }}>
+            <NavLink to="/" className={({ isActive }) => { return isActive ? "navSelected" : "navUnselected" }}>
                 <Navicon icon={LibraryIcon} />
             </NavLink>
             {/* <NavLink to="/search" className={({ isActive }) => { return isActive ? "navSelected" : "navUnselected" }}>

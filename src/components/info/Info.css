@@ -1,7 +1,22 @@
 .infoContainer{
     color: white;
-    margin: 55px;
+    margin: 55px;    
+    height: 100vh;
+    overflow: scroll;
 }
+.infoContainer::-webkit-scrollbar {
+    display: none;
+  }
 .cocoIcon{
     width: 50px;
+}
+
+a{
+    color: rgb(0, 191, 255);
+}
+.box{
+    background: #171717;
+    border-radius: 5px;
+    padding: 16px;
+    margin-bottom: 184px;
 }

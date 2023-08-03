@@ -31,11 +31,10 @@ function MainRoutes() {
           <Player />
           <Navbar />
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Info />} />
             <Route path="/search" element={<Search />} />
             <Route path="/chorus" element={<Chorus />} />
             <Route path="/library" element={<Library />} />
-            <Route path="/info" element={<Info />} />
             <Route path="/bio/:artistId" element={<Bio />} />
             <Route path="/*" element={<ErrorPage />} />
           </Routes>
