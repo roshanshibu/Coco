@@ -18,5 +18,28 @@ a{
     background: #171717;
     border-radius: 5px;
     padding: 16px;
-    margin-bottom: 300px;
 }
+.warning {
+    display: none;
+    border: 1px #905400 solid;
+}
+.qrCode{
+    width: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.endOfContent{
+    margin-bottom: 300px;
+    border: 1px solid #2e2e2e;    
+}
+
+@media only screen and (min-width: 768px) {
+    /* For desktops: */
+    .box{
+        width: fit-content;
+    }
+    .warning{
+        display: block;
+    }
+  }

@@ -1,5 +1,6 @@
 import "./Info.css";
 import CocoIcon from "../../assets/coco-logo.png";
+import CocoQR from "../../assets/coco-demo-qr.png";
 
 const Info = () => {
   return (
@@ -26,6 +27,15 @@ const Info = () => {
           www.roshanshibu.com
         </a>
       </p>
+      <p className="box warning">
+        ⚠️ This webapp was designed to be used on mobile.
+        <br />
+        <br />
+        Scan this QR code on your mobile device for the optimal experience.
+        <br />
+        <img src={CocoQR} className="qrCode" />
+      </p>
+      <hr className="endOfContent" />
     </div>
   );
 };
